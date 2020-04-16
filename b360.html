@@ -37,55 +37,30 @@ from . import client
 
 class Project(object):
     &#39;&#39;&#39;Class for B360 API projects. Properties below
-
-    Project.raw 
-
-    Project.id
-
-    Project.accId
-
-    Project.name
-
-    Project.start_date
-
-    Project.end_date
-
-    Project.project_type
-
-    Project.value
-
-    Project.currency
-
-    Project.status
-
-    Project.job_number
-
-    Project.address_line_1 
-
-    Project.address_line_2
-
-    Project.city
-
-    Project.state_or_province
-
-    Project.postal_code
-
-    Project.country
-
-    Project.business_unit_id
-
-    Project.timezone
-
-    Project.language 
-
-    Project.construction_type
-
-    Project.contract_type
-
-    Project.service_types
-
-    Project.created_at
-
+    Project.raw&lt;br&gt;
+    Project.id&lt;br&gt;
+    Project.accId&lt;br&gt;
+    Project.name&lt;br&gt;
+    Project.start_date&lt;br&gt;
+    Project.end_date&lt;br&gt;
+    Project.project_type&lt;br&gt;
+    Project.value&lt;br&gt;
+    Project.currency&lt;br&gt;
+    Project.status&lt;br&gt;
+    Project.job_number&lt;br&gt;
+    Project.address_line_1&lt;br&gt; 
+    Project.address_line_2&lt;br&gt;
+    Project.city&lt;br&gt;
+    Project.state_or_province&lt;br&gt;
+    Project.postal_code&lt;br&gt;
+    Project.country&lt;br&gt;
+    Project.business_unit_id&lt;br&gt;
+    Project.timezone&lt;br&gt;
+    Project.language &lt;br&gt;
+    Project.construction_type&lt;br&gt;
+    Project.contract_type&lt;br&gt;
+    Project.service_types&lt;br&gt;
+    Project.created_at&lt;br&gt;
     Project.updated_at&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
@@ -228,8 +203,8 @@ class Project(object):
 
     @classmethod
     def getProjects(cls, client: client.Client, token: client.Token):
-        &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.
-        Scope account:read
+        &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.&lt;br&gt;
+        Scope account:read&lt;br&gt;
         Returns a list of project objects.&#39;&#39;&#39;
         checkScopes(token, &#34;account:read&#34;)
         r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
@@ -239,7 +214,7 @@ class Project(object):
 
     @classmethod
     def getProjectById(cls, client: client.Client, token: client.Token, p_id):
-        &#39;&#39;&#39;Query the details of a specific BIM 360 project.
+        &#39;&#39;&#39;Query the details of a specific BIM 360 project.&lt;br&gt;
         Scope: account:read&#39;&#39;&#39;
 
         checkScopes(token, &#34;account:read&#34;)
@@ -291,7 +266,7 @@ class Project(object):
             Template dictionary. This is the content of the data parameter.
             Include the ones you need to update only.
             
-            data = {
+            data = { # TODO Fix dictionary
             &#34;name&#34; = &#34;&#34;,
             &#34;service_types&#34; = &#34;&#34;,
             &#34;status&#34; = &#34;&#34;,
@@ -441,11 +416,8 @@ class Project(object):
 
     def getPDFExport(self, token: client.Token, versionId: str, exportId: str):
         &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.
-
             The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.
-
             To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here
-
             For more information about Document Management endpoints, see the Data Management API
             &#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
@@ -456,42 +428,24 @@ class Project(object):
         return r
 
 class Company(object):
-    &#39;&#39;&#39;Base class for B360 API companies. Properties below
-
-    Company.raw 
-
-    Company.id
-
-    Company.accId
-
-    Company.name
-
-    Company.trade
-
-    Company.address_line_1
-
-    Company.address_line_2
-
-    Company.city
-
-    Company.postal_code
-
-    Company.state_or_province
-
-    Company.country
-
-    Company.phone
-
-    Company.website_url
-
-    Company.description
-
-    Company.created_at
-
-    Company.updated_at
-
-    Company.erp_id
-
+    &#39;&#39;&#39;Base class for B360 API companies. Properties below&lt;br&gt;
+    Company.raw &lt;br&gt;
+    Company.id&lt;br&gt;
+    Company.accId&lt;br&gt;
+    Company.name&lt;br&gt;
+    Company.trade&lt;br&gt;
+    Company.address_line_1&lt;br&gt;
+    Company.address_line_2&lt;br&gt;
+    Company.city&lt;br&gt;
+    Company.postal_code&lt;br&gt;
+    Company.state_or_province&lt;br&gt;
+    Company.country&lt;br&gt;
+    Company.phone&lt;br&gt;
+    Company.website_url&lt;br&gt;
+    Company.description&lt;br&gt;
+    Company.created_at&lt;br&gt;
+    Company.updated_at&lt;br&gt;
+    Company.erp_id&lt;br&gt;
     Company.tax_id&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
@@ -572,7 +526,7 @@ class Company(object):
 
     @classmethod
     def getCompanyById(cls, client: client.Client, token: client.Token, c_id):
-        &#39;&#39;&#39;Query the details of a specific partner company.
+        &#39;&#39;&#39;Query the details of a specific partner company.&lt;br&gt;
         Scope: account:read&#39;&#39;&#39;
         checkScopes(token, &#34;account:read&#34;)
         r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=client.bimAccId, cId=c_id),headers=token.getHeader).json()
@@ -581,7 +535,7 @@ class Company(object):
 
     @classmethod
     def getCompanies(cls, client: client.Client, token: client.Token):
-        &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.
+        &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.&lt;br&gt;
         Scope account:read&#39;&#39;&#39;
         checkScopes(token, &#34;account:read&#34;)
         r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
@@ -879,20 +833,13 @@ class User(object):
         return User(r)
 
 class IndustryRoles(object):
-    &#39;&#39;&#39;IndustryRoles.raw
-
-    IndustryRoles.id
-
-    IndustryRoles.project_id
-
-    IndustryRoles.name
-
-    IndustryRoles.projectAdminAccess
-
-    IndustryRoles.insightAccess
-
-    IndustryRoles.docManagementAccess
-
+    &#39;&#39;&#39;IndustryRoles.raw&lt;br&gt;
+    IndustryRoles.id&lt;br&gt;
+    IndustryRoles.project_id&lt;br&gt;
+    IndustryRoles.name&lt;br&gt;
+    IndustryRoles.projectAdminAccess&lt;br&gt;
+    IndustryRoles.insightAccess&lt;br&gt;
+    IndustryRoles.docManagementAccess&lt;br&gt;
     IndustryRoles.member_group_id&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -930,22 +877,14 @@ class IndustryRoles(object):
         return self.__member_group_id
 
 class BusinessUnits(object):
-    &#39;&#39;&#39;BusinessUnits.raw
-
-    BusinessUnits.id
-
-    BusinessUnits.account_id
-
-    BusinessUnits.parent_id
-
-    BusinessUnits.name
-
-    BusinessUnits.description
-
-    BusinessUnits.path
-
-    BusinessUnits.created_at
-
+    &#39;&#39;&#39;BusinessUnits.raw&lt;br&gt;
+    BusinessUnits.id&lt;br&gt;
+    BusinessUnits.account_id&lt;br&gt;
+    BusinessUnits.parent_id&lt;br&gt;
+    BusinessUnits.name&lt;br&gt;
+    BusinessUnits.description&lt;br&gt;
+    BusinessUnits.path&lt;br&gt;
+    BusinessUnits.created_at&lt;br&gt;
     BusinessUnits.updated_at&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -1022,16 +961,11 @@ class BusinessUnits(object):
         return [cls(u) for u in r[&#34;business_units&#34;]]
 
 class Jobs(object):
-    &#39;&#39;&#39;Jobs.raw
-
-    Jobs.id
-
-    Jobs.account_id
-
-    Jobs.name
-
-    Jobs.status
-
+    &#39;&#39;&#39;Jobs.raw&lt;br&gt;
+    Jobs.id&lt;br&gt;
+    Jobs.account_id&lt;br&gt;
+    Jobs.name&lt;br&gt;
+    Jobs.status&lt;br&gt;
     Jobs.details&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -1061,9 +995,7 @@ class Jobs(object):
         return self.__details
 
 # pDocs ignore
-
 __pdoc__ = {}
-
 __pdoc__[&#39;Project.raw&#39;] = False
 __pdoc__[&#39;Project.id&#39;] = False
 __pdoc__[&#39;Project.accId&#39;] = False    
@@ -1089,6 +1021,9 @@ __pdoc__[&#39;Project.contract_type&#39;] = False
 __pdoc__[&#39;Project.service_types&#39;] = False
 __pdoc__[&#39;Project.created_at&#39;] = False
 __pdoc__[&#39;Project.updated_at&#39;] = False
+__pdoc__[&#39;Project.include_companies&#39;] = False
+__pdoc__[&#39;Project.include_locations&#39;] = False
+__pdoc__[&#39;Project.template_project_id&#39;] = False
 
 __pdoc__[&#39;Company.raw&#39;] = False
 __pdoc__[&#39;Company.id&#39;] = False
@@ -1164,7 +1099,8 @@ __pdoc__[&#39;Jobs.name&#39;] = False
 __pdoc__[&#39;Jobs.status&#39;] = False
 __pdoc__[&#39;Jobs.details&#39;] = False
 
-#TODO Try string dictionaries with import companies. critical
+# TODO Try string dictionaries with import companies. critical
+# TODO use line breaks &lt;br&gt; for docstrings so documentation looks nice
 
 # Account Admin
 # Projects
@@ -1195,36 +1131,28 @@ __pdoc__[&#39;Jobs.details&#39;] = False
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>BusinessUnits.raw</p>
-<p>BusinessUnits.id</p>
-<p>BusinessUnits.account_id</p>
-<p>BusinessUnits.parent_id</p>
-<p>BusinessUnits.name</p>
-<p>BusinessUnits.description</p>
-<p>BusinessUnits.path</p>
-<p>BusinessUnits.created_at</p>
-<p>BusinessUnits.updated_at</p></div>
+<div class="desc"><p>BusinessUnits.raw<br>
+BusinessUnits.id<br>
+BusinessUnits.account_id<br>
+BusinessUnits.parent_id<br>
+BusinessUnits.name<br>
+BusinessUnits.description<br>
+BusinessUnits.path<br>
+BusinessUnits.created_at<br>
+BusinessUnits.updated_at</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class BusinessUnits(object):
-    &#39;&#39;&#39;BusinessUnits.raw
-
-    BusinessUnits.id
-
-    BusinessUnits.account_id
-
-    BusinessUnits.parent_id
-
-    BusinessUnits.name
-
-    BusinessUnits.description
-
-    BusinessUnits.path
-
-    BusinessUnits.created_at
-
+    &#39;&#39;&#39;BusinessUnits.raw&lt;br&gt;
+    BusinessUnits.id&lt;br&gt;
+    BusinessUnits.account_id&lt;br&gt;
+    BusinessUnits.parent_id&lt;br&gt;
+    BusinessUnits.name&lt;br&gt;
+    BusinessUnits.description&lt;br&gt;
+    BusinessUnits.path&lt;br&gt;
+    BusinessUnits.created_at&lt;br&gt;
     BusinessUnits.updated_at&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -1381,66 +1309,48 @@ def getBusinessUnits(cls, client, token):
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class for B360 API companies. Properties below</p>
-<p>Company.raw </p>
-<p>Company.id</p>
-<p>Company.accId</p>
-<p>Company.name</p>
-<p>Company.trade</p>
-<p>Company.address_line_1</p>
-<p>Company.address_line_2</p>
-<p>Company.city</p>
-<p>Company.postal_code</p>
-<p>Company.state_or_province</p>
-<p>Company.country</p>
-<p>Company.phone</p>
-<p>Company.website_url</p>
-<p>Company.description</p>
-<p>Company.created_at</p>
-<p>Company.updated_at</p>
-<p>Company.erp_id</p>
-<p>Company.tax_id</p></div>
+<div class="desc"><p>Base class for B360 API companies. Properties below<br>
+Company.raw <br>
+Company.id<br>
+Company.accId<br>
+Company.name<br>
+Company.trade<br>
+Company.address_line_1<br>
+Company.address_line_2<br>
+Company.city<br>
+Company.postal_code<br>
+Company.state_or_province<br>
+Company.country<br>
+Company.phone<br>
+Company.website_url<br>
+Company.description<br>
+Company.created_at<br>
+Company.updated_at<br>
+Company.erp_id<br>
+Company.tax_id</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Company(object):
-    &#39;&#39;&#39;Base class for B360 API companies. Properties below
-
-    Company.raw 
-
-    Company.id
-
-    Company.accId
-
-    Company.name
-
-    Company.trade
-
-    Company.address_line_1
-
-    Company.address_line_2
-
-    Company.city
-
-    Company.postal_code
-
-    Company.state_or_province
-
-    Company.country
-
-    Company.phone
-
-    Company.website_url
-
-    Company.description
-
-    Company.created_at
-
-    Company.updated_at
-
-    Company.erp_id
-
+    &#39;&#39;&#39;Base class for B360 API companies. Properties below&lt;br&gt;
+    Company.raw &lt;br&gt;
+    Company.id&lt;br&gt;
+    Company.accId&lt;br&gt;
+    Company.name&lt;br&gt;
+    Company.trade&lt;br&gt;
+    Company.address_line_1&lt;br&gt;
+    Company.address_line_2&lt;br&gt;
+    Company.city&lt;br&gt;
+    Company.postal_code&lt;br&gt;
+    Company.state_or_province&lt;br&gt;
+    Company.country&lt;br&gt;
+    Company.phone&lt;br&gt;
+    Company.website_url&lt;br&gt;
+    Company.description&lt;br&gt;
+    Company.created_at&lt;br&gt;
+    Company.updated_at&lt;br&gt;
+    Company.erp_id&lt;br&gt;
     Company.tax_id&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
@@ -1521,7 +1431,7 @@ def getBusinessUnits(cls, client, token):
 
     @classmethod
     def getCompanyById(cls, client: client.Client, token: client.Token, c_id):
-        &#39;&#39;&#39;Query the details of a specific partner company.
+        &#39;&#39;&#39;Query the details of a specific partner company.&lt;br&gt;
         Scope: account:read&#39;&#39;&#39;
         checkScopes(token, &#34;account:read&#34;)
         r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=client.bimAccId, cId=c_id),headers=token.getHeader).json()
@@ -1530,7 +1440,7 @@ def getBusinessUnits(cls, client, token):
 
     @classmethod
     def getCompanies(cls, client: client.Client, token: client.Token):
-        &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.
+        &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.&lt;br&gt;
         Scope account:read&#39;&#39;&#39;
         checkScopes(token, &#34;account:read&#34;)
         r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
@@ -1617,7 +1527,7 @@ def getBusinessUnits(cls, client, token):
 <span>def <span class="ident">getCompanies</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Query all the partner companies in a specific BIM 360 account.
+<div class="desc"><p>Query all the partner companies in a specific BIM 360 account.<br>
 Scope account:read</p></div>
 <details class="source">
 <summary>
@@ -1625,7 +1535,7 @@ Scope account:read</p></div>
 </summary>
 <pre><code class="python">@classmethod
 def getCompanies(cls, client: client.Client, token: client.Token):
-    &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.
+    &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.&lt;br&gt;
     Scope account:read&#39;&#39;&#39;
     checkScopes(token, &#34;account:read&#34;)
     r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
@@ -1637,7 +1547,7 @@ def getCompanies(cls, client: client.Client, token: client.Token):
 <span>def <span class="ident">getCompanyById</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, c_id)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Query the details of a specific partner company.
+<div class="desc"><p>Query the details of a specific partner company.<br>
 Scope: account:read</p></div>
 <details class="source">
 <summary>
@@ -1645,7 +1555,7 @@ Scope: account:read</p></div>
 </summary>
 <pre><code class="python">@classmethod
 def getCompanyById(cls, client: client.Client, token: client.Token, c_id):
-    &#39;&#39;&#39;Query the details of a specific partner company.
+    &#39;&#39;&#39;Query the details of a specific partner company.&lt;br&gt;
     Scope: account:read&#39;&#39;&#39;
     checkScopes(token, &#34;account:read&#34;)
     r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=client.bimAccId, cId=c_id),headers=token.getHeader).json()
@@ -1811,33 +1721,26 @@ Scope account:write</p>
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>IndustryRoles.raw</p>
-<p>IndustryRoles.id</p>
-<p>IndustryRoles.project_id</p>
-<p>IndustryRoles.name</p>
-<p>IndustryRoles.projectAdminAccess</p>
-<p>IndustryRoles.insightAccess</p>
-<p>IndustryRoles.docManagementAccess</p>
-<p>IndustryRoles.member_group_id</p></div>
+<div class="desc"><p>IndustryRoles.raw<br>
+IndustryRoles.id<br>
+IndustryRoles.project_id<br>
+IndustryRoles.name<br>
+IndustryRoles.projectAdminAccess<br>
+IndustryRoles.insightAccess<br>
+IndustryRoles.docManagementAccess<br>
+IndustryRoles.member_group_id</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class IndustryRoles(object):
-    &#39;&#39;&#39;IndustryRoles.raw
-
-    IndustryRoles.id
-
-    IndustryRoles.project_id
-
-    IndustryRoles.name
-
-    IndustryRoles.projectAdminAccess
-
-    IndustryRoles.insightAccess
-
-    IndustryRoles.docManagementAccess
-
+    &#39;&#39;&#39;IndustryRoles.raw&lt;br&gt;
+    IndustryRoles.id&lt;br&gt;
+    IndustryRoles.project_id&lt;br&gt;
+    IndustryRoles.name&lt;br&gt;
+    IndustryRoles.projectAdminAccess&lt;br&gt;
+    IndustryRoles.insightAccess&lt;br&gt;
+    IndustryRoles.docManagementAccess&lt;br&gt;
     IndustryRoles.member_group_id&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -1880,27 +1783,22 @@ Scope account:write</p>
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Jobs.raw</p>
-<p>Jobs.id</p>
-<p>Jobs.account_id</p>
-<p>Jobs.name</p>
-<p>Jobs.status</p>
-<p>Jobs.details</p></div>
+<div class="desc"><p>Jobs.raw<br>
+Jobs.id<br>
+Jobs.account_id<br>
+Jobs.name<br>
+Jobs.status<br>
+Jobs.details</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Jobs(object):
-    &#39;&#39;&#39;Jobs.raw
-
-    Jobs.id
-
-    Jobs.account_id
-
-    Jobs.name
-
-    Jobs.status
-
+    &#39;&#39;&#39;Jobs.raw&lt;br&gt;
+    Jobs.id&lt;br&gt;
+    Jobs.account_id&lt;br&gt;
+    Jobs.name&lt;br&gt;
+    Jobs.status&lt;br&gt;
     Jobs.details&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -1935,87 +1833,62 @@ Scope account:write</p>
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Class for B360 API projects. Properties below</p>
-<p>Project.raw </p>
-<p>Project.id</p>
-<p>Project.accId</p>
-<p>Project.name</p>
-<p>Project.start_date</p>
-<p>Project.end_date</p>
-<p>Project.project_type</p>
-<p>Project.value</p>
-<p>Project.currency</p>
-<p>Project.status</p>
-<p>Project.job_number</p>
-<p>Project.address_line_1 </p>
-<p>Project.address_line_2</p>
-<p>Project.city</p>
-<p>Project.state_or_province</p>
-<p>Project.postal_code</p>
-<p>Project.country</p>
-<p>Project.business_unit_id</p>
-<p>Project.timezone</p>
-<p>Project.language </p>
-<p>Project.construction_type</p>
-<p>Project.contract_type</p>
-<p>Project.service_types</p>
-<p>Project.created_at</p>
-<p>Project.updated_at</p></div>
+<div class="desc"><p>Class for B360 API projects. Properties below
+Project.raw<br>
+Project.id<br>
+Project.accId<br>
+Project.name<br>
+Project.start_date<br>
+Project.end_date<br>
+Project.project_type<br>
+Project.value<br>
+Project.currency<br>
+Project.status<br>
+Project.job_number<br>
+Project.address_line_1<br>
+Project.address_line_2<br>
+Project.city<br>
+Project.state_or_province<br>
+Project.postal_code<br>
+Project.country<br>
+Project.business_unit_id<br>
+Project.timezone<br>
+Project.language <br>
+Project.construction_type<br>
+Project.contract_type<br>
+Project.service_types<br>
+Project.created_at<br>
+Project.updated_at</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Project(object):
     &#39;&#39;&#39;Class for B360 API projects. Properties below
-
-    Project.raw 
-
-    Project.id
-
-    Project.accId
-
-    Project.name
-
-    Project.start_date
-
-    Project.end_date
-
-    Project.project_type
-
-    Project.value
-
-    Project.currency
-
-    Project.status
-
-    Project.job_number
-
-    Project.address_line_1 
-
-    Project.address_line_2
-
-    Project.city
-
-    Project.state_or_province
-
-    Project.postal_code
-
-    Project.country
-
-    Project.business_unit_id
-
-    Project.timezone
-
-    Project.language 
-
-    Project.construction_type
-
-    Project.contract_type
-
-    Project.service_types
-
-    Project.created_at
-
+    Project.raw&lt;br&gt;
+    Project.id&lt;br&gt;
+    Project.accId&lt;br&gt;
+    Project.name&lt;br&gt;
+    Project.start_date&lt;br&gt;
+    Project.end_date&lt;br&gt;
+    Project.project_type&lt;br&gt;
+    Project.value&lt;br&gt;
+    Project.currency&lt;br&gt;
+    Project.status&lt;br&gt;
+    Project.job_number&lt;br&gt;
+    Project.address_line_1&lt;br&gt; 
+    Project.address_line_2&lt;br&gt;
+    Project.city&lt;br&gt;
+    Project.state_or_province&lt;br&gt;
+    Project.postal_code&lt;br&gt;
+    Project.country&lt;br&gt;
+    Project.business_unit_id&lt;br&gt;
+    Project.timezone&lt;br&gt;
+    Project.language &lt;br&gt;
+    Project.construction_type&lt;br&gt;
+    Project.contract_type&lt;br&gt;
+    Project.service_types&lt;br&gt;
+    Project.created_at&lt;br&gt;
     Project.updated_at&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
@@ -2158,8 +2031,8 @@ Scope account:write</p>
 
     @classmethod
     def getProjects(cls, client: client.Client, token: client.Token):
-        &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.
-        Scope account:read
+        &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.&lt;br&gt;
+        Scope account:read&lt;br&gt;
         Returns a list of project objects.&#39;&#39;&#39;
         checkScopes(token, &#34;account:read&#34;)
         r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
@@ -2169,7 +2042,7 @@ Scope account:write</p>
 
     @classmethod
     def getProjectById(cls, client: client.Client, token: client.Token, p_id):
-        &#39;&#39;&#39;Query the details of a specific BIM 360 project.
+        &#39;&#39;&#39;Query the details of a specific BIM 360 project.&lt;br&gt;
         Scope: account:read&#39;&#39;&#39;
 
         checkScopes(token, &#34;account:read&#34;)
@@ -2221,7 +2094,7 @@ Scope account:write</p>
             Template dictionary. This is the content of the data parameter.
             Include the ones you need to update only.
             
-            data = {
+            data = { # TODO Fix dictionary
             &#34;name&#34; = &#34;&#34;,
             &#34;service_types&#34; = &#34;&#34;,
             &#34;status&#34; = &#34;&#34;,
@@ -2371,11 +2244,8 @@ Scope account:write</p>
 
     def getPDFExport(self, token: client.Token, versionId: str, exportId: str):
         &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.
-
             The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.
-
             To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here
-
             For more information about Document Management endpoints, see the Data Management API
             &#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
@@ -2464,7 +2334,7 @@ def createProject(cls, client: client.Client, token: client.Token, Data: dict):
 <span>def <span class="ident">getProjectById</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, p_id)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Query the details of a specific BIM 360 project.
+<div class="desc"><p>Query the details of a specific BIM 360 project.<br>
 Scope: account:read</p></div>
 <details class="source">
 <summary>
@@ -2472,7 +2342,7 @@ Scope: account:read</p></div>
 </summary>
 <pre><code class="python">@classmethod
 def getProjectById(cls, client: client.Client, token: client.Token, p_id):
-    &#39;&#39;&#39;Query the details of a specific BIM 360 project.
+    &#39;&#39;&#39;Query the details of a specific BIM 360 project.&lt;br&gt;
     Scope: account:read&#39;&#39;&#39;
 
     checkScopes(token, &#34;account:read&#34;)
@@ -2485,8 +2355,8 @@ def getProjectById(cls, client: client.Client, token: client.Token, p_id):
 <span>def <span class="ident">getProjects</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Query all the projects in a specific BIM 360 account.
-Scope account:read
+<div class="desc"><p>Query all the projects in a specific BIM 360 account.<br>
+Scope account:read<br>
 Returns a list of project objects.</p></div>
 <details class="source">
 <summary>
@@ -2494,52 +2364,13 @@ Returns a list of project objects.</p></div>
 </summary>
 <pre><code class="python">@classmethod
 def getProjects(cls, client: client.Client, token: client.Token):
-    &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.
-    Scope account:read
+    &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.&lt;br&gt;
+    Scope account:read&lt;br&gt;
     Returns a list of project objects.&#39;&#39;&#39;
     checkScopes(token, &#34;account:read&#34;)
     r = requests.get(&#34;https://developer.api.autodesk.com/hq/v1/accounts/{aId}/projects&#34;.format(aId=client.bimAccId),headers=token.getHeader).json()
     checkResponse(r)
     return [cls(p) for p in r]</code></pre>
-</details>
-</dd>
-</dl>
-<h3>Instance variables</h3>
-<dl>
-<dt id="adeskForgeWrapper.b360.Project.include_companies"><code class="name">var <span class="ident">include_companies</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def include_companies(self):
-    return self.__include_companies</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.include_locations"><code class="name">var <span class="ident">include_locations</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def include_locations(self):
-    return self.__include_locations</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.template_project_id"><code class="name">var <span class="ident">template_project_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def template_project_id(self):
-    return self.__template_project_id</code></pre>
 </details>
 </dd>
 </dl>
@@ -2710,21 +2541,18 @@ Scope account:read</p></div>
 <span>def <span class="ident">getPDFExport</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, versionId: str, exportId: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.</p>
-<p>The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.</p>
-<p>To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here</p>
-<p>For more information about Document Management endpoints, see the Data Management API</p></div>
+<div class="desc"><p>Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.
+The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.
+To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here
+For more information about Document Management endpoints, see the Data Management API</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def getPDFExport(self, token: client.Token, versionId: str, exportId: str):
     &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.
-
         The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.
-
         To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn. TODO: Model derivative api function here
-
         For more information about Document Management endpoints, see the Data Management API
         &#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
@@ -2784,7 +2612,7 @@ To get information about all the users in an account, see GET accounts/users.</p
 Scope: account:write account:read</p>
 <p>Template dictionary. This is the content of the data parameter.
 Include the ones you need to update only.</p>
-<p>data = {
+<p>data = { # TODO Fix dictionary
 "name" = "",
 "service_types" = "",
 "status" = "",
@@ -2817,7 +2645,7 @@ Include the ones you need to update only.</p>
         Template dictionary. This is the content of the data parameter.
         Include the ones you need to update only.
         
-        data = {
+        data = { # TODO Fix dictionary
         &#34;name&#34; = &#34;&#34;,
         &#34;service_types&#34; = &#34;&#34;,
         &#34;status&#34; = &#34;&#34;,
@@ -3291,9 +3119,6 @@ data = {
 <li><code><a title="adeskForgeWrapper.b360.Project.getProjects" href="#adeskForgeWrapper.b360.Project.getProjects">getProjects</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.getUserFromProjectAndId" href="#adeskForgeWrapper.b360.Project.getUserFromProjectAndId">getUserFromProjectAndId</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.getUsersFromProject" href="#adeskForgeWrapper.b360.Project.getUsersFromProject">getUsersFromProject</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.include_companies" href="#adeskForgeWrapper.b360.Project.include_companies">include_companies</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.include_locations" href="#adeskForgeWrapper.b360.Project.include_locations">include_locations</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.template_project_id" href="#adeskForgeWrapper.b360.Project.template_project_id">template_project_id</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.updateProject" href="#adeskForgeWrapper.b360.Project.updateProject">updateProject</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.updateUser" href="#adeskForgeWrapper.b360.Project.updateUser">updateUser</a></code></li>
 </ul>
