@@ -35,9 +35,58 @@ from .client import checkResponse
 from . import client
 
 
-
 class Project(object):
-    &#39;&#39;&#39;Class for B360 API projects&#39;&#39;&#39;
+    &#39;&#39;&#39;Class for B360 API projects. Properties below
+
+    Project.raw 
+
+    Project.id
+
+    Project.accId
+
+    Project.name
+
+    Project.start_date
+
+    Project.end_date
+
+    Project.project_type
+
+    Project.value
+
+    Project.currency
+
+    Project.status
+
+    Project.job_number
+
+    Project.address_line_1 
+
+    Project.address_line_2
+
+    Project.city
+
+    Project.state_or_province
+
+    Project.postal_code
+
+    Project.country
+
+    Project.business_unit_id
+
+    Project.timezone
+
+    Project.language 
+
+    Project.construction_type
+
+    Project.contract_type
+
+    Project.service_types
+
+    Project.created_at
+
+    Project.updated_at&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -66,7 +115,8 @@ class Project(object):
         self.__template_project_id = rawDict.get(&#34;template_project_id&#34;) or None
         self.__include_companies = rawDict.get(&#34;include_companies&#34;) or None
         self.__include_locations = rawDict.get(&#34;include_locations&#34;) or None
-
+        self.__created_at = rawDict.get(&#34;created_at&#34;) or None
+        self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
     @property
     def raw(self):
         &#39;&#39;&#39;The raw dictionary response&#39;&#39;&#39;
@@ -168,6 +218,12 @@ class Project(object):
     @property
     def include_locations(self):
         return self.__include_locations
+    @property
+    def created_at(self):
+        return self.__created_at
+    @property
+    def updated_at(self):
+        return self.__updated_at
 #endRegion
 
     @classmethod
@@ -400,7 +456,43 @@ class Project(object):
         return r
 
 class Company(object):
-    &#39;&#39;&#39;Base class for B360 API companies&#39;&#39;&#39;
+    &#39;&#39;&#39;Base class for B360 API companies. Properties below
+
+    Company.raw 
+
+    Company.id
+
+    Company.accId
+
+    Company.name
+
+    Company.trade
+
+    Company.address_line_1
+
+    Company.address_line_2
+
+    Company.city
+
+    Company.postal_code
+
+    Company.state_or_province
+
+    Company.country
+
+    Company.phone
+
+    Company.website_url
+
+    Company.description
+
+    Company.created_at
+
+    Company.updated_at
+
+    Company.erp_id
+
+    Company.tax_id&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -571,6 +663,61 @@ class Company(object):
         return Company(r)
 
 class User(object):
+    &#39;&#39;&#39;User.raw 
+
+    User.id
+
+    User.account_id
+
+    User.status
+
+    User.role
+
+    User.company_id
+
+    User.company_name
+
+    User.last_sign_in
+
+    User.email
+
+    User.name
+
+    User.nickname
+
+    User.first_name
+
+    User.last_name
+
+    User.uid
+
+    User.image_url
+
+    User.address_line_1
+
+    User.address_line_2
+
+    User.city
+
+    User.postal_code
+
+    User.state_or_province
+
+    User.country
+
+    User.phone
+
+    User.company
+
+    User.job_title
+
+    User.industry
+
+    User.about_me
+
+    User.created_at
+
+    User.updated_at&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict
@@ -732,6 +879,21 @@ class User(object):
         return User(r)
 
 class IndustryRoles(object):
+    &#39;&#39;&#39;IndustryRoles.raw
+
+    IndustryRoles.id
+
+    IndustryRoles.project_id
+
+    IndustryRoles.name
+
+    IndustryRoles.projectAdminAccess
+
+    IndustryRoles.insightAccess
+
+    IndustryRoles.docManagementAccess
+
+    IndustryRoles.member_group_id&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
         self.__id = rawDict.get(&#34;id&#34;) or None
@@ -768,6 +930,23 @@ class IndustryRoles(object):
         return self.__member_group_id
 
 class BusinessUnits(object):
+    &#39;&#39;&#39;BusinessUnits.raw
+
+    BusinessUnits.id
+
+    BusinessUnits.account_id
+
+    BusinessUnits.parent_id
+
+    BusinessUnits.name
+
+    BusinessUnits.description
+
+    BusinessUnits.path
+
+    BusinessUnits.created_at
+
+    BusinessUnits.updated_at&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
         self.__id = rawDict.get(&#34;id&#34;) or None
@@ -779,6 +958,9 @@ class BusinessUnits(object):
         self.__created_at = rawDict.get(&#34;created_at&#34;) or None
         self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
 
+    @property
+    def raw(self):
+        return self.__raw
     @property
     def id(self):
         return self.__id
@@ -840,6 +1022,17 @@ class BusinessUnits(object):
         return [cls(u) for u in r[&#34;business_units&#34;]]
 
 class Jobs(object):
+    &#39;&#39;&#39;Jobs.raw
+
+    Jobs.id
+
+    Jobs.account_id
+
+    Jobs.name
+
+    Jobs.status
+
+    Jobs.details&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
         self.__id = rawDict.get(&#34;id&#34;) or None
@@ -866,6 +1059,110 @@ class Jobs(object):
     @property
     def details(self):
         return self.__details
+
+# pDocs ignore
+
+__pdoc__ = {}
+
+__pdoc__[&#39;Project.raw&#39;] = False
+__pdoc__[&#39;Project.id&#39;] = False
+__pdoc__[&#39;Project.accId&#39;] = False    
+__pdoc__[&#39;Project.name&#39;] = False
+__pdoc__[&#39;Project.start_date&#39;] = False
+__pdoc__[&#39;Project.end_date&#39;] = False
+__pdoc__[&#39;Project.project_type&#39;] = False
+__pdoc__[&#39;Project.value&#39;] = False
+__pdoc__[&#39;Project.currency&#39;] = False
+__pdoc__[&#39;Project.status&#39;] = False
+__pdoc__[&#39;Project.job_number&#39;] = False
+__pdoc__[&#39;Project.address_line_1&#39;] = False
+__pdoc__[&#39;Project.address_line_2&#39;] = False
+__pdoc__[&#39;Project.city&#39;] = False
+__pdoc__[&#39;Project.state_or_province&#39;] = False
+__pdoc__[&#39;Project.postal_code&#39;] = False
+__pdoc__[&#39;Project.country&#39;] = False
+__pdoc__[&#39;Project.business_unit_id&#39;] = False
+__pdoc__[&#39;Project.timezone&#39;] = False
+__pdoc__[&#39;Project.language&#39;] = False
+__pdoc__[&#39;Project.construction_type&#39;] = False
+__pdoc__[&#39;Project.contract_type&#39;] = False
+__pdoc__[&#39;Project.service_types&#39;] = False
+__pdoc__[&#39;Project.created_at&#39;] = False
+__pdoc__[&#39;Project.updated_at&#39;] = False
+
+__pdoc__[&#39;Company.raw&#39;] = False
+__pdoc__[&#39;Company.id&#39;] = False
+__pdoc__[&#39;Company.accId&#39;] = False
+__pdoc__[&#39;Company.name&#39;] = False
+__pdoc__[&#39;Company.trade&#39;] = False
+__pdoc__[&#39;Company.address_line_1&#39;] = False
+__pdoc__[&#39;Company.address_line_2&#39;] = False
+__pdoc__[&#39;Company.city&#39;] = False
+__pdoc__[&#39;Company.postal_code&#39;] = False
+__pdoc__[&#39;Company.state_or_province&#39;] = False
+__pdoc__[&#39;Company.country&#39;] = False
+__pdoc__[&#39;Company.phone&#39;] = False
+__pdoc__[&#39;Company.website_url&#39;] = False
+__pdoc__[&#39;Company.description&#39;] = False
+__pdoc__[&#39;Company.created_at&#39;] = False
+__pdoc__[&#39;Company.updated_at&#39;] = False
+__pdoc__[&#39;Company.erp_id&#39;] = False
+__pdoc__[&#39;Company.tax_id&#39;] = False
+
+__pdoc__[&#39;User.raw&#39;] = False
+__pdoc__[&#39;User.id&#39;] = False
+__pdoc__[&#39;User.account_id&#39;] = False
+__pdoc__[&#39;User.status&#39;] = False
+__pdoc__[&#39;User.role&#39;] = False
+__pdoc__[&#39;User.company_id&#39;] = False
+__pdoc__[&#39;User.company_name&#39;] = False
+__pdoc__[&#39;User.last_sign_in&#39;] = False
+__pdoc__[&#39;User.email&#39;] = False
+__pdoc__[&#39;User.name&#39;] = False
+__pdoc__[&#39;User.nickname&#39;] = False
+__pdoc__[&#39;User.first_name&#39;] = False
+__pdoc__[&#39;User.last_name&#39;] = False
+__pdoc__[&#39;User.uid&#39;] = False
+__pdoc__[&#39;User.image_url&#39;] = False
+__pdoc__[&#39;User.address_line_1&#39;] = False
+__pdoc__[&#39;User.address_line_2&#39;] = False
+__pdoc__[&#39;User.city&#39;] = False
+__pdoc__[&#39;User.postal_code&#39;] = False
+__pdoc__[&#39;User.state_or_province&#39;] = False
+__pdoc__[&#39;User.country&#39;] = False
+__pdoc__[&#39;User.phone&#39;] = False
+__pdoc__[&#39;User.company&#39;] = False
+__pdoc__[&#39;User.job_title&#39;] = False
+__pdoc__[&#39;User.industry&#39;] = False
+__pdoc__[&#39;User.about_me&#39;] = False
+__pdoc__[&#39;User.created_at&#39;] = False
+__pdoc__[&#39;User.updated_at&#39;] = False
+
+__pdoc__[&#39;IndustryRoles.raw&#39;] = False
+__pdoc__[&#39;IndustryRoles.id&#39;] = False
+__pdoc__[&#39;IndustryRoles.project_id&#39;] = False
+__pdoc__[&#39;IndustryRoles.name&#39;] = False
+__pdoc__[&#39;IndustryRoles.projectAdminAccess&#39;] = False
+__pdoc__[&#39;IndustryRoles.insightAccess&#39;] = False
+__pdoc__[&#39;IndustryRoles.docManagementAccess&#39;] = False
+__pdoc__[&#39;IndustryRoles.member_group_id&#39;] = False
+
+__pdoc__[&#39;BusinessUnits.raw&#39;] = False
+__pdoc__[&#39;BusinessUnits.id&#39;] = False
+__pdoc__[&#39;BusinessUnits.account_id&#39;] = False
+__pdoc__[&#39;BusinessUnits.parent_id&#39;] = False
+__pdoc__[&#39;BusinessUnits.name&#39;] = False
+__pdoc__[&#39;BusinessUnits.description&#39;] = False
+__pdoc__[&#39;BusinessUnits.path&#39;] = False
+__pdoc__[&#39;BusinessUnits.created_at&#39;] = False
+__pdoc__[&#39;BusinessUnits.updated_at&#39;] = False
+
+__pdoc__[&#39;Jobs.raw&#39;] = False
+__pdoc__[&#39;Jobs.id&#39;] = False
+__pdoc__[&#39;Jobs.account_id&#39;] = False
+__pdoc__[&#39;Jobs.name&#39;] = False
+__pdoc__[&#39;Jobs.status&#39;] = False
+__pdoc__[&#39;Jobs.details&#39;] = False
 
 #TODO Try string dictionaries with import companies. critical
 
@@ -898,12 +1195,37 @@ class Jobs(object):
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>BusinessUnits.raw</p>
+<p>BusinessUnits.id</p>
+<p>BusinessUnits.account_id</p>
+<p>BusinessUnits.parent_id</p>
+<p>BusinessUnits.name</p>
+<p>BusinessUnits.description</p>
+<p>BusinessUnits.path</p>
+<p>BusinessUnits.created_at</p>
+<p>BusinessUnits.updated_at</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class BusinessUnits(object):
+    &#39;&#39;&#39;BusinessUnits.raw
+
+    BusinessUnits.id
+
+    BusinessUnits.account_id
+
+    BusinessUnits.parent_id
+
+    BusinessUnits.name
+
+    BusinessUnits.description
+
+    BusinessUnits.path
+
+    BusinessUnits.created_at
+
+    BusinessUnits.updated_at&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
         self.__id = rawDict.get(&#34;id&#34;) or None
@@ -915,6 +1237,9 @@ class Jobs(object):
         self.__created_at = rawDict.get(&#34;created_at&#34;) or None
         self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
 
+    @property
+    def raw(self):
+        return self.__raw
     @property
     def id(self):
         return self.__id
@@ -1050,118 +1375,73 @@ def getBusinessUnits(cls, client, token):
 </details>
 </dd>
 </dl>
-<h3>Instance variables</h3>
-<dl>
-<dt id="adeskForgeWrapper.b360.BusinessUnits.account_id"><code class="name">var <span class="ident">account_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def account_id(self):
-    return self.__account_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.BusinessUnits.created_at"><code class="name">var <span class="ident">created_at</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def created_at(self):
-    return self.__created_at</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.BusinessUnits.description"><code class="name">var <span class="ident">description</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def description(self):
-    return self.__description</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.BusinessUnits.id"><code class="name">var <span class="ident">id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def id(self):
-    return self.__id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.BusinessUnits.name"><code class="name">var <span class="ident">name</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def name(self):
-    return self.__name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.BusinessUnits.parent_id"><code class="name">var <span class="ident">parent_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def parent_id(self):
-    return self.__parent_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.BusinessUnits.path"><code class="name">var <span class="ident">path</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def path(self):
-    return self.__path</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.BusinessUnits.updated_at"><code class="name">var <span class="ident">updated_at</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def updated_at(self):
-    return self.__updated_at</code></pre>
-</details>
-</dd>
-</dl>
 </dd>
 <dt id="adeskForgeWrapper.b360.Company"><code class="flex name class">
 <span>class <span class="ident">Company</span></span>
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class for B360 API companies</p></div>
+<div class="desc"><p>Base class for B360 API companies. Properties below</p>
+<p>Company.raw </p>
+<p>Company.id</p>
+<p>Company.accId</p>
+<p>Company.name</p>
+<p>Company.trade</p>
+<p>Company.address_line_1</p>
+<p>Company.address_line_2</p>
+<p>Company.city</p>
+<p>Company.postal_code</p>
+<p>Company.state_or_province</p>
+<p>Company.country</p>
+<p>Company.phone</p>
+<p>Company.website_url</p>
+<p>Company.description</p>
+<p>Company.created_at</p>
+<p>Company.updated_at</p>
+<p>Company.erp_id</p>
+<p>Company.tax_id</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Company(object):
-    &#39;&#39;&#39;Base class for B360 API companies&#39;&#39;&#39;
+    &#39;&#39;&#39;Base class for B360 API companies. Properties below
+
+    Company.raw 
+
+    Company.id
+
+    Company.accId
+
+    Company.name
+
+    Company.trade
+
+    Company.address_line_1
+
+    Company.address_line_2
+
+    Company.city
+
+    Company.postal_code
+
+    Company.state_or_province
+
+    Company.country
+
+    Company.phone
+
+    Company.website_url
+
+    Company.description
+
+    Company.created_at
+
+    Company.updated_at
+
+    Company.erp_id
+
+    Company.tax_id&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -1474,225 +1754,6 @@ def importCompanies(cls, client: client.Client, token: client.Token, Data: list)
 </details>
 </dd>
 </dl>
-<h3>Instance variables</h3>
-<dl>
-<dt id="adeskForgeWrapper.b360.Company.accId"><code class="name">var <span class="ident">accId</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def accId(self):
-    return self.__accId</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.address_line_1"><code class="name">var <span class="ident">address_line_1</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def address_line_1(self):
-    return self.__address_line_1</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.address_line_2"><code class="name">var <span class="ident">address_line_2</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def address_line_2(self):
-    return self.__address_line_2</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.city"><code class="name">var <span class="ident">city</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def city(self):
-    return self.__city</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.country"><code class="name">var <span class="ident">country</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def country(self):
-    return self.__country</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.created_at"><code class="name">var <span class="ident">created_at</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def created_at(self):
-    return self.__created_at</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.description"><code class="name">var <span class="ident">description</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def description(self):
-    return self.__description</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.erp_id"><code class="name">var <span class="ident">erp_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def erp_id(self):
-    return self.__erp_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.id"><code class="name">var <span class="ident">id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def id(self):
-    return self.__id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.name"><code class="name">var <span class="ident">name</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def name(self):
-    return self.__name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.phone"><code class="name">var <span class="ident">phone</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def phone(self):
-    return self.__phone</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.postal_code"><code class="name">var <span class="ident">postal_code</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def postal_code(self):
-    return self.__postal_code</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.raw"><code class="name">var <span class="ident">raw</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def raw(self):
-    return self.__raw</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.state_or_province"><code class="name">var <span class="ident">state_or_province</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def state_or_province(self):
-    return self.__state_or_province</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.tax_id"><code class="name">var <span class="ident">tax_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def tax_id(self):
-    return self.__tax_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.trade"><code class="name">var <span class="ident">trade</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def trade(self):
-    return self.__trade</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.updated_at"><code class="name">var <span class="ident">updated_at</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def updated_at(self):
-    return self.__updated_at</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Company.website_url"><code class="name">var <span class="ident">website_url</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def website_url(self):
-    return self.__website_url</code></pre>
-</details>
-</dd>
-</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="adeskForgeWrapper.b360.Company.updateCompany"><code class="name flex">
@@ -1750,12 +1811,34 @@ Scope account:write</p>
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>IndustryRoles.raw</p>
+<p>IndustryRoles.id</p>
+<p>IndustryRoles.project_id</p>
+<p>IndustryRoles.name</p>
+<p>IndustryRoles.projectAdminAccess</p>
+<p>IndustryRoles.insightAccess</p>
+<p>IndustryRoles.docManagementAccess</p>
+<p>IndustryRoles.member_group_id</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class IndustryRoles(object):
+    &#39;&#39;&#39;IndustryRoles.raw
+
+    IndustryRoles.id
+
+    IndustryRoles.project_id
+
+    IndustryRoles.name
+
+    IndustryRoles.projectAdminAccess
+
+    IndustryRoles.insightAccess
+
+    IndustryRoles.docManagementAccess
+
+    IndustryRoles.member_group_id&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
         self.__id = rawDict.get(&#34;id&#34;) or None
@@ -1791,117 +1874,34 @@ Scope account:write</p>
     def member_group_id(self):
         return self.__member_group_id</code></pre>
 </details>
-<h3>Instance variables</h3>
-<dl>
-<dt id="adeskForgeWrapper.b360.IndustryRoles.docManagementAccess"><code class="name">var <span class="ident">docManagementAccess</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def docManagementAccess(self):
-    return self.__docManagementAccess</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.IndustryRoles.id"><code class="name">var <span class="ident">id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def id(self):
-    return self.__id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.IndustryRoles.insightAccess"><code class="name">var <span class="ident">insightAccess</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def insightAccess(self):
-    return self.__insightAccess</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.IndustryRoles.member_group_id"><code class="name">var <span class="ident">member_group_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def member_group_id(self):
-    return self.__member_group_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.IndustryRoles.name"><code class="name">var <span class="ident">name</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def name(self):
-    return self.__name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.IndustryRoles.projectAdminAccess"><code class="name">var <span class="ident">projectAdminAccess</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def projectAdminAccess(self):
-    return self.__projectAdminAccess</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.IndustryRoles.project_id"><code class="name">var <span class="ident">project_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def project_id(self):
-    return self.__project_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.IndustryRoles.raw"><code class="name">var <span class="ident">raw</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def raw(self):
-    return self.__raw</code></pre>
-</details>
-</dd>
-</dl>
 </dd>
 <dt id="adeskForgeWrapper.b360.Jobs"><code class="flex name class">
 <span>class <span class="ident">Jobs</span></span>
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Jobs.raw</p>
+<p>Jobs.id</p>
+<p>Jobs.account_id</p>
+<p>Jobs.name</p>
+<p>Jobs.status</p>
+<p>Jobs.details</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Jobs(object):
+    &#39;&#39;&#39;Jobs.raw
+
+    Jobs.id
+
+    Jobs.account_id
+
+    Jobs.name
+
+    Jobs.status
+
+    Jobs.details&#39;&#39;&#39;
     def __init__(self, rawDict):
         self.__raw = rawDict or None
         self.__id = rawDict.get(&#34;id&#34;) or None
@@ -1929,94 +1929,94 @@ def raw(self):
     def details(self):
         return self.__details</code></pre>
 </details>
-<h3>Instance variables</h3>
-<dl>
-<dt id="adeskForgeWrapper.b360.Jobs.account_id"><code class="name">var <span class="ident">account_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def account_id(self):
-    return self.__account_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Jobs.details"><code class="name">var <span class="ident">details</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def details(self):
-    return self.__details</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Jobs.id"><code class="name">var <span class="ident">id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def id(self):
-    return self.__id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Jobs.name"><code class="name">var <span class="ident">name</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def name(self):
-    return self.__name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Jobs.raw"><code class="name">var <span class="ident">raw</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def raw(self):
-    return self.__raw</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Jobs.status"><code class="name">var <span class="ident">status</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def status(self):
-    return self.__status</code></pre>
-</details>
-</dd>
-</dl>
 </dd>
 <dt id="adeskForgeWrapper.b360.Project"><code class="flex name class">
 <span>class <span class="ident">Project</span></span>
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Class for B360 API projects</p></div>
+<div class="desc"><p>Class for B360 API projects. Properties below</p>
+<p>Project.raw </p>
+<p>Project.id</p>
+<p>Project.accId</p>
+<p>Project.name</p>
+<p>Project.start_date</p>
+<p>Project.end_date</p>
+<p>Project.project_type</p>
+<p>Project.value</p>
+<p>Project.currency</p>
+<p>Project.status</p>
+<p>Project.job_number</p>
+<p>Project.address_line_1 </p>
+<p>Project.address_line_2</p>
+<p>Project.city</p>
+<p>Project.state_or_province</p>
+<p>Project.postal_code</p>
+<p>Project.country</p>
+<p>Project.business_unit_id</p>
+<p>Project.timezone</p>
+<p>Project.language </p>
+<p>Project.construction_type</p>
+<p>Project.contract_type</p>
+<p>Project.service_types</p>
+<p>Project.created_at</p>
+<p>Project.updated_at</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Project(object):
-    &#39;&#39;&#39;Class for B360 API projects&#39;&#39;&#39;
+    &#39;&#39;&#39;Class for B360 API projects. Properties below
+
+    Project.raw 
+
+    Project.id
+
+    Project.accId
+
+    Project.name
+
+    Project.start_date
+
+    Project.end_date
+
+    Project.project_type
+
+    Project.value
+
+    Project.currency
+
+    Project.status
+
+    Project.job_number
+
+    Project.address_line_1 
+
+    Project.address_line_2
+
+    Project.city
+
+    Project.state_or_province
+
+    Project.postal_code
+
+    Project.country
+
+    Project.business_unit_id
+
+    Project.timezone
+
+    Project.language 
+
+    Project.construction_type
+
+    Project.contract_type
+
+    Project.service_types
+
+    Project.created_at
+
+    Project.updated_at&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -2045,7 +2045,8 @@ def status(self):
         self.__template_project_id = rawDict.get(&#34;template_project_id&#34;) or None
         self.__include_companies = rawDict.get(&#34;include_companies&#34;) or None
         self.__include_locations = rawDict.get(&#34;include_locations&#34;) or None
-
+        self.__created_at = rawDict.get(&#34;created_at&#34;) or None
+        self.__updated_at = rawDict.get(&#34;updated_at&#34;) or None
     @property
     def raw(self):
         &#39;&#39;&#39;The raw dictionary response&#39;&#39;&#39;
@@ -2147,6 +2148,12 @@ def status(self):
     @property
     def include_locations(self):
         return self.__include_locations
+    @property
+    def created_at(self):
+        return self.__created_at
+    @property
+    def updated_at(self):
+        return self.__updated_at
 #endRegion
 
     @classmethod
@@ -2499,144 +2506,6 @@ def getProjects(cls, client: client.Client, token: client.Token):
 </dl>
 <h3>Instance variables</h3>
 <dl>
-<dt id="adeskForgeWrapper.b360.Project.accId"><code class="name">var <span class="ident">accId</span></code></dt>
-<dd>
-<div class="desc"><p>Account ID</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def accId(self):
-    &#39;&#39;&#39;Account ID&#39;&#39;&#39;
-    return self.__accId</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.address_line_1"><code class="name">var <span class="ident">address_line_1</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def address_line_1(self):
-    return self.__address_line_1</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.address_line_2"><code class="name">var <span class="ident">address_line_2</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def address_line_2(self):
-    return self.__address_line_2</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.business_unit_id"><code class="name">var <span class="ident">business_unit_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def business_unit_id(self):
-    return self.__business_unit_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.city"><code class="name">var <span class="ident">city</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def city(self):
-    return self.__city</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.construction_type"><code class="name">var <span class="ident">construction_type</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def construction_type(self):
-    return self.__construction_type</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.contract_type"><code class="name">var <span class="ident">contract_type</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def contract_type(self):
-    return self.__contract_type</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.country"><code class="name">var <span class="ident">country</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def country(self):
-    return self.__country</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.currency"><code class="name">var <span class="ident">currency</span></code></dt>
-<dd>
-<div class="desc"><p>Currency for project value
-Refer to the currency list in the Parameters guide.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def currency(self):
-    &#39;&#39;&#39;
-    Currency for project value
-    Refer to the currency list in the Parameters guide.&#39;&#39;&#39;
-    return self.__currency</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.end_date"><code class="name">var <span class="ident">end_date</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def end_date(self):
-    return self.__end_date</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.id"><code class="name">var <span class="ident">id</span></code></dt>
-<dd>
-<div class="desc"><p>Project ID</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def id(self):
-    &#39;&#39;&#39;Project ID&#39;&#39;&#39;
-    return self.__id</code></pre>
-</details>
-</dd>
 <dt id="adeskForgeWrapper.b360.Project.include_companies"><code class="name">var <span class="ident">include_companies</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -2661,151 +2530,6 @@ def include_locations(self):
     return self.__include_locations</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.b360.Project.job_number"><code class="name">var <span class="ident">job_number</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def job_number(self):
-    return self.__job_number</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.language"><code class="name">var <span class="ident">language</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def language(self):
-    return self.__language</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.name"><code class="name">var <span class="ident">name</span></code></dt>
-<dd>
-<div class="desc"><p>Name of the project</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def name(self):
-    &#39;&#39;&#39;Name of the project&#39;&#39;&#39;
-    return self.__name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.postal_code"><code class="name">var <span class="ident">postal_code</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def postal_code(self):
-    return self.__postal_code</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.project_type"><code class="name">var <span class="ident">project_type</span></code></dt>
-<dd>
-<div class="desc"><p>The type of project; accepts preconfigured and customized project types</p>
-<p>Max length: 255</p>
-<p>Refer to the preconfigured project_type list in
-the Parameters guide.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def project_type(self):
-    &#39;&#39;&#39;
-    The type of project; accepts preconfigured and customized project types
-
-    Max length: 255
-
-    Refer to the preconfigured project_type list in
-    the Parameters guide.&#39;&#39;&#39;
-    return self.__project_type</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.raw"><code class="name">var <span class="ident">raw</span></code></dt>
-<dd>
-<div class="desc"><p>The raw dictionary response</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def raw(self):
-    &#39;&#39;&#39;The raw dictionary response&#39;&#39;&#39;
-    return self.__raw</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.service_types"><code class="name">var <span class="ident">service_types</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def service_types(self):
-    return self.__service_types</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.start_date"><code class="name">var <span class="ident">start_date</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def start_date(self):
-    return self.__start_date</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.state_or_province"><code class="name">var <span class="ident">state_or_province</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def state_or_province(self):
-    return self.__state_or_province</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.status"><code class="name">var <span class="ident">status</span></code></dt>
-<dd>
-<div class="desc"><p>The status of project.</p>
-<p>Possible values:
-active: project is active with at least one project admin added
-pending: project has been created but pending becuase no project admin added
-inactive: project is suspended
-archived: project is archived and displayed only in the archived list</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def status(self):
-    &#39;&#39;&#39;
-    The status of project.
-
-    Possible values:
-    active: project is active with at least one project admin added
-    pending: project has been created but pending becuase no project admin added
-    inactive: project is suspended
-    archived: project is archived and displayed only in the archived list&#39;&#39;&#39;
-    return self.__status</code></pre>
-</details>
-</dd>
 <dt id="adeskForgeWrapper.b360.Project.template_project_id"><code class="name">var <span class="ident">template_project_id</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -2816,31 +2540,6 @@ def status(self):
 <pre><code class="python">@property
 def template_project_id(self):
     return self.__template_project_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.timezone"><code class="name">var <span class="ident">timezone</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def timezone(self):
-    return self.__timezone</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.Project.value"><code class="name">var <span class="ident">value</span></code></dt>
-<dd>
-<div class="desc"><p>Monetary value of the project</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def value(self):
-    &#39;&#39;&#39;Monetary value of the project&#39;&#39;&#39;
-    return self.__value</code></pre>
 </details>
 </dd>
 </dl>
@@ -3191,12 +2890,94 @@ TODO: Thinking about changing user id with user object, updating the user object
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>User.raw </p>
+<p>User.id</p>
+<p>User.account_id</p>
+<p>User.status</p>
+<p>User.role</p>
+<p>User.company_id</p>
+<p>User.company_name</p>
+<p>User.last_sign_in</p>
+<p>User.email</p>
+<p>User.name</p>
+<p>User.nickname</p>
+<p>User.first_name</p>
+<p>User.last_name</p>
+<p>User.uid</p>
+<p>User.image_url</p>
+<p>User.address_line_1</p>
+<p>User.address_line_2</p>
+<p>User.city</p>
+<p>User.postal_code</p>
+<p>User.state_or_province</p>
+<p>User.country</p>
+<p>User.phone</p>
+<p>User.company</p>
+<p>User.job_title</p>
+<p>User.industry</p>
+<p>User.about_me</p>
+<p>User.created_at</p>
+<p>User.updated_at</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class User(object):
+    &#39;&#39;&#39;User.raw 
+
+    User.id
+
+    User.account_id
+
+    User.status
+
+    User.role
+
+    User.company_id
+
+    User.company_name
+
+    User.last_sign_in
+
+    User.email
+
+    User.name
+
+    User.nickname
+
+    User.first_name
+
+    User.last_name
+
+    User.uid
+
+    User.image_url
+
+    User.address_line_1
+
+    User.address_line_2
+
+    User.city
+
+    User.postal_code
+
+    User.state_or_province
+
+    User.country
+
+    User.phone
+
+    User.company
+
+    User.job_title
+
+    User.industry
+
+    User.about_me
+
+    User.created_at
+
+    User.updated_at&#39;&#39;&#39;
 #hiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict
@@ -3428,345 +3209,6 @@ def updateUserById(cls, client: client.Client, token: client.Token, userId, Data
 </details>
 </dd>
 </dl>
-<h3>Instance variables</h3>
-<dl>
-<dt id="adeskForgeWrapper.b360.User.about_me"><code class="name">var <span class="ident">about_me</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def about_me(self):
-    return self.__about_me</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.account_id"><code class="name">var <span class="ident">account_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def account_id(self):
-    return self.__account_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.address_line_1"><code class="name">var <span class="ident">address_line_1</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def address_line_1(self):
-    return self.__address_line_1</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.address_line_2"><code class="name">var <span class="ident">address_line_2</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def address_line_2(self):
-    return self.__address_line_2</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.city"><code class="name">var <span class="ident">city</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def city(self):
-    return self.__city</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.company"><code class="name">var <span class="ident">company</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def company(self):
-    return self.__company</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.company_id"><code class="name">var <span class="ident">company_id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def company_id(self):
-    return self.__company_id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.company_name"><code class="name">var <span class="ident">company_name</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def company_name(self):
-    return self.__company_name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.country"><code class="name">var <span class="ident">country</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def country(self):
-    return self.__country</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.created_at"><code class="name">var <span class="ident">created_at</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def created_at(self):
-    return self.__created_at</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.email"><code class="name">var <span class="ident">email</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def email(self):
-    return self.__email</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.first_name"><code class="name">var <span class="ident">first_name</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def first_name(self):
-    return self.__first_name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.id"><code class="name">var <span class="ident">id</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def id(self):
-    return self.__id</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.image_url"><code class="name">var <span class="ident">image_url</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def image_url(self):
-    return self.__image_url</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.industry"><code class="name">var <span class="ident">industry</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def industry(self):
-    return self.__industry</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.job_title"><code class="name">var <span class="ident">job_title</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def job_title(self):
-    return self.__job_title</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.last_name"><code class="name">var <span class="ident">last_name</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def last_name(self):
-    return self.__last_name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.last_sign_in"><code class="name">var <span class="ident">last_sign_in</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def last_sign_in(self):
-    return self.__last_sign_in</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.name"><code class="name">var <span class="ident">name</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def name(self):
-    return self.__name</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.nickname"><code class="name">var <span class="ident">nickname</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def nickname(self):
-    return self.__nickname</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.phone"><code class="name">var <span class="ident">phone</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def phone(self):
-    return self.__phone</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.postal_code"><code class="name">var <span class="ident">postal_code</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def postal_code(self):
-    return self.__postal_code</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.raw"><code class="name">var <span class="ident">raw</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def raw(self):
-    return self.__raw</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.role"><code class="name">var <span class="ident">role</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def role(self):
-    return self.__role</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.state_or_province"><code class="name">var <span class="ident">state_or_province</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def state_or_province(self):
-    return self.__state_or_province</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.status"><code class="name">var <span class="ident">status</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def status(self):
-    return self.__status</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.uid"><code class="name">var <span class="ident">uid</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def uid(self):
-    return self.__uid</code></pre>
-</details>
-</dd>
-<dt id="adeskForgeWrapper.b360.User.updated_at"><code class="name">var <span class="ident">updated_at</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def updated_at(self):
-    return self.__updated_at</code></pre>
-</details>
-</dd>
-</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="adeskForgeWrapper.b360.User.updateUser"><code class="name flex">
@@ -3816,86 +3258,32 @@ data = {
 <ul>
 <li>
 <h4><code><a title="adeskForgeWrapper.b360.BusinessUnits" href="#adeskForgeWrapper.b360.BusinessUnits">BusinessUnits</a></code></h4>
-<ul class="two-column">
-<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.account_id" href="#adeskForgeWrapper.b360.BusinessUnits.account_id">account_id</a></code></li>
+<ul class="">
 <li><code><a title="adeskForgeWrapper.b360.BusinessUnits.createBusinessUnits" href="#adeskForgeWrapper.b360.BusinessUnits.createBusinessUnits">createBusinessUnits</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.created_at" href="#adeskForgeWrapper.b360.BusinessUnits.created_at">created_at</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.description" href="#adeskForgeWrapper.b360.BusinessUnits.description">description</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.BusinessUnits.getBusinessUnits" href="#adeskForgeWrapper.b360.BusinessUnits.getBusinessUnits">getBusinessUnits</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.id" href="#adeskForgeWrapper.b360.BusinessUnits.id">id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.name" href="#adeskForgeWrapper.b360.BusinessUnits.name">name</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.parent_id" href="#adeskForgeWrapper.b360.BusinessUnits.parent_id">parent_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.path" href="#adeskForgeWrapper.b360.BusinessUnits.path">path</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.updated_at" href="#adeskForgeWrapper.b360.BusinessUnits.updated_at">updated_at</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="adeskForgeWrapper.b360.Company" href="#adeskForgeWrapper.b360.Company">Company</a></code></h4>
-<ul class="two-column">
-<li><code><a title="adeskForgeWrapper.b360.Company.accId" href="#adeskForgeWrapper.b360.Company.accId">accId</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.address_line_1" href="#adeskForgeWrapper.b360.Company.address_line_1">address_line_1</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.address_line_2" href="#adeskForgeWrapper.b360.Company.address_line_2">address_line_2</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.city" href="#adeskForgeWrapper.b360.Company.city">city</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.country" href="#adeskForgeWrapper.b360.Company.country">country</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.created_at" href="#adeskForgeWrapper.b360.Company.created_at">created_at</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.description" href="#adeskForgeWrapper.b360.Company.description">description</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.erp_id" href="#adeskForgeWrapper.b360.Company.erp_id">erp_id</a></code></li>
+<ul class="">
 <li><code><a title="adeskForgeWrapper.b360.Company.getCompanies" href="#adeskForgeWrapper.b360.Company.getCompanies">getCompanies</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Company.getCompanyById" href="#adeskForgeWrapper.b360.Company.getCompanyById">getCompanyById</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Company.getCompanyByName" href="#adeskForgeWrapper.b360.Company.getCompanyByName">getCompanyByName</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.id" href="#adeskForgeWrapper.b360.Company.id">id</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Company.importCompanies" href="#adeskForgeWrapper.b360.Company.importCompanies">importCompanies</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.name" href="#adeskForgeWrapper.b360.Company.name">name</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.phone" href="#adeskForgeWrapper.b360.Company.phone">phone</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.postal_code" href="#adeskForgeWrapper.b360.Company.postal_code">postal_code</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.raw" href="#adeskForgeWrapper.b360.Company.raw">raw</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.state_or_province" href="#adeskForgeWrapper.b360.Company.state_or_province">state_or_province</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.tax_id" href="#adeskForgeWrapper.b360.Company.tax_id">tax_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.trade" href="#adeskForgeWrapper.b360.Company.trade">trade</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Company.updateCompany" href="#adeskForgeWrapper.b360.Company.updateCompany">updateCompany</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.updated_at" href="#adeskForgeWrapper.b360.Company.updated_at">updated_at</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Company.website_url" href="#adeskForgeWrapper.b360.Company.website_url">website_url</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="adeskForgeWrapper.b360.IndustryRoles" href="#adeskForgeWrapper.b360.IndustryRoles">IndustryRoles</a></code></h4>
-<ul class="two-column">
-<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.docManagementAccess" href="#adeskForgeWrapper.b360.IndustryRoles.docManagementAccess">docManagementAccess</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.id" href="#adeskForgeWrapper.b360.IndustryRoles.id">id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.insightAccess" href="#adeskForgeWrapper.b360.IndustryRoles.insightAccess">insightAccess</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.member_group_id" href="#adeskForgeWrapper.b360.IndustryRoles.member_group_id">member_group_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.name" href="#adeskForgeWrapper.b360.IndustryRoles.name">name</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.projectAdminAccess" href="#adeskForgeWrapper.b360.IndustryRoles.projectAdminAccess">projectAdminAccess</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.project_id" href="#adeskForgeWrapper.b360.IndustryRoles.project_id">project_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.IndustryRoles.raw" href="#adeskForgeWrapper.b360.IndustryRoles.raw">raw</a></code></li>
-</ul>
 </li>
 <li>
 <h4><code><a title="adeskForgeWrapper.b360.Jobs" href="#adeskForgeWrapper.b360.Jobs">Jobs</a></code></h4>
-<ul class="two-column">
-<li><code><a title="adeskForgeWrapper.b360.Jobs.account_id" href="#adeskForgeWrapper.b360.Jobs.account_id">account_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Jobs.details" href="#adeskForgeWrapper.b360.Jobs.details">details</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Jobs.id" href="#adeskForgeWrapper.b360.Jobs.id">id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Jobs.name" href="#adeskForgeWrapper.b360.Jobs.name">name</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Jobs.raw" href="#adeskForgeWrapper.b360.Jobs.raw">raw</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Jobs.status" href="#adeskForgeWrapper.b360.Jobs.status">status</a></code></li>
-</ul>
 </li>
 <li>
 <h4><code><a title="adeskForgeWrapper.b360.Project" href="#adeskForgeWrapper.b360.Project">Project</a></code></h4>
 <ul class="">
-<li><code><a title="adeskForgeWrapper.b360.Project.accId" href="#adeskForgeWrapper.b360.Project.accId">accId</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.addUsersToProject" href="#adeskForgeWrapper.b360.Project.addUsersToProject">addUsersToProject</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.address_line_1" href="#adeskForgeWrapper.b360.Project.address_line_1">address_line_1</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.address_line_2" href="#adeskForgeWrapper.b360.Project.address_line_2">address_line_2</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.business_unit_id" href="#adeskForgeWrapper.b360.Project.business_unit_id">business_unit_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.city" href="#adeskForgeWrapper.b360.Project.city">city</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.construction_type" href="#adeskForgeWrapper.b360.Project.construction_type">construction_type</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.contract_type" href="#adeskForgeWrapper.b360.Project.contract_type">contract_type</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.country" href="#adeskForgeWrapper.b360.Project.country">country</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.createProject" href="#adeskForgeWrapper.b360.Project.createProject">createProject</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.currency" href="#adeskForgeWrapper.b360.Project.currency">currency</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.end_date" href="#adeskForgeWrapper.b360.Project.end_date">end_date</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.exportPDF" href="#adeskForgeWrapper.b360.Project.exportPDF">exportPDF</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.getIndustryRoles" href="#adeskForgeWrapper.b360.Project.getIndustryRoles">getIndustryRoles</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.getPDFExport" href="#adeskForgeWrapper.b360.Project.getPDFExport">getPDFExport</a></code></li>
@@ -3903,61 +3291,20 @@ data = {
 <li><code><a title="adeskForgeWrapper.b360.Project.getProjects" href="#adeskForgeWrapper.b360.Project.getProjects">getProjects</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.getUserFromProjectAndId" href="#adeskForgeWrapper.b360.Project.getUserFromProjectAndId">getUserFromProjectAndId</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.getUsersFromProject" href="#adeskForgeWrapper.b360.Project.getUsersFromProject">getUsersFromProject</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.id" href="#adeskForgeWrapper.b360.Project.id">id</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.include_companies" href="#adeskForgeWrapper.b360.Project.include_companies">include_companies</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.include_locations" href="#adeskForgeWrapper.b360.Project.include_locations">include_locations</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.job_number" href="#adeskForgeWrapper.b360.Project.job_number">job_number</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.language" href="#adeskForgeWrapper.b360.Project.language">language</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.name" href="#adeskForgeWrapper.b360.Project.name">name</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.postal_code" href="#adeskForgeWrapper.b360.Project.postal_code">postal_code</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.project_type" href="#adeskForgeWrapper.b360.Project.project_type">project_type</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.raw" href="#adeskForgeWrapper.b360.Project.raw">raw</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.service_types" href="#adeskForgeWrapper.b360.Project.service_types">service_types</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.start_date" href="#adeskForgeWrapper.b360.Project.start_date">start_date</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.state_or_province" href="#adeskForgeWrapper.b360.Project.state_or_province">state_or_province</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.status" href="#adeskForgeWrapper.b360.Project.status">status</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.template_project_id" href="#adeskForgeWrapper.b360.Project.template_project_id">template_project_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.timezone" href="#adeskForgeWrapper.b360.Project.timezone">timezone</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.updateProject" href="#adeskForgeWrapper.b360.Project.updateProject">updateProject</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.Project.updateUser" href="#adeskForgeWrapper.b360.Project.updateUser">updateUser</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.Project.value" href="#adeskForgeWrapper.b360.Project.value">value</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="adeskForgeWrapper.b360.User" href="#adeskForgeWrapper.b360.User">User</a></code></h4>
-<ul class="two-column">
-<li><code><a title="adeskForgeWrapper.b360.User.about_me" href="#adeskForgeWrapper.b360.User.about_me">about_me</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.account_id" href="#adeskForgeWrapper.b360.User.account_id">account_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.address_line_1" href="#adeskForgeWrapper.b360.User.address_line_1">address_line_1</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.address_line_2" href="#adeskForgeWrapper.b360.User.address_line_2">address_line_2</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.city" href="#adeskForgeWrapper.b360.User.city">city</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.company" href="#adeskForgeWrapper.b360.User.company">company</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.company_id" href="#adeskForgeWrapper.b360.User.company_id">company_id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.company_name" href="#adeskForgeWrapper.b360.User.company_name">company_name</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.country" href="#adeskForgeWrapper.b360.User.country">country</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.created_at" href="#adeskForgeWrapper.b360.User.created_at">created_at</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.email" href="#adeskForgeWrapper.b360.User.email">email</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.first_name" href="#adeskForgeWrapper.b360.User.first_name">first_name</a></code></li>
+<ul class="">
 <li><code><a title="adeskForgeWrapper.b360.User.getUserById" href="#adeskForgeWrapper.b360.User.getUserById">getUserById</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.User.getUsersFromAccount" href="#adeskForgeWrapper.b360.User.getUsersFromAccount">getUsersFromAccount</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.id" href="#adeskForgeWrapper.b360.User.id">id</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.image_url" href="#adeskForgeWrapper.b360.User.image_url">image_url</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.industry" href="#adeskForgeWrapper.b360.User.industry">industry</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.job_title" href="#adeskForgeWrapper.b360.User.job_title">job_title</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.last_name" href="#adeskForgeWrapper.b360.User.last_name">last_name</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.last_sign_in" href="#adeskForgeWrapper.b360.User.last_sign_in">last_sign_in</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.name" href="#adeskForgeWrapper.b360.User.name">name</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.nickname" href="#adeskForgeWrapper.b360.User.nickname">nickname</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.phone" href="#adeskForgeWrapper.b360.User.phone">phone</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.postal_code" href="#adeskForgeWrapper.b360.User.postal_code">postal_code</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.raw" href="#adeskForgeWrapper.b360.User.raw">raw</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.role" href="#adeskForgeWrapper.b360.User.role">role</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.state_or_province" href="#adeskForgeWrapper.b360.User.state_or_province">state_or_province</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.status" href="#adeskForgeWrapper.b360.User.status">status</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.uid" href="#adeskForgeWrapper.b360.User.uid">uid</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.User.updateUser" href="#adeskForgeWrapper.b360.User.updateUser">updateUser</a></code></li>
 <li><code><a title="adeskForgeWrapper.b360.User.updateUserById" href="#adeskForgeWrapper.b360.User.updateUserById">updateUserById</a></code></li>
-<li><code><a title="adeskForgeWrapper.b360.User.updated_at" href="#adeskForgeWrapper.b360.User.updated_at">updated_at</a></code></li>
 </ul>
 </li>
 </ul>
