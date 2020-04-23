@@ -28,18 +28,26 @@
 from .client import checkScopes
 from .client import checkResponse
 from . import client
-
+&#39;&#39;&#39;Tokens in this module must be 3 legged. Check client.get3LeggedToken()&#39;&#39;&#39;
 class Contract(object):
+    &#39;&#39;&#39;Contract.raw&lt;br&gt;
+Contract.contractNumber&lt;br&gt;
+Contract.contractName&lt;br&gt;
+Contract.contractStartDate&lt;br&gt;
+Contract.contractEndDate&lt;br&gt;
+Contract.multiyearProvisionedTokens&lt;br&gt;
+Contract.contractYears&lt;br&gt;
+Contract.isActive&lt;br&gt;&#39;&#39;&#39;
 #HiddenRegion
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self.__raw = rawDict or None
         self.__contractNumber = rawDict.get(&#34;contractNumber&#34;) or None
         self.__contractName = rawDict.get(&#34;contractName&#34;) or None
         self.__contractStartDate = rawDict.get(&#34;contractStartDate&#34;) or None
         self.__contractEndDate = rawDict.get(&#34;contractEndDate&#34;) or None
-        self.__isActive = rawDict.get(&#34;isActive&#34;) or None
         self.__multiyearProvisionedTokens = rawDict.get(&#34;multiyearProvisionedTokens&#34;) or None
         self.__contractYears = rawDict.get(&#34;contractYears&#34;) or None
+        self.__isActive = rawDict.get(&#34;isActive&#34;) or None
 
     @property
     def raw(self):
@@ -57,14 +65,14 @@ class Contract(object):
     def contractEndDate(self):
         return self.__contractEndDate
     @property
-    def isActive(self):
-        return self.__isActive
-    @property
     def multiyearProvisionedTokens(self):
         return self.__multiyearProvisionedTokens
     @property
     def contractYears(self):
         return self.__contractYears
+    @property
+    def isActive(self):
+        return self.__isActive
 #endRegion
 
     @classmethod
@@ -119,7 +127,8 @@ __pdoc__[&#39;Contract.contractName&#39;] = False
 __pdoc__[&#39;Contract.contractStartDate&#39;] = False
 __pdoc__[&#39;Contract.contractEndDate&#39;] = False
 __pdoc__[&#39;Contract.multiyearProvisionedTokens&#39;] = False
-__pdoc__[&#39;Contract.contractYears&#39;] = False</code></pre>
+__pdoc__[&#39;Contract.contractYears&#39;] = False
+__pdoc__[&#39;Contract.isActive&#39;] = False</code></pre>
 </details>
 </section>
 <section>
@@ -136,22 +145,37 @@ __pdoc__[&#39;Contract.contractYears&#39;] = False</code></pre>
 <span>(</span><span>rawDict)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Contract.raw<br>
+Contract.contractNumber<br>
+Contract.contractName<br>
+Contract.contractStartDate<br>
+Contract.contractEndDate<br>
+Contract.multiyearProvisionedTokens<br>
+Contract.contractYears<br>
+Contract.isActive<br></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Contract(object):
+    &#39;&#39;&#39;Contract.raw&lt;br&gt;
+Contract.contractNumber&lt;br&gt;
+Contract.contractName&lt;br&gt;
+Contract.contractStartDate&lt;br&gt;
+Contract.contractEndDate&lt;br&gt;
+Contract.multiyearProvisionedTokens&lt;br&gt;
+Contract.contractYears&lt;br&gt;
+Contract.isActive&lt;br&gt;&#39;&#39;&#39;
 #HiddenRegion
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self.__raw = rawDict or None
         self.__contractNumber = rawDict.get(&#34;contractNumber&#34;) or None
         self.__contractName = rawDict.get(&#34;contractName&#34;) or None
         self.__contractStartDate = rawDict.get(&#34;contractStartDate&#34;) or None
         self.__contractEndDate = rawDict.get(&#34;contractEndDate&#34;) or None
-        self.__isActive = rawDict.get(&#34;isActive&#34;) or None
         self.__multiyearProvisionedTokens = rawDict.get(&#34;multiyearProvisionedTokens&#34;) or None
         self.__contractYears = rawDict.get(&#34;contractYears&#34;) or None
+        self.__isActive = rawDict.get(&#34;isActive&#34;) or None
 
     @property
     def raw(self):
@@ -169,14 +193,14 @@ __pdoc__[&#39;Contract.contractYears&#39;] = False</code></pre>
     def contractEndDate(self):
         return self.__contractEndDate
     @property
-    def isActive(self):
-        return self.__isActive
-    @property
     def multiyearProvisionedTokens(self):
         return self.__multiyearProvisionedTokens
     @property
     def contractYears(self):
         return self.__contractYears
+    @property
+    def isActive(self):
+        return self.__isActive
 #endRegion
 
     @classmethod
@@ -273,21 +297,6 @@ def getContracts(cls, client: client.Client, token: client.Token):
 </details>
 </dd>
 </dl>
-<h3>Instance variables</h3>
-<dl>
-<dt id="adeskForgeWrapper.TokenFlex.Contract.isActive"><code class="name">var <span class="ident">isActive</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def isActive(self):
-    return self.__isActive</code></pre>
-</details>
-</dd>
-</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="adeskForgeWrapper.TokenFlex.Contract.contractSummary"><code class="name flex">
@@ -373,7 +382,6 @@ Returns a list with all possible values for an enrichment category.</p></div>
 <li><code><a title="adeskForgeWrapper.TokenFlex.Contract.getContracts" href="#adeskForgeWrapper.TokenFlex.Contract.getContracts">getContracts</a></code></li>
 <li><code><a title="adeskForgeWrapper.TokenFlex.Contract.getEnrichmentCategories" href="#adeskForgeWrapper.TokenFlex.Contract.getEnrichmentCategories">getEnrichmentCategories</a></code></li>
 <li><code><a title="adeskForgeWrapper.TokenFlex.Contract.getEnrichmentValues" href="#adeskForgeWrapper.TokenFlex.Contract.getEnrichmentValues">getEnrichmentValues</a></code></li>
-<li><code><a title="adeskForgeWrapper.TokenFlex.Contract.isActive" href="#adeskForgeWrapper.TokenFlex.Contract.isActive">isActive</a></code></li>
 </ul>
 </li>
 </ul>
