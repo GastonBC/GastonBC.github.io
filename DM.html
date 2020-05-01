@@ -35,6 +35,7 @@ from .client import Client
 from .client import Token
 from .client import checkResponse
 from .client import checkScopes
+from .urls import AUTODESK_BASE_URL as BASE_URL
 
 class Hub(object):
     __apiType = &#34;hubs&#34;
@@ -61,7 +62,8 @@ class Hub(object):
         &#39;&#39;&#39;Returns info on the hub given
         scope: data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}&#34;.format(hId=hub_id),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;id&#34;])
 
@@ -76,7 +78,8 @@ class Hub(object):
         and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
         # try:
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs&#34;,headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(h, h[&#34;attributes&#34;][&#34;name&#34;], h[&#34;id&#34;]) for h in r[&#34;data&#34;]]
         # except:
@@ -87,7 +90,8 @@ class Hub(object):
         &#39;&#39;&#39;Returns a list of all projects in the hub
         Scope data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        projects = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
+        projects = requests.get(endpointUrl,headers=token.getHeader).json()
         checkResponse(projects)
         return [Project(p, p[&#34;id&#34;], p[&#34;attributes&#34;][&#34;name&#34;], self.hubId) for p in projects[&#34;data&#34;]]
 
@@ -121,7 +125,8 @@ class Project(object):
         &#39;&#39;&#39;Returns a specific project by id
         Scope data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hub.hubId, pId=p_id),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hub.hubId, pId=p_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;relationships&#34;][&#34;hub&#34;][&#34;data&#34;][&#34;id&#34;])
 
@@ -136,7 +141,8 @@ class Project(object):
         The user must have at least read access to the folders.
         Scope data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.Id),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.Id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [Folder.folderById(token, self, tF[&#34;id&#34;]) for tF in r[&#34;data&#34;]]
 
@@ -169,7 +175,8 @@ class Folder(object):
         p_id: the project id in which the folder is contained
         f_id: the folder id&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;hidden&#34;])
 
@@ -180,9 +187,15 @@ class Folder(object):
         p_id: the project id in which the folder is contained
         f_id: the folder id&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId)
+        r = requests.get(endpointUrl ,headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;hidden&#34;])
+
+
+# TODO SPLIT REQUEST LINE. MOVE URL TO A NEW VARIABLE URL. BETTER READABILITY. EXAMPLE
+        # endpointUrl = &#34;https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId)
+        # r = requests.get(url, headers=token.getHeader).json()
 
 
 # TODO FAR IN THE FUTURE: OBJECT CLASS INHERITANCE: HUB &gt; PROJECT &gt; FOLDER &gt; ITEM. THAT WAY WE CAN USE ATTRIBUTE INHERITED
@@ -310,7 +323,8 @@ class Folder(object):
         p_id: the project id in which the folder is contained
         f_id: the folder id&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;hidden&#34;])
 
@@ -321,7 +335,8 @@ class Folder(object):
         p_id: the project id in which the folder is contained
         f_id: the folder id&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId)
+        r = requests.get(endpointUrl ,headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;hidden&#34;])</code></pre>
 </details>
@@ -346,7 +361,8 @@ def CreateFolder(cls, token: Token, project: Project, folderId):
     p_id: the project id in which the folder is contained
     f_id: the folder id&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
-    r = requests.get(&#34;https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId),headers=token.getHeader).json()
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId)
+    r = requests.get(endpointUrl ,headers=token.getHeader).json()
     checkResponse(r)
     return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;hidden&#34;])</code></pre>
 </details>
@@ -370,7 +386,8 @@ def folderById(cls, token: Token, project: Project, folderId):
     p_id: the project id in which the folder is contained
     f_id: the folder id&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
-    r = requests.get(&#34;https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId),headers=token.getHeader).json()
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
     checkResponse(r)
     return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;hidden&#34;])</code></pre>
 </details>
@@ -463,7 +480,8 @@ def name(self):
         &#39;&#39;&#39;Returns info on the hub given
         scope: data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}&#34;.format(hId=hub_id),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;id&#34;])
 
@@ -478,7 +496,8 @@ def name(self):
         and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
         # try:
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs&#34;,headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(h, h[&#34;attributes&#34;][&#34;name&#34;], h[&#34;id&#34;]) for h in r[&#34;data&#34;]]
         # except:
@@ -489,7 +508,8 @@ def name(self):
         &#39;&#39;&#39;Returns a list of all projects in the hub
         Scope data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        projects = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
+        projects = requests.get(endpointUrl,headers=token.getHeader).json()
         checkResponse(projects)
         return [Project(p, p[&#34;id&#34;], p[&#34;attributes&#34;][&#34;name&#34;], self.hubId) for p in projects[&#34;data&#34;]]</code></pre>
 </details>
@@ -519,7 +539,8 @@ def getHubs(cls, token):
     and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
     # try:
     checkScopes(token, &#34;data:read&#34;)
-    r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs&#34;,headers=token.getHeader).json()
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
     checkResponse(r)
     return [cls(h, h[&#34;attributes&#34;][&#34;name&#34;], h[&#34;id&#34;]) for h in r[&#34;data&#34;]]</code></pre>
 </details>
@@ -539,7 +560,8 @@ def hubById(cls, token, hub_id):
     &#39;&#39;&#39;Returns info on the hub given
     scope: data:read&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
-    r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}&#34;.format(hId=hub_id),headers=token.getHeader).json()
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
     checkResponse(r)
     return cls(r, r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;id&#34;])</code></pre>
 </details>
@@ -612,7 +634,8 @@ Scope data:read</p></div>
     &#39;&#39;&#39;Returns a list of all projects in the hub
     Scope data:read&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
-    projects = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId),headers=token.getHeader).json()
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
+    projects = requests.get(endpointUrl,headers=token.getHeader).json()
     checkResponse(projects)
     return [Project(p, p[&#34;id&#34;], p[&#34;attributes&#34;][&#34;name&#34;], self.hubId) for p in projects[&#34;data&#34;]]</code></pre>
 </details>
@@ -659,7 +682,8 @@ Scope data:read</p></div>
         &#39;&#39;&#39;Returns a specific project by id
         Scope data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hub.hubId, pId=p_id),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hub.hubId, pId=p_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;relationships&#34;][&#34;hub&#34;][&#34;data&#34;][&#34;id&#34;])
 
@@ -674,7 +698,8 @@ Scope data:read</p></div>
         The user must have at least read access to the folders.
         Scope data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.Id),headers=token.getHeader).json()
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.Id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [Folder.folderById(token, self, tF[&#34;id&#34;]) for tF in r[&#34;data&#34;]]</code></pre>
 </details>
@@ -695,7 +720,8 @@ def getProjectById(cls, token, hub: Hub, p_id):
     &#39;&#39;&#39;Returns a specific project by id
     Scope data:read&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
-    r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hub.hubId, pId=p_id),headers=token.getHeader).json()
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hub.hubId, pId=p_id)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
     checkResponse(r)
     return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;relationships&#34;][&#34;hub&#34;][&#34;data&#34;][&#34;id&#34;])</code></pre>
 </details>
@@ -799,7 +825,8 @@ Scope data:read</p></div>
     The user must have at least read access to the folders.
     Scope data:read&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
-    r = requests.get(&#34;https://developer.api.autodesk.com/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.Id),headers=token.getHeader).json()
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.Id)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
     checkResponse(r)
     return [Folder.folderById(token, self, tF[&#34;id&#34;]) for tF in r[&#34;data&#34;]]</code></pre>
 </details>
