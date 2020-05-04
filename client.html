@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.8.0" />
 <title>adeskForgeWrapper.client API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Client information and token requests" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -20,11 +20,13 @@
 <h1 class="title">Module <code>adeskForgeWrapper.client</code></h1>
 </header>
 <section id="section-intro">
+<p>Client information and token requests</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import requests
+<pre><code class="python">&#39;&#39;&#39;Client information and token requests&#39;&#39;&#39;
+import requests
 
 from time import sleep
 
@@ -148,7 +150,7 @@ class Token(object):
     @classmethod
     def get2LeggedToken(cls, scope: type(str), client: Client):
         &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
-        Scope: The scope you aim for. &lt;br&gt;
+        Scope - The scope you aim for. &lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
         header = {&#34;Content-Type&#34;:&#34;application/x-www-form-urlencoded&#34;}
         data = {&#34;client_id&#34;:client.cliId,
@@ -163,7 +165,7 @@ class Token(object):
     @classmethod
     def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(str), tokenType=&#34;token&#34;):
         &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
-        Scope: The scope you aim for. &lt;br&gt;
+        Scope - The scope you aim for. &lt;br&gt;
         callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
         url must be the same callback url you used to register your Forge App.&lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
@@ -381,7 +383,7 @@ contentXUser<br></p></div>
     @classmethod
     def get2LeggedToken(cls, scope: type(str), client: Client):
         &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
-        Scope: The scope you aim for. &lt;br&gt;
+        Scope - The scope you aim for. &lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
         header = {&#34;Content-Type&#34;:&#34;application/x-www-form-urlencoded&#34;}
         data = {&#34;client_id&#34;:client.cliId,
@@ -396,7 +398,7 @@ contentXUser<br></p></div>
     @classmethod
     def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(str), tokenType=&#34;token&#34;):
         &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
-        Scope: The scope you aim for. &lt;br&gt;
+        Scope - The scope you aim for. &lt;br&gt;
         callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
         url must be the same callback url you used to register your Forge App.&lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
@@ -434,7 +436,7 @@ contentXUser<br></p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a 2 legged token according to the scope.<br>
-Scope: The scope you aim for. <br>
+Scope - The scope you aim for. <br>
 eg "account:read data:read". client_id and client_secret from the forge api web</p></div>
 <details class="source">
 <summary>
@@ -443,7 +445,7 @@ eg "account:read data:read". client_id and client_secret from the forge api web<
 <pre><code class="python">@classmethod
 def get2LeggedToken(cls, scope: type(str), client: Client):
     &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
-    Scope: The scope you aim for. &lt;br&gt;
+    Scope - The scope you aim for. &lt;br&gt;
     eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
     header = {&#34;Content-Type&#34;:&#34;application/x-www-form-urlencoded&#34;}
     data = {&#34;client_id&#34;:client.cliId,
@@ -461,7 +463,7 @@ def get2LeggedToken(cls, scope: type(str), client: Client):
 </code></dt>
 <dd>
 <div class="desc"><p>Get a 3 legged token according to the scope.<br>
-Scope: The scope you aim for. <br>
+Scope - The scope you aim for. <br>
 callback_URL: The callback url the user will be taken to after authorization. This<br>
 url must be the same callback url you used to register your Forge App.<br>
 eg "account:read data:read". client_id and client_secret from the forge api web</p></div>
@@ -472,7 +474,7 @@ eg "account:read data:read". client_id and client_secret from the forge api web<
 <pre><code class="python">@classmethod
 def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(str), tokenType=&#34;token&#34;):
     &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
-    Scope: The scope you aim for. &lt;br&gt;
+    Scope - The scope you aim for. &lt;br&gt;
     callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
     url must be the same callback url you used to register your Forge App.&lt;br&gt;
     eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
