@@ -29,13 +29,17 @@
 # https://forge.autodesk.com/en/docs/data/v2/reference/http/
 # ----------
 
+# Properties in this API come in different formats, so we can&#39;t make use of __init__(self, rawDict) to
+# get all the properties, instead, props are defined by __init__ parameters (self, raw, name, hubId)
 import requests
-from . import fpwExceptions
+
+from . import AFWExceptions
 from .client import Client
 from .client import Token
 from .client import checkResponse
 from .client import checkScopes
-from .urls import AUTODESK_BASE_URL as BASE_URL
+
+from .utils import AUTODESK_BASE_URL as BASE_URL
 
 class Hub(object):
     __apiType = &#34;hubs&#34;
@@ -59,8 +63,8 @@ class Hub(object):
 
     @classmethod
     def hubById(cls, token, hub_id):
-        &#39;&#39;&#39;Returns info on the hub given
-        scope: data:read&#39;&#39;&#39;
+        &#39;&#39;&#39;Returns info on the hub give&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -69,26 +73,21 @@ class Hub(object):
 
     @classmethod
     def getHubs(cls, token):
-        &#39;&#39;&#39;Returns a collection of accessible hubs for this member.
-        Scope data:read
+        &#39;&#39;&#39;Returns a collection of accessible hubs for this member.&lt;br&gt;
+        Scope - data:read&lt;br&gt;&lt;br&gt;
         
-
         Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
-        A360 Personal hubs, or BIM 360 Docs accounts. Team hubs include BIM 360 Team hubs
-        and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
-        # try:
+        A360 Personal hubs, or BIM 360 Docs accounts.&lt;br&gt;
+        Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(h, h[&#34;attributes&#34;][&#34;name&#34;], h[&#34;id&#34;]) for h in r[&#34;data&#34;]]
-        # except:
-        #     raise fpwExceptions.forgeException(r)
-        # TODO NON ACCESSIBLE HUBS RETURN ERROR, HANDLE THAT
 
     def getProjectsByHub(self, token):
-        &#39;&#39;&#39;Returns a list of all projects in the hub
-        Scope data:read&#39;&#39;&#39;
+        &#39;&#39;&#39;Returns a list of all projects in the hub&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
         projects = requests.get(endpointUrl,headers=token.getHeader).json()
@@ -191,11 +190,6 @@ class Folder(object):
         r = requests.get(endpointUrl ,headers=token.getHeader).json()
         checkResponse(r)
         return cls(r, r[&#34;data&#34;][&#34;id&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;name&#34;], r[&#34;data&#34;][&#34;attributes&#34;][&#34;hidden&#34;])
-
-
-# TODO SPLIT REQUEST LINE. MOVE URL TO A NEW VARIABLE URL. BETTER READABILITY. EXAMPLE
-        # endpointUrl = &#34;https://developer.api.autodesk.com/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=project.Id, f_id=folderId)
-        # r = requests.get(url, headers=token.getHeader).json()
 
 
 # TODO FAR IN THE FUTURE: OBJECT CLASS INHERITANCE: HUB &gt; PROJECT &gt; FOLDER &gt; ITEM. THAT WAY WE CAN USE ATTRIBUTE INHERITED
@@ -477,8 +471,8 @@ def name(self):
 
     @classmethod
     def hubById(cls, token, hub_id):
-        &#39;&#39;&#39;Returns info on the hub given
-        scope: data:read&#39;&#39;&#39;
+        &#39;&#39;&#39;Returns info on the hub give&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -487,26 +481,21 @@ def name(self):
 
     @classmethod
     def getHubs(cls, token):
-        &#39;&#39;&#39;Returns a collection of accessible hubs for this member.
-        Scope data:read
+        &#39;&#39;&#39;Returns a collection of accessible hubs for this member.&lt;br&gt;
+        Scope - data:read&lt;br&gt;&lt;br&gt;
         
-
         Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
-        A360 Personal hubs, or BIM 360 Docs accounts. Team hubs include BIM 360 Team hubs
-        and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
-        # try:
+        A360 Personal hubs, or BIM 360 Docs accounts.&lt;br&gt;
+        Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
         r = requests.get(endpointUrl, headers=token.getHeader).json()
         checkResponse(r)
         return [cls(h, h[&#34;attributes&#34;][&#34;name&#34;], h[&#34;id&#34;]) for h in r[&#34;data&#34;]]
-        # except:
-        #     raise fpwExceptions.forgeException(r)
-        # TODO NON ACCESSIBLE HUBS RETURN ERROR, HANDLE THAT
 
     def getProjectsByHub(self, token):
-        &#39;&#39;&#39;Returns a list of all projects in the hub
-        Scope data:read&#39;&#39;&#39;
+        &#39;&#39;&#39;Returns a list of all projects in the hub&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
         projects = requests.get(endpointUrl,headers=token.getHeader).json()
@@ -519,25 +508,23 @@ def name(self):
 <span>def <span class="ident">getHubs</span></span>(<span>token)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns a collection of accessible hubs for this member.
-Scope data:read</p>
+<div class="desc"><p>Returns a collection of accessible hubs for this member.<br>
+Scope - data:read<br><br></p>
 <p>Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
-A360 Personal hubs, or BIM 360 Docs accounts. Team hubs include BIM 360 Team hubs
-and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.</p></div>
+A360 Personal hubs, or BIM 360 Docs accounts.<br>
+Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
 def getHubs(cls, token):
-    &#39;&#39;&#39;Returns a collection of accessible hubs for this member.
-    Scope data:read
+    &#39;&#39;&#39;Returns a collection of accessible hubs for this member.&lt;br&gt;
+    Scope - data:read&lt;br&gt;&lt;br&gt;
     
-
     Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
-    A360 Personal hubs, or BIM 360 Docs accounts. Team hubs include BIM 360 Team hubs
-    and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
-    # try:
+    A360 Personal hubs, or BIM 360 Docs accounts.&lt;br&gt;
+    Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
     endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
     r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -549,16 +536,16 @@ def getHubs(cls, token):
 <span>def <span class="ident">hubById</span></span>(<span>token, hub_id)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns info on the hub given
-scope: data:read</p></div>
+<div class="desc"><p>Returns info on the hub give<br>
+Scope - data:read</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
 def hubById(cls, token, hub_id):
-    &#39;&#39;&#39;Returns info on the hub given
-    scope: data:read&#39;&#39;&#39;
+    &#39;&#39;&#39;Returns info on the hub give&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
     endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
     r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -624,15 +611,15 @@ def raw(self):
 <span>def <span class="ident">getProjectsByHub</span></span>(<span>self, token)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns a list of all projects in the hub
-Scope data:read</p></div>
+<div class="desc"><p>Returns a list of all projects in the hub<br>
+Scope - data:read</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def getProjectsByHub(self, token):
-    &#39;&#39;&#39;Returns a list of all projects in the hub
-    Scope data:read&#39;&#39;&#39;
+    &#39;&#39;&#39;Returns a list of all projects in the hub&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
     endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
     projects = requests.get(endpointUrl,headers=token.getHeader).json()

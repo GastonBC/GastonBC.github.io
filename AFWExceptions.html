@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.8.0" />
-<title>adeskForgeWrapper API documentation</title>
+<title>adeskForgeWrapper.AFWExceptions API documentation</title>
 <meta name="description" content="" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
@@ -17,58 +17,73 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>adeskForgeWrapper</code></h1>
+<h1 class="title">Module <code>adeskForgeWrapper.AFWExceptions</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from . import B360
-from . import DM
-from . import TokenFlex
-from . import client
-from . import RealityCapture</code></pre>
+<pre><code class="python"># ----------
+# Forge API exceptions
+# https://forge.autodesk.com/en/docs/bim360/v1/reference/http/
+# ----------
+
+class AFWError(Exception):
+    &#39;&#39;&#39;Base class for AFW exceptions&#39;&#39;&#39;
+
+class APIError(Exception):
+    &#39;&#39;&#39;Base class for API response exceptions&#39;&#39;&#39;</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="adeskForgeWrapper.AFWExceptions" href="AFWExceptions.html">adeskForgeWrapper.AFWExceptions</a></code></dt>
+<dt id="adeskForgeWrapper.AFWExceptions.AFWError"><code class="flex name class">
+<span>class <span class="ident">AFWError</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Base class for AFW exceptions</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AFWError(Exception):
+    &#39;&#39;&#39;Base class for AFW exceptions&#39;&#39;&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
 </dd>
-<dt><code class="name"><a title="adeskForgeWrapper.B360" href="B360.html">adeskForgeWrapper.B360</a></code></dt>
+<dt id="adeskForgeWrapper.AFWExceptions.APIError"><code class="flex name class">
+<span>class <span class="ident">APIError</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
 <dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="adeskForgeWrapper.DM" href="DM.html">adeskForgeWrapper.DM</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="adeskForgeWrapper.RealityCapture" href="RealityCapture.html">adeskForgeWrapper.RealityCapture</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="adeskForgeWrapper.TokenFlex" href="TokenFlex.html">adeskForgeWrapper.TokenFlex</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="adeskForgeWrapper.client" href="client.html">adeskForgeWrapper.client</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="adeskForgeWrapper.utils" href="utils.html">adeskForgeWrapper.utils</a></code></dt>
-<dd>
-<div class="desc"><p>AUTODESK'S FORGE URLS</p></div>
+<div class="desc"><p>Base class for API response exceptions</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class APIError(Exception):
+    &#39;&#39;&#39;Base class for API response exceptions&#39;&#39;&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
 </section>
 </article>
 <nav id="sidebar">
@@ -77,15 +92,19 @@ from . import RealityCapture</code></pre>
 <ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="adeskForgeWrapper.AFWExceptions" href="AFWExceptions.html">adeskForgeWrapper.AFWExceptions</a></code></li>
-<li><code><a title="adeskForgeWrapper.B360" href="B360.html">adeskForgeWrapper.B360</a></code></li>
-<li><code><a title="adeskForgeWrapper.DM" href="DM.html">adeskForgeWrapper.DM</a></code></li>
-<li><code><a title="adeskForgeWrapper.RealityCapture" href="RealityCapture.html">adeskForgeWrapper.RealityCapture</a></code></li>
-<li><code><a title="adeskForgeWrapper.TokenFlex" href="TokenFlex.html">adeskForgeWrapper.TokenFlex</a></code></li>
-<li><code><a title="adeskForgeWrapper.client" href="client.html">adeskForgeWrapper.client</a></code></li>
-<li><code><a title="adeskForgeWrapper.utils" href="utils.html">adeskForgeWrapper.utils</a></code></li>
+<li><code><a title="adeskForgeWrapper" href="index.html">adeskForgeWrapper</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="adeskForgeWrapper.AFWExceptions.AFWError" href="#adeskForgeWrapper.AFWExceptions.AFWError">AFWError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.AFWExceptions.APIError" href="#adeskForgeWrapper.AFWExceptions.APIError">APIError</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

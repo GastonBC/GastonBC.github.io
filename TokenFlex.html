@@ -24,21 +24,29 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import requests
-from .client import checkScopes
-from .client import checkResponse
+<pre><code class="python"># ----------
+# Wrapper for Token Flex API
+# https://forge.autodesk.com/en/docs/tokenflex/v1/
+# ----------
+
+import requests
+
+from .utils import TOKENFLEX_API
+from .utils import checkScopes
+from .utils import checkResponse
 from . import client
-from .urls import TOKENFLEX_API
+
+
 &#39;&#39;&#39;Tokens in this module must be 3 legged. Check client.get3LeggedToken()&#39;&#39;&#39;
 class Contract(object):
     &#39;&#39;&#39;Contract.raw&lt;br&gt;
-Contract.contractNumber&lt;br&gt;
-Contract.contractName&lt;br&gt;
-Contract.contractStartDate&lt;br&gt;
-Contract.contractEndDate&lt;br&gt;
-Contract.multiyearProvisionedTokens&lt;br&gt;
-Contract.contractYears&lt;br&gt;
-Contract.isActive&lt;br&gt;&#39;&#39;&#39;
+    Contract.contractNumber&lt;br&gt;
+    Contract.contractName&lt;br&gt;
+    Contract.contractStartDate&lt;br&gt;
+    Contract.contractEndDate&lt;br&gt;
+    Contract.multiyearProvisionedTokens&lt;br&gt;
+    Contract.contractYears&lt;br&gt;
+    Contract.isActive&#39;&#39;&#39;
 #HiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -77,7 +85,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
 #endRegion
 
     @classmethod
-    def getContracts(cls, client: client.Client, token: client.Token):
+    def getContracts(cls, token: client.Token):
         &#39;&#39;&#39;List all the accessible contracts and high level information for each contract.&lt;br&gt;
         The token must be obtained via 3-legged workflow. client.get3LeggedToken()&lt;br&gt;
         Scope data:read&#39;&#39;&#39;
@@ -88,7 +96,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
         return [cls(c) for c in r]
     
     @classmethod
-    def getContractById(cls, client: client.Client, token: client.Token, contractId):
+    def getContractById(cls, token: client.Token, contractId):
         &#39;&#39;&#39;Query details of a contract.&lt;br&gt;
         The token must be obtained via 3-legged workflow. client.get3LeggedToken()&lt;br&gt;
         This gives more details such as multiyear tokens, and contract details by year.&lt;br&gt;
@@ -99,7 +107,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
         checkResponse(r)
         return cls(r)
 
-    def getEnrichmentCategories(self, client: client.Client, token: client.Token):
+    def getEnrichmentCategories(self, token: client.Token):
         &#39;&#39;&#39;List all customer uploaded enrichment categories.&lt;br&gt;
         Returns a list with all enrichment categories of a contract.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
@@ -108,7 +116,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
         checkResponse(r)
         return r
 
-    def getEnrichmentValues(self, client: client.Client, token: client.Token, category: str):
+    def getEnrichmentValues(self, token: client.Token, category: str):
         &#39;&#39;&#39;Get all the unique values for an enrichment category.&lt;br&gt;
         Returns a list with all possible values for an enrichment category.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
@@ -117,8 +125,9 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
         checkResponse(r)
         return r
 
-    def contractSummary(self, client: client.Client, token: client.Token, filters = None):
-        &#39;&#39;&#39;Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over an ad-hoc query because this API returns data faster.&lt;br&gt;
+    def contractSummary(self, token: client.Token, filters = None):
+        &#39;&#39;&#39;Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over 
+        an ad-hoc query because this API returns data faster.&lt;br&gt;
         Returns a list of attributes&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = TOKENFLEX_API+&#34;/usage/{conId}/summary&#34;.format(conId = self.contractNumber)
@@ -158,20 +167,20 @@ Contract.contractStartDate<br>
 Contract.contractEndDate<br>
 Contract.multiyearProvisionedTokens<br>
 Contract.contractYears<br>
-Contract.isActive<br></p></div>
+Contract.isActive</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Contract(object):
     &#39;&#39;&#39;Contract.raw&lt;br&gt;
-Contract.contractNumber&lt;br&gt;
-Contract.contractName&lt;br&gt;
-Contract.contractStartDate&lt;br&gt;
-Contract.contractEndDate&lt;br&gt;
-Contract.multiyearProvisionedTokens&lt;br&gt;
-Contract.contractYears&lt;br&gt;
-Contract.isActive&lt;br&gt;&#39;&#39;&#39;
+    Contract.contractNumber&lt;br&gt;
+    Contract.contractName&lt;br&gt;
+    Contract.contractStartDate&lt;br&gt;
+    Contract.contractEndDate&lt;br&gt;
+    Contract.multiyearProvisionedTokens&lt;br&gt;
+    Contract.contractYears&lt;br&gt;
+    Contract.isActive&#39;&#39;&#39;
 #HiddenRegion
     def __init__(self, rawDict):
         self.__raw = rawDict or None
@@ -210,7 +219,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
 #endRegion
 
     @classmethod
-    def getContracts(cls, client: client.Client, token: client.Token):
+    def getContracts(cls, token: client.Token):
         &#39;&#39;&#39;List all the accessible contracts and high level information for each contract.&lt;br&gt;
         The token must be obtained via 3-legged workflow. client.get3LeggedToken()&lt;br&gt;
         Scope data:read&#39;&#39;&#39;
@@ -221,7 +230,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
         return [cls(c) for c in r]
     
     @classmethod
-    def getContractById(cls, client: client.Client, token: client.Token, contractId):
+    def getContractById(cls, token: client.Token, contractId):
         &#39;&#39;&#39;Query details of a contract.&lt;br&gt;
         The token must be obtained via 3-legged workflow. client.get3LeggedToken()&lt;br&gt;
         This gives more details such as multiyear tokens, and contract details by year.&lt;br&gt;
@@ -232,7 +241,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
         checkResponse(r)
         return cls(r)
 
-    def getEnrichmentCategories(self, client: client.Client, token: client.Token):
+    def getEnrichmentCategories(self, token: client.Token):
         &#39;&#39;&#39;List all customer uploaded enrichment categories.&lt;br&gt;
         Returns a list with all enrichment categories of a contract.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
@@ -241,7 +250,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
         checkResponse(r)
         return r
 
-    def getEnrichmentValues(self, client: client.Client, token: client.Token, category: str):
+    def getEnrichmentValues(self, token: client.Token, category: str):
         &#39;&#39;&#39;Get all the unique values for an enrichment category.&lt;br&gt;
         Returns a list with all possible values for an enrichment category.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
@@ -250,8 +259,9 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
         checkResponse(r)
         return r
 
-    def contractSummary(self, client: client.Client, token: client.Token, filters = None):
-        &#39;&#39;&#39;Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over an ad-hoc query because this API returns data faster.&lt;br&gt;
+    def contractSummary(self, token: client.Token, filters = None):
+        &#39;&#39;&#39;Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over 
+        an ad-hoc query because this API returns data faster.&lt;br&gt;
         Returns a list of attributes&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = TOKENFLEX_API+&#34;/usage/{conId}/summary&#34;.format(conId = self.contractNumber)
@@ -262,7 +272,7 @@ Contract.isActive&lt;br&gt;&#39;&#39;&#39;
 <h3>Static methods</h3>
 <dl>
 <dt id="adeskForgeWrapper.TokenFlex.Contract.getContractById"><code class="name flex">
-<span>def <span class="ident">getContractById</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, contractId)</span>
+<span>def <span class="ident">getContractById</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, contractId)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Query details of a contract.<br>
@@ -274,7 +284,7 @@ Scope data:read<br></p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def getContractById(cls, client: client.Client, token: client.Token, contractId):
+def getContractById(cls, token: client.Token, contractId):
     &#39;&#39;&#39;Query details of a contract.&lt;br&gt;
     The token must be obtained via 3-legged workflow. client.get3LeggedToken()&lt;br&gt;
     This gives more details such as multiyear tokens, and contract details by year.&lt;br&gt;
@@ -287,7 +297,7 @@ def getContractById(cls, client: client.Client, token: client.Token, contractId)
 </details>
 </dd>
 <dt id="adeskForgeWrapper.TokenFlex.Contract.getContracts"><code class="name flex">
-<span>def <span class="ident">getContracts</span></span>(<span>client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+<span>def <span class="ident">getContracts</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>List all the accessible contracts and high level information for each contract.<br>
@@ -298,7 +308,7 @@ Scope data:read</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def getContracts(cls, client: client.Client, token: client.Token):
+def getContracts(cls, token: client.Token):
     &#39;&#39;&#39;List all the accessible contracts and high level information for each contract.&lt;br&gt;
     The token must be obtained via 3-legged workflow. client.get3LeggedToken()&lt;br&gt;
     Scope data:read&#39;&#39;&#39;
@@ -313,17 +323,19 @@ def getContracts(cls, client: client.Client, token: client.Token):
 <h3>Methods</h3>
 <dl>
 <dt id="adeskForgeWrapper.TokenFlex.Contract.contractSummary"><code class="name flex">
-<span>def <span class="ident">contractSummary</span></span>(<span>self, client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, filters=None)</span>
+<span>def <span class="ident">contractSummary</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, filters=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over an ad-hoc query because this API returns data faster.<br>
+<div class="desc"><p>Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over
+an ad-hoc query because this API returns data faster.<br>
 Returns a list of attributes</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def contractSummary(self, client: client.Client, token: client.Token, filters = None):
-    &#39;&#39;&#39;Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over an ad-hoc query because this API returns data faster.&lt;br&gt;
+<pre><code class="python">def contractSummary(self, token: client.Token, filters = None):
+    &#39;&#39;&#39;Get usage summary at a monthly aggregate level with the option of some filters. This method is recommended over 
+    an ad-hoc query because this API returns data faster.&lt;br&gt;
     Returns a list of attributes&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
     endpointUrl = TOKENFLEX_API+&#34;/usage/{conId}/summary&#34;.format(conId = self.contractNumber)
@@ -333,7 +345,7 @@ Returns a list of attributes</p></div>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.TokenFlex.Contract.getEnrichmentCategories"><code class="name flex">
-<span>def <span class="ident">getEnrichmentCategories</span></span>(<span>self, client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+<span>def <span class="ident">getEnrichmentCategories</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>List all customer uploaded enrichment categories.<br>
@@ -342,7 +354,7 @@ Returns a list with all enrichment categories of a contract.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def getEnrichmentCategories(self, client: client.Client, token: client.Token):
+<pre><code class="python">def getEnrichmentCategories(self, token: client.Token):
     &#39;&#39;&#39;List all customer uploaded enrichment categories.&lt;br&gt;
     Returns a list with all enrichment categories of a contract.&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
@@ -353,7 +365,7 @@ Returns a list with all enrichment categories of a contract.</p></div>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.TokenFlex.Contract.getEnrichmentValues"><code class="name flex">
-<span>def <span class="ident">getEnrichmentValues</span></span>(<span>self, client: <a title="adeskForgeWrapper.client.Client" href="client.html#adeskForgeWrapper.client.Client">Client</a>, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, category: str)</span>
+<span>def <span class="ident">getEnrichmentValues</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, category: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Get all the unique values for an enrichment category.<br>
@@ -362,7 +374,7 @@ Returns a list with all possible values for an enrichment category.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def getEnrichmentValues(self, client: client.Client, token: client.Token, category: str):
+<pre><code class="python">def getEnrichmentValues(self, token: client.Token, category: str):
     &#39;&#39;&#39;Get all the unique values for an enrichment category.&lt;br&gt;
     Returns a list with all possible values for an enrichment category.&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)

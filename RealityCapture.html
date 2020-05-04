@@ -24,46 +24,51 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from .client import checkScopes
-from .client import checkResponse
-from .urls import RECAP_API
+<pre><code class="python">from .utils import checkScopes
+from .utils import checkResponse
+from .utils import RECAP_API
+from .utils import batch
 from . import client
-from . import fpwExceptions
-import os
+from . import AFWExceptions
+import json
 
+from requests_toolbelt import MultipartEncoder
 import requests
 
-class PhotosceneCreationOptions(object):
+class Options(object):
     &#39;&#39;&#39;Class used to organize request options for this module&#39;&#39;&#39;
-    def __init__(self, scenename: str, callback = None, Format = &#34;rcm&#34;, scenetype = &#34;aerial&#34;, gpstype = None, hubprojectid = None,
+    @staticmethod
+    def PhotosceneCreationOptions(scenename, Format = &#34;rcm&#34;, scenetype = &#34;aerial&#34;, callback = None, gpstype = None, hubprojectid = None,
                 hubfolderid = None, version = &#34;2.0&#34;, metadata = None):
+        &#39;&#39;&#39;Options for Photoscene.create&#39;&#39;&#39;
+
         if scenetype != &#34;aerial&#34;:
-            if Format == &#34;rcs&#34; or Format== &#34;ortho&#34; or Format == &#34;report&#34;:
-                raise fpwExceptions.forgeException(&#34;That format parameter is only available if scenetype is set to aerial&#34;)
+            if Format == &#34;rcs&#34; or Format == &#34;ortho&#34; or Format == &#34;report&#34;:
+                raise AFWExceptions.AFWError(&#34;That format parameter is only available if scenetype is set to aerial&#34;)
 
             elif gpstype != None:
                 pass #TODO Check 
 
             elif metadata != None:
-                raise fpwExceptions.forgeException(&#34;Metadata fine tuning parameters are available only if scenetype is set to aerial&#34;)
-
-        if &#34;http://&#34; in callback or &#34;https://&#34; in callback:
-            self.callback = callback
-        else:
-            self.callback = &#34;email://{}&#34;.format(callback)
-        self.scenename = scenename
-        self.Format = Format
-        self.scenetype = scenetype
-        self.gpstype = gpstype
-        self.hubprojectid = hubprojectid
-        self.hubfolderid = hubfolderid
-        self.version = version
-        self.metadata = metadata
-
-    @classmethod
-    def defaultObjectScene(cls):
-        return cls(scenename=&#34;afwDefaultObject&#34;, scenetype=&#34;object&#34;)
-
+                raise AFWExceptions.AFWError(&#34;Metadata fine tuning parameters are available only if scenetype is set to aerial&#34;)
+        data = {
+                &#34;scenename&#34; : scenename,
+                &#34;callback&#34; : callback,
+                &#34;format&#34;: Format,
+                &#34;scenetype&#34; : scenetype,
+                &#34;gpstype&#34; : gpstype,
+                &#34;hubprojectid&#34; : hubprojectid,
+                &#34;hubfolderid&#34; : hubfolderid,
+                &#34;version&#34; : version,
+                &#34;metadata&#34; : metadata
+                }
+        if callback is not None:
+            if &#34;http://&#34; in callback or &#34;https://&#34; in callback:
+                data[&#34;callback&#34;] = callback
+            else:
+                data[&#34;callback&#34;] = &#34;email://{}&#34;.format(callback)
+        data = {k : v for k,v in data.items() if v is not None} 
+        return data # Works as dict type. Returns an error using json.dumps, why...
 
 
 class Photoscene(object):
@@ -130,68 +135,67 @@ class Photoscene(object):
     def psById(cls, PhotosceneId):
         rawDict = {
         &#34;Photoscene&#34;: {
-        &#34;photosceneid&#34;: PhotosceneId
-                      }
+        &#34;photosceneid&#34;: PhotosceneId}
          }
         return cls(rawDict, PhotosceneId)
     
     @classmethod
-    def create(cls, token: client.Token, psOptions: PhotosceneCreationOptions):
+    def create(cls, token: client.Token, psOptions):
         &#39;&#39;&#39;Creates and initializes a photoscene for reconstruction.&lt;br&gt;
-        Scope data:write&#39;&#39;&#39;
+        Scope - data:write
+        psOptions - Options.PhotosceneCreationOptions&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        data = {
-        &#34;scenename&#34; : psOptions.scenename,
-        &#34;callback&#34; : psOptions.callback,
-        &#34;format&#34;: psOptions.Format,
-        &#34;scenetype&#34; : psOptions.scenetype,
-        &#34;gpstype&#34; : psOptions.gpstype,
-        &#34;hubprojectid&#34; : psOptions.hubprojectid,
-        &#34;hubfolderid&#34; : psOptions.hubfolderid,
-        &#34;version&#34; : psOptions.version,
-        &#34;metadata&#34; : psOptions.metadata
-        }
-        data = {k : v for k,v in data.items() if v is not None}
         endpointUrl = RECAP_API+&#34;/photoscene&#34;
-        r = requests.post(endpointUrl, headers=token.urlEncoded, data=data).json()
+        r = requests.post(endpointUrl, headers=token.urlEncoded, data=psOptions).json()
         checkResponse(r)
-        print(&#34;Photoscene ID:&#34;, r.get(&#34;photosceneid&#34;))
-        return cls(r, data)
+        print(&#34;Photoscene ID:&#34;, &#39;{}&#39;.format(r[&#39;Photoscene&#39;].get(&#34;photosceneid&#34;)))
+        return cls(r, psOptions)
     
-    def uploadFiles(self, token: client.Token):
+    def uploadFiles(self, token: client.Token, files: list, batchSize=3):
         &#39;&#39;&#39;Adds one or more files to a photoscene.&lt;br&gt;
-        Scope data:write&lt;br&gt;&lt;br&gt;
+        Scope - data:write&lt;br&gt;
+        files - A list containing the path to the images you want to upload&lt;br&gt;
+        batchSize - Number of files per request must be limited to avoid timeouts&lt;br&gt;
+        Recommended batch size 3 (default)&lt;br&gt;&lt;br&gt;
+
         Files can be added to photoscene either by uploading them directly or by providing public HTTP/HTTPS links.
         Although uploading multiple files at the same time might be more efficient, you should limit the number 
         of files per request depending on your available bandwidth to avoid timeouts.&lt;br&gt;
         Note: Uploaded files will be deleted after 30 days.&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        import tkinter as tk
-        from tkinter import filedialog
-        application_window = tk.Tk()
-        application_window.withdraw()
-        answer = filedialog.askopenfilenames(parent=application_window,
-                                            initialdir=os.getcwd(),
-                                            title=&#34;Please select one or more files:&#34;,
-                                            filetypes=[(&#34;Image files&#34;, &#34;.jpg .jpeg&#34;)])
-        if answer != &#34;&#34;:
-            payload = {&#39;photosceneid&#39;:self.Id, &#39;type&#39;: &#39;image&#39;}
-            files = []
-            n=-1
-            for a in answer:
-                n = n+1
-                a = a.replace(&#34;/&#34;, &#34;\\&#34;)
-                files.append((&#34;file[{x}]&#34;.format(x=n), open(a,&#34;rb&#34;)))
+        filesUploaded=[]
 
-                # files[&#34;file[{x}]&#34;.format(x=n)] = (a, open(a,&#34;rb&#34;))
+        for x in batch(files, batchSize):
+            n=-1
+            fields = {&#39;photosceneid&#39;:self.Id, &#39;type&#39;: &#39;image&#39;}
+            for a in x:
+                n=n+1
+                a = a.replace(&#34;/&#34;, &#34;\\&#34;)
+                fields[&#34;file[{x}]&#34;.format(x=n)] = (a, open(a,&#39;rb&#39;), &#39;image/jpg&#39;)
+
+            payload = MultipartEncoder(fields)
+            headers = {&#39;Content-Type&#39;: payload.content_type, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(token.access_token)}
+
             endpointUrl = RECAP_API+&#34;/file&#34;
-            r = requests.post(endpointUrl, headers=token.formData, data=payload, files=files).json()
+            r = requests.post(endpointUrl, headers=headers, data=payload).json()
             if &#34;Error&#34; in r:
                 checkResponse(r[&#34;Error&#34;])
             else:
-                print(r)
+                print(len(x), &#34;uploaded&#34;)
+                for raw in r[&#34;Files&#34;][&#34;file&#34;]:
+                    filesUploaded.append(File(raw, self.Id))
+        print(&#34;Success&#34;)
+        return filesUploaded
+        
 
     def startProcessing(self, token: client.Token):
+        &#39;&#39;&#39;Starts photoscene processing.&lt;br&gt;
+        Scope - data:write&lt;br&gt;
+
+        The main processing steps involve: camera calibration, mesh reconstruction, texturing, and any necessary output file format conversions, in that order.&lt;br&gt;
+        This method should not be called until a photoscene has been created and at least three images have been added to the photoscene.&lt;br&gt;
+        Note: Progress of the processing can be monitored with the getProgress(token)&lt;br&gt;
+        Returns True if request was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
         r = requests.post(endpointUrl, headers=token.urlEncoded).json()
@@ -199,10 +203,12 @@ class Photoscene(object):
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         else:
-            print(r)
+            print(&#34;Processing started&#34;)
+            return True
 
     def getProgress(self, token: client.Token):
-        &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&#39;&#39;&#39;
+        &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.Id)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -214,7 +220,10 @@ class Photoscene(object):
             print(r[&#34;Photoscene&#34;][&#34;progressmsg&#34;])
 
     def deleteScene(self, token: client.Token):
-        &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&#39;&#39;&#39;
+        &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&lt;br&gt;
+        Scope - data:write&lt;br&gt;&lt;br&gt;
+        
+        Returns True if deletion was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
         r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
@@ -223,41 +232,58 @@ class Photoscene(object):
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
             print(&#34;Photoscene successfully deleted&#34;)
 
-    @classmethod
-    def deleteSceneById(self, token: client.Token, Id: str):
-        &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&#39;&#39;&#39;
+    @staticmethod
+    def deleteSceneById(token: client.Token, Id: str):
+        &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...) by ID&lt;br&gt;
+        Scope - data:write&lt;br&gt;&lt;br&gt;
+        
+        Returns True if deletion was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
         r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
+            print(&#34;Photoscene successfully deleted&#34;)
             return True
 
-    def getDownloadURL(self, token: client.Token, Format = None):
+    def getDownloadURL(self, token: client.Token, Format = &#34;rcm&#34;):
         &#39;&#39;&#39;Returns a time-limited HTTPS link to an output file of the specified format.&lt;br&gt;
+        Scope - data:read&lt;br&gt;&lt;br&gt;
         Note: The link will expire 30 days after the date of processing completion.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         if Format is None:
-            params = (&#34;format&#34;, self.format)
+            params = {&#34;format&#34;:self.format}
             endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
             r = requests.get(endpointUrl,headers=token.getHeader, params=params).json()
         elif Format is not None:
-            params = (&#34;format&#34;, Format)
+            params = {&#34;format&#34;:self.format}
             endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
             r = requests.get(endpointUrl, headers=token.getHeader, params=params).json()
         print(r) # TODO Review attributes usability
 
     def cancelProgress(self, token: client.Token):
-        &#39;&#39;&#39;Aborts the processing of a photoscene and marks it as cancelled.&#39;&#39;&#39;
+        &#39;&#39;&#39;Aborts the processing of a photoscene and marks it as cancelled.&lt;br&gt;
+        Scope - data:write&lt;br&gt;
+        
+        Returns True if cancel was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.Id)
         r = requests.post(endpointUrl, headers=token.urlEncoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
+            print(&#34;Cancel successful&#34;)
             return True
 
+
+class File(object):
+    &#39;&#39;&#39;Class for the files returned by uploadFiles()&#39;&#39;&#39;
+    def __init__(self, rawDict, psId):
+        self.Id = rawDict.get(&#34;fileid&#34;)
+        self.Name = rawDict.get(&#34;filename&#34;)
+        self.Size = rawDict.get(&#34;filesize&#34;)
+        self.PhotosceneId = psId
 
 __pdoc__ = {}
 
@@ -270,7 +296,12 @@ __pdoc__[&#39;Photoscene.gpstype&#39;] = False
 __pdoc__[&#39;Photoscene.hubprojectid&#39;] = False
 __pdoc__[&#39;Photoscene.hubfolderid&#39;] = False
 __pdoc__[&#39;Photoscene.version&#39;] = False
-__pdoc__[&#39;Photoscene.metadata&#39;] = False</code></pre>
+__pdoc__[&#39;Photoscene.metadata&#39;] = False
+
+__pdoc__[&#39;File.Id&#39;] = False
+__pdoc__[&#39;File.Name&#39;] = False
+__pdoc__[&#39;File.Size&#39;] = False
+__pdoc__[&#39;File.PhotosceneId&#39;] = False</code></pre>
 </details>
 </section>
 <section>
@@ -282,6 +313,116 @@ __pdoc__[&#39;Photoscene.metadata&#39;] = False</code></pre>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="adeskForgeWrapper.RealityCapture.File"><code class="flex name class">
+<span>class <span class="ident">File</span></span>
+<span>(</span><span>rawDict, psId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for the files returned by uploadFiles()</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class File(object):
+    &#39;&#39;&#39;Class for the files returned by uploadFiles()&#39;&#39;&#39;
+    def __init__(self, rawDict, psId):
+        self.Id = rawDict.get(&#34;fileid&#34;)
+        self.Name = rawDict.get(&#34;filename&#34;)
+        self.Size = rawDict.get(&#34;filesize&#34;)
+        self.PhotosceneId = psId</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.RealityCapture.Options"><code class="flex name class">
+<span>class <span class="ident">Options</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class used to organize request options for this module</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Options(object):
+    &#39;&#39;&#39;Class used to organize request options for this module&#39;&#39;&#39;
+    @staticmethod
+    def PhotosceneCreationOptions(scenename, Format = &#34;rcm&#34;, scenetype = &#34;aerial&#34;, callback = None, gpstype = None, hubprojectid = None,
+                hubfolderid = None, version = &#34;2.0&#34;, metadata = None):
+        &#39;&#39;&#39;Options for Photoscene.create&#39;&#39;&#39;
+
+        if scenetype != &#34;aerial&#34;:
+            if Format == &#34;rcs&#34; or Format == &#34;ortho&#34; or Format == &#34;report&#34;:
+                raise AFWExceptions.AFWError(&#34;That format parameter is only available if scenetype is set to aerial&#34;)
+
+            elif gpstype != None:
+                pass #TODO Check 
+
+            elif metadata != None:
+                raise AFWExceptions.AFWError(&#34;Metadata fine tuning parameters are available only if scenetype is set to aerial&#34;)
+        data = {
+                &#34;scenename&#34; : scenename,
+                &#34;callback&#34; : callback,
+                &#34;format&#34;: Format,
+                &#34;scenetype&#34; : scenetype,
+                &#34;gpstype&#34; : gpstype,
+                &#34;hubprojectid&#34; : hubprojectid,
+                &#34;hubfolderid&#34; : hubfolderid,
+                &#34;version&#34; : version,
+                &#34;metadata&#34; : metadata
+                }
+        if callback is not None:
+            if &#34;http://&#34; in callback or &#34;https://&#34; in callback:
+                data[&#34;callback&#34;] = callback
+            else:
+                data[&#34;callback&#34;] = &#34;email://{}&#34;.format(callback)
+        data = {k : v for k,v in data.items() if v is not None} 
+        return data # Works as dict type. Returns an error using json.dumps, why...</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.RealityCapture.Options.PhotosceneCreationOptions"><code class="name flex">
+<span>def <span class="ident">PhotosceneCreationOptions</span></span>(<span>scenename, Format='rcm', scenetype='aerial', callback=None, gpstype=None, hubprojectid=None, hubfolderid=None, version='2.0', metadata=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Options for Photoscene.create</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def PhotosceneCreationOptions(scenename, Format = &#34;rcm&#34;, scenetype = &#34;aerial&#34;, callback = None, gpstype = None, hubprojectid = None,
+            hubfolderid = None, version = &#34;2.0&#34;, metadata = None):
+    &#39;&#39;&#39;Options for Photoscene.create&#39;&#39;&#39;
+
+    if scenetype != &#34;aerial&#34;:
+        if Format == &#34;rcs&#34; or Format == &#34;ortho&#34; or Format == &#34;report&#34;:
+            raise AFWExceptions.AFWError(&#34;That format parameter is only available if scenetype is set to aerial&#34;)
+
+        elif gpstype != None:
+            pass #TODO Check 
+
+        elif metadata != None:
+            raise AFWExceptions.AFWError(&#34;Metadata fine tuning parameters are available only if scenetype is set to aerial&#34;)
+    data = {
+            &#34;scenename&#34; : scenename,
+            &#34;callback&#34; : callback,
+            &#34;format&#34;: Format,
+            &#34;scenetype&#34; : scenetype,
+            &#34;gpstype&#34; : gpstype,
+            &#34;hubprojectid&#34; : hubprojectid,
+            &#34;hubfolderid&#34; : hubfolderid,
+            &#34;version&#34; : version,
+            &#34;metadata&#34; : metadata
+            }
+    if callback is not None:
+        if &#34;http://&#34; in callback or &#34;https://&#34; in callback:
+            data[&#34;callback&#34;] = callback
+        else:
+            data[&#34;callback&#34;] = &#34;email://{}&#34;.format(callback)
+    data = {k : v for k,v in data.items() if v is not None} 
+    return data # Works as dict type. Returns an error using json.dumps, why...</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
 <dt id="adeskForgeWrapper.RealityCapture.Photoscene"><code class="flex name class">
 <span>class <span class="ident">Photoscene</span></span>
 <span>(</span><span>rawDict, Id)</span>
@@ -367,68 +508,67 @@ Photoscene.metadata<br></p></div>
     def psById(cls, PhotosceneId):
         rawDict = {
         &#34;Photoscene&#34;: {
-        &#34;photosceneid&#34;: PhotosceneId
-                      }
+        &#34;photosceneid&#34;: PhotosceneId}
          }
         return cls(rawDict, PhotosceneId)
     
     @classmethod
-    def create(cls, token: client.Token, psOptions: PhotosceneCreationOptions):
+    def create(cls, token: client.Token, psOptions):
         &#39;&#39;&#39;Creates and initializes a photoscene for reconstruction.&lt;br&gt;
-        Scope data:write&#39;&#39;&#39;
+        Scope - data:write
+        psOptions - Options.PhotosceneCreationOptions&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        data = {
-        &#34;scenename&#34; : psOptions.scenename,
-        &#34;callback&#34; : psOptions.callback,
-        &#34;format&#34;: psOptions.Format,
-        &#34;scenetype&#34; : psOptions.scenetype,
-        &#34;gpstype&#34; : psOptions.gpstype,
-        &#34;hubprojectid&#34; : psOptions.hubprojectid,
-        &#34;hubfolderid&#34; : psOptions.hubfolderid,
-        &#34;version&#34; : psOptions.version,
-        &#34;metadata&#34; : psOptions.metadata
-        }
-        data = {k : v for k,v in data.items() if v is not None}
         endpointUrl = RECAP_API+&#34;/photoscene&#34;
-        r = requests.post(endpointUrl, headers=token.urlEncoded, data=data).json()
+        r = requests.post(endpointUrl, headers=token.urlEncoded, data=psOptions).json()
         checkResponse(r)
-        print(&#34;Photoscene ID:&#34;, r.get(&#34;photosceneid&#34;))
-        return cls(r, data)
+        print(&#34;Photoscene ID:&#34;, &#39;{}&#39;.format(r[&#39;Photoscene&#39;].get(&#34;photosceneid&#34;)))
+        return cls(r, psOptions)
     
-    def uploadFiles(self, token: client.Token):
+    def uploadFiles(self, token: client.Token, files: list, batchSize=3):
         &#39;&#39;&#39;Adds one or more files to a photoscene.&lt;br&gt;
-        Scope data:write&lt;br&gt;&lt;br&gt;
+        Scope - data:write&lt;br&gt;
+        files - A list containing the path to the images you want to upload&lt;br&gt;
+        batchSize - Number of files per request must be limited to avoid timeouts&lt;br&gt;
+        Recommended batch size 3 (default)&lt;br&gt;&lt;br&gt;
+
         Files can be added to photoscene either by uploading them directly or by providing public HTTP/HTTPS links.
         Although uploading multiple files at the same time might be more efficient, you should limit the number 
         of files per request depending on your available bandwidth to avoid timeouts.&lt;br&gt;
         Note: Uploaded files will be deleted after 30 days.&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        import tkinter as tk
-        from tkinter import filedialog
-        application_window = tk.Tk()
-        application_window.withdraw()
-        answer = filedialog.askopenfilenames(parent=application_window,
-                                            initialdir=os.getcwd(),
-                                            title=&#34;Please select one or more files:&#34;,
-                                            filetypes=[(&#34;Image files&#34;, &#34;.jpg .jpeg&#34;)])
-        if answer != &#34;&#34;:
-            payload = {&#39;photosceneid&#39;:self.Id, &#39;type&#39;: &#39;image&#39;}
-            files = []
-            n=-1
-            for a in answer:
-                n = n+1
-                a = a.replace(&#34;/&#34;, &#34;\\&#34;)
-                files.append((&#34;file[{x}]&#34;.format(x=n), open(a,&#34;rb&#34;)))
+        filesUploaded=[]
 
-                # files[&#34;file[{x}]&#34;.format(x=n)] = (a, open(a,&#34;rb&#34;))
+        for x in batch(files, batchSize):
+            n=-1
+            fields = {&#39;photosceneid&#39;:self.Id, &#39;type&#39;: &#39;image&#39;}
+            for a in x:
+                n=n+1
+                a = a.replace(&#34;/&#34;, &#34;\\&#34;)
+                fields[&#34;file[{x}]&#34;.format(x=n)] = (a, open(a,&#39;rb&#39;), &#39;image/jpg&#39;)
+
+            payload = MultipartEncoder(fields)
+            headers = {&#39;Content-Type&#39;: payload.content_type, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(token.access_token)}
+
             endpointUrl = RECAP_API+&#34;/file&#34;
-            r = requests.post(endpointUrl, headers=token.formData, data=payload, files=files).json()
+            r = requests.post(endpointUrl, headers=headers, data=payload).json()
             if &#34;Error&#34; in r:
                 checkResponse(r[&#34;Error&#34;])
             else:
-                print(r)
+                print(len(x), &#34;uploaded&#34;)
+                for raw in r[&#34;Files&#34;][&#34;file&#34;]:
+                    filesUploaded.append(File(raw, self.Id))
+        print(&#34;Success&#34;)
+        return filesUploaded
+        
 
     def startProcessing(self, token: client.Token):
+        &#39;&#39;&#39;Starts photoscene processing.&lt;br&gt;
+        Scope - data:write&lt;br&gt;
+
+        The main processing steps involve: camera calibration, mesh reconstruction, texturing, and any necessary output file format conversions, in that order.&lt;br&gt;
+        This method should not be called until a photoscene has been created and at least three images have been added to the photoscene.&lt;br&gt;
+        Note: Progress of the processing can be monitored with the getProgress(token)&lt;br&gt;
+        Returns True if request was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
         r = requests.post(endpointUrl, headers=token.urlEncoded).json()
@@ -436,10 +576,12 @@ Photoscene.metadata<br></p></div>
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         else:
-            print(r)
+            print(&#34;Processing started&#34;)
+            return True
 
     def getProgress(self, token: client.Token):
-        &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&#39;&#39;&#39;
+        &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.Id)
         r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -451,7 +593,10 @@ Photoscene.metadata<br></p></div>
             print(r[&#34;Photoscene&#34;][&#34;progressmsg&#34;])
 
     def deleteScene(self, token: client.Token):
-        &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&#39;&#39;&#39;
+        &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&lt;br&gt;
+        Scope - data:write&lt;br&gt;&lt;br&gt;
+        
+        Returns True if deletion was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
         r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
@@ -460,95 +605,100 @@ Photoscene.metadata<br></p></div>
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
             print(&#34;Photoscene successfully deleted&#34;)
 
-    @classmethod
-    def deleteSceneById(self, token: client.Token, Id: str):
-        &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&#39;&#39;&#39;
+    @staticmethod
+    def deleteSceneById(token: client.Token, Id: str):
+        &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...) by ID&lt;br&gt;
+        Scope - data:write&lt;br&gt;&lt;br&gt;
+        
+        Returns True if deletion was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
         r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
+            print(&#34;Photoscene successfully deleted&#34;)
             return True
 
-    def getDownloadURL(self, token: client.Token, Format = None):
+    def getDownloadURL(self, token: client.Token, Format = &#34;rcm&#34;):
         &#39;&#39;&#39;Returns a time-limited HTTPS link to an output file of the specified format.&lt;br&gt;
+        Scope - data:read&lt;br&gt;&lt;br&gt;
         Note: The link will expire 30 days after the date of processing completion.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         if Format is None:
-            params = (&#34;format&#34;, self.format)
+            params = {&#34;format&#34;:self.format}
             endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
             r = requests.get(endpointUrl,headers=token.getHeader, params=params).json()
         elif Format is not None:
-            params = (&#34;format&#34;, Format)
+            params = {&#34;format&#34;:self.format}
             endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
             r = requests.get(endpointUrl, headers=token.getHeader, params=params).json()
         print(r) # TODO Review attributes usability
 
     def cancelProgress(self, token: client.Token):
-        &#39;&#39;&#39;Aborts the processing of a photoscene and marks it as cancelled.&#39;&#39;&#39;
+        &#39;&#39;&#39;Aborts the processing of a photoscene and marks it as cancelled.&lt;br&gt;
+        Scope - data:write&lt;br&gt;
+        
+        Returns True if cancel was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.Id)
         r = requests.post(endpointUrl, headers=token.urlEncoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
+            print(&#34;Cancel successful&#34;)
             return True</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
 <dt id="adeskForgeWrapper.RealityCapture.Photoscene.create"><code class="name flex">
-<span>def <span class="ident">create</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, psOptions: <a title="adeskForgeWrapper.RealityCapture.PhotosceneCreationOptions" href="#adeskForgeWrapper.RealityCapture.PhotosceneCreationOptions">PhotosceneCreationOptions</a>)</span>
+<span>def <span class="ident">create</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, psOptions)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates and initializes a photoscene for reconstruction.<br>
-Scope data:write</p></div>
+Scope - data:write
+psOptions - Options.PhotosceneCreationOptions</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def create(cls, token: client.Token, psOptions: PhotosceneCreationOptions):
+def create(cls, token: client.Token, psOptions):
     &#39;&#39;&#39;Creates and initializes a photoscene for reconstruction.&lt;br&gt;
-    Scope data:write&#39;&#39;&#39;
+    Scope - data:write
+    psOptions - Options.PhotosceneCreationOptions&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
-    data = {
-    &#34;scenename&#34; : psOptions.scenename,
-    &#34;callback&#34; : psOptions.callback,
-    &#34;format&#34;: psOptions.Format,
-    &#34;scenetype&#34; : psOptions.scenetype,
-    &#34;gpstype&#34; : psOptions.gpstype,
-    &#34;hubprojectid&#34; : psOptions.hubprojectid,
-    &#34;hubfolderid&#34; : psOptions.hubfolderid,
-    &#34;version&#34; : psOptions.version,
-    &#34;metadata&#34; : psOptions.metadata
-    }
-    data = {k : v for k,v in data.items() if v is not None}
     endpointUrl = RECAP_API+&#34;/photoscene&#34;
-    r = requests.post(endpointUrl, headers=token.urlEncoded, data=data).json()
+    r = requests.post(endpointUrl, headers=token.urlEncoded, data=psOptions).json()
     checkResponse(r)
-    print(&#34;Photoscene ID:&#34;, r.get(&#34;photosceneid&#34;))
-    return cls(r, data)</code></pre>
+    print(&#34;Photoscene ID:&#34;, &#39;{}&#39;.format(r[&#39;Photoscene&#39;].get(&#34;photosceneid&#34;)))
+    return cls(r, psOptions)</code></pre>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.RealityCapture.Photoscene.deleteSceneById"><code class="name flex">
 <span>def <span class="ident">deleteSceneById</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Id: str)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Deletes a photoscene and its associated assets (images, output files, &hellip;).</p></div>
+<div class="desc"><p>Deletes a photoscene and its associated assets (images, output files, &hellip;) by ID<br>
+Scope - data:write<br><br></p>
+<p>Returns True if deletion was successful</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">@classmethod
-def deleteSceneById(self, token: client.Token, Id: str):
-    &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&#39;&#39;&#39;
+<pre><code class="python">@staticmethod
+def deleteSceneById(token: client.Token, Id: str):
+    &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...) by ID&lt;br&gt;
+    Scope - data:write&lt;br&gt;&lt;br&gt;
+    
+    Returns True if deletion was successful&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
     endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
     r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
     if &#34;Error&#34; in r:
         checkResponse(r[&#34;Error&#34;])
     elif r[&#34;msg&#34;] == &#34;No error&#34;:
+        print(&#34;Photoscene successfully deleted&#34;)
         return True</code></pre>
 </details>
 </dd>
@@ -565,8 +715,7 @@ def deleteSceneById(self, token: client.Token, Id: str):
 def psById(cls, PhotosceneId):
     rawDict = {
     &#34;Photoscene&#34;: {
-    &#34;photosceneid&#34;: PhotosceneId
-                  }
+    &#34;photosceneid&#34;: PhotosceneId}
      }
     return cls(rawDict, PhotosceneId)</code></pre>
 </details>
@@ -593,19 +742,25 @@ def Id(self):
 <span>def <span class="ident">cancelProgress</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Aborts the processing of a photoscene and marks it as cancelled.</p></div>
+<div class="desc"><p>Aborts the processing of a photoscene and marks it as cancelled.<br>
+Scope - data:write<br></p>
+<p>Returns True if cancel was successful</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def cancelProgress(self, token: client.Token):
-    &#39;&#39;&#39;Aborts the processing of a photoscene and marks it as cancelled.&#39;&#39;&#39;
+    &#39;&#39;&#39;Aborts the processing of a photoscene and marks it as cancelled.&lt;br&gt;
+    Scope - data:write&lt;br&gt;
+    
+    Returns True if cancel was successful&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
     endpointUrl = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.Id)
     r = requests.post(endpointUrl, headers=token.urlEncoded).json()
     if &#34;Error&#34; in r:
         checkResponse(r[&#34;Error&#34;])
     elif r[&#34;msg&#34;] == &#34;No error&#34;:
+        print(&#34;Cancel successful&#34;)
         return True</code></pre>
 </details>
 </dd>
@@ -613,13 +768,18 @@ def Id(self):
 <span>def <span class="ident">deleteScene</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Deletes a photoscene and its associated assets (images, output files, &hellip;).</p></div>
+<div class="desc"><p>Deletes a photoscene and its associated assets (images, output files, &hellip;).<br>
+Scope - data:write<br><br></p>
+<p>Returns True if deletion was successful</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def deleteScene(self, token: client.Token):
-    &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&#39;&#39;&#39;
+    &#39;&#39;&#39;Deletes a photoscene and its associated assets (images, output files, ...).&lt;br&gt;
+    Scope - data:write&lt;br&gt;&lt;br&gt;
+    
+    Returns True if deletion was successful&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
     endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
     r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
@@ -630,25 +790,27 @@ def Id(self):
 </details>
 </dd>
 <dt id="adeskForgeWrapper.RealityCapture.Photoscene.getDownloadURL"><code class="name flex">
-<span>def <span class="ident">getDownloadURL</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Format=None)</span>
+<span>def <span class="ident">getDownloadURL</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Format='rcm')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns a time-limited HTTPS link to an output file of the specified format.<br>
+Scope - data:read<br><br>
 Note: The link will expire 30 days after the date of processing completion.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def getDownloadURL(self, token: client.Token, Format = None):
+<pre><code class="python">def getDownloadURL(self, token: client.Token, Format = &#34;rcm&#34;):
     &#39;&#39;&#39;Returns a time-limited HTTPS link to an output file of the specified format.&lt;br&gt;
+    Scope - data:read&lt;br&gt;&lt;br&gt;
     Note: The link will expire 30 days after the date of processing completion.&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
     if Format is None:
-        params = (&#34;format&#34;, self.format)
+        params = {&#34;format&#34;:self.format}
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
         r = requests.get(endpointUrl,headers=token.getHeader, params=params).json()
     elif Format is not None:
-        params = (&#34;format&#34;, Format)
+        params = {&#34;format&#34;:self.format}
         endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
         r = requests.get(endpointUrl, headers=token.getHeader, params=params).json()
     print(r) # TODO Review attributes usability</code></pre>
@@ -658,13 +820,15 @@ Note: The link will expire 30 days after the date of processing completion.</p><
 <span>def <span class="ident">getProgress</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Returns the processing progress and status of a photoscene.</p></div>
+<div class="desc"><p>Returns the processing progress and status of a photoscene.<br>
+Scope - data:read</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def getProgress(self, token: client.Token):
-    &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&#39;&#39;&#39;
+    &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
     endpointUrl = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.Id)
     r = requests.get(endpointUrl, headers=token.getHeader).json()
@@ -680,12 +844,24 @@ Note: The link will expire 30 days after the date of processing completion.</p><
 <span>def <span class="ident">startProcessing</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Starts photoscene processing.<br>
+Scope - data:write<br></p>
+<p>The main processing steps involve: camera calibration, mesh reconstruction, texturing, and any necessary output file format conversions, in that order.<br>
+This method should not be called until a photoscene has been created and at least three images have been added to the photoscene.<br>
+Note: Progress of the processing can be monitored with the getProgress(token)<br>
+Returns True if request was successful</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def startProcessing(self, token: client.Token):
+    &#39;&#39;&#39;Starts photoscene processing.&lt;br&gt;
+    Scope - data:write&lt;br&gt;
+
+    The main processing steps involve: camera calibration, mesh reconstruction, texturing, and any necessary output file format conversions, in that order.&lt;br&gt;
+    This method should not be called until a photoscene has been created and at least three images have been added to the photoscene.&lt;br&gt;
+    Note: Progress of the processing can be monitored with the getProgress(token)&lt;br&gt;
+    Returns True if request was successful&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
     endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.Id)
     r = requests.post(endpointUrl, headers=token.urlEncoded).json()
@@ -693,16 +869,20 @@ Note: The link will expire 30 days after the date of processing completion.</p><
     if &#34;Error&#34; in r:
         checkResponse(r[&#34;Error&#34;])
     else:
-        print(r)</code></pre>
+        print(&#34;Processing started&#34;)
+        return True</code></pre>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.RealityCapture.Photoscene.uploadFiles"><code class="name flex">
-<span>def <span class="ident">uploadFiles</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+<span>def <span class="ident">uploadFiles</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, files: list, batchSize=3)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds one or more files to a photoscene.<br>
-Scope data:write<br><br>
-Files can be added to photoscene either by uploading them directly or by providing public HTTP/HTTPS links.
+Scope - data:write<br>
+files - A list containing the path to the images you want to upload<br>
+batchSize - Number of files per request must be limited to avoid timeouts<br>
+Recommended batch size 3 (default)<br><br></p>
+<p>Files can be added to photoscene either by uploading them directly or by providing public HTTP/HTTPS links.
 Although uploading multiple files at the same time might be more efficient, you should limit the number
 of files per request depending on your available bandwidth to avoid timeouts.<br>
 Note: Uploaded files will be deleted after 30 days.</p></div>
@@ -710,97 +890,41 @@ Note: Uploaded files will be deleted after 30 days.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def uploadFiles(self, token: client.Token):
+<pre><code class="python">def uploadFiles(self, token: client.Token, files: list, batchSize=3):
     &#39;&#39;&#39;Adds one or more files to a photoscene.&lt;br&gt;
-    Scope data:write&lt;br&gt;&lt;br&gt;
+    Scope - data:write&lt;br&gt;
+    files - A list containing the path to the images you want to upload&lt;br&gt;
+    batchSize - Number of files per request must be limited to avoid timeouts&lt;br&gt;
+    Recommended batch size 3 (default)&lt;br&gt;&lt;br&gt;
+
     Files can be added to photoscene either by uploading them directly or by providing public HTTP/HTTPS links.
     Although uploading multiple files at the same time might be more efficient, you should limit the number 
     of files per request depending on your available bandwidth to avoid timeouts.&lt;br&gt;
     Note: Uploaded files will be deleted after 30 days.&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
-    import tkinter as tk
-    from tkinter import filedialog
-    application_window = tk.Tk()
-    application_window.withdraw()
-    answer = filedialog.askopenfilenames(parent=application_window,
-                                        initialdir=os.getcwd(),
-                                        title=&#34;Please select one or more files:&#34;,
-                                        filetypes=[(&#34;Image files&#34;, &#34;.jpg .jpeg&#34;)])
-    if answer != &#34;&#34;:
-        payload = {&#39;photosceneid&#39;:self.Id, &#39;type&#39;: &#39;image&#39;}
-        files = []
-        n=-1
-        for a in answer:
-            n = n+1
-            a = a.replace(&#34;/&#34;, &#34;\\&#34;)
-            files.append((&#34;file[{x}]&#34;.format(x=n), open(a,&#34;rb&#34;)))
+    filesUploaded=[]
 
-            # files[&#34;file[{x}]&#34;.format(x=n)] = (a, open(a,&#34;rb&#34;))
+    for x in batch(files, batchSize):
+        n=-1
+        fields = {&#39;photosceneid&#39;:self.Id, &#39;type&#39;: &#39;image&#39;}
+        for a in x:
+            n=n+1
+            a = a.replace(&#34;/&#34;, &#34;\\&#34;)
+            fields[&#34;file[{x}]&#34;.format(x=n)] = (a, open(a,&#39;rb&#39;), &#39;image/jpg&#39;)
+
+        payload = MultipartEncoder(fields)
+        headers = {&#39;Content-Type&#39;: payload.content_type, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(token.access_token)}
+
         endpointUrl = RECAP_API+&#34;/file&#34;
-        r = requests.post(endpointUrl, headers=token.formData, data=payload, files=files).json()
+        r = requests.post(endpointUrl, headers=headers, data=payload).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         else:
-            print(r)</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
-<dt id="adeskForgeWrapper.RealityCapture.PhotosceneCreationOptions"><code class="flex name class">
-<span>class <span class="ident">PhotosceneCreationOptions</span></span>
-<span>(</span><span>scenename: str, callback=None, Format='rcm', scenetype='aerial', gpstype=None, hubprojectid=None, hubfolderid=None, version='2.0', metadata=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Class used to organize request options for this module</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class PhotosceneCreationOptions(object):
-    &#39;&#39;&#39;Class used to organize request options for this module&#39;&#39;&#39;
-    def __init__(self, scenename: str, callback = None, Format = &#34;rcm&#34;, scenetype = &#34;aerial&#34;, gpstype = None, hubprojectid = None,
-                hubfolderid = None, version = &#34;2.0&#34;, metadata = None):
-        if scenetype != &#34;aerial&#34;:
-            if Format == &#34;rcs&#34; or Format== &#34;ortho&#34; or Format == &#34;report&#34;:
-                raise fpwExceptions.forgeException(&#34;That format parameter is only available if scenetype is set to aerial&#34;)
-
-            elif gpstype != None:
-                pass #TODO Check 
-
-            elif metadata != None:
-                raise fpwExceptions.forgeException(&#34;Metadata fine tuning parameters are available only if scenetype is set to aerial&#34;)
-
-        if &#34;http://&#34; in callback or &#34;https://&#34; in callback:
-            self.callback = callback
-        else:
-            self.callback = &#34;email://{}&#34;.format(callback)
-        self.scenename = scenename
-        self.Format = Format
-        self.scenetype = scenetype
-        self.gpstype = gpstype
-        self.hubprojectid = hubprojectid
-        self.hubfolderid = hubfolderid
-        self.version = version
-        self.metadata = metadata
-
-    @classmethod
-    def defaultObjectScene(cls):
-        return cls(scenename=&#34;afwDefaultObject&#34;, scenetype=&#34;object&#34;)</code></pre>
-</details>
-<h3>Static methods</h3>
-<dl>
-<dt id="adeskForgeWrapper.RealityCapture.PhotosceneCreationOptions.defaultObjectScene"><code class="name flex">
-<span>def <span class="ident">defaultObjectScene</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@classmethod
-def defaultObjectScene(cls):
-    return cls(scenename=&#34;afwDefaultObject&#34;, scenetype=&#34;object&#34;)</code></pre>
+            print(len(x), &#34;uploaded&#34;)
+            for raw in r[&#34;Files&#34;][&#34;file&#34;]:
+                filesUploaded.append(File(raw, self.Id))
+    print(&#34;Success&#34;)
+    return filesUploaded</code></pre>
 </details>
 </dd>
 </dl>
@@ -822,6 +946,15 @@ def defaultObjectScene(cls):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
+<h4><code><a title="adeskForgeWrapper.RealityCapture.File" href="#adeskForgeWrapper.RealityCapture.File">File</a></code></h4>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.RealityCapture.Options" href="#adeskForgeWrapper.RealityCapture.Options">Options</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.RealityCapture.Options.PhotosceneCreationOptions" href="#adeskForgeWrapper.RealityCapture.Options.PhotosceneCreationOptions">PhotosceneCreationOptions</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="adeskForgeWrapper.RealityCapture.Photoscene" href="#adeskForgeWrapper.RealityCapture.Photoscene">Photoscene</a></code></h4>
 <ul class="two-column">
 <li><code><a title="adeskForgeWrapper.RealityCapture.Photoscene.Id" href="#adeskForgeWrapper.RealityCapture.Photoscene.Id">Id</a></code></li>
@@ -834,12 +967,6 @@ def defaultObjectScene(cls):
 <li><code><a title="adeskForgeWrapper.RealityCapture.Photoscene.psById" href="#adeskForgeWrapper.RealityCapture.Photoscene.psById">psById</a></code></li>
 <li><code><a title="adeskForgeWrapper.RealityCapture.Photoscene.startProcessing" href="#adeskForgeWrapper.RealityCapture.Photoscene.startProcessing">startProcessing</a></code></li>
 <li><code><a title="adeskForgeWrapper.RealityCapture.Photoscene.uploadFiles" href="#adeskForgeWrapper.RealityCapture.Photoscene.uploadFiles">uploadFiles</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="adeskForgeWrapper.RealityCapture.PhotosceneCreationOptions" href="#adeskForgeWrapper.RealityCapture.PhotosceneCreationOptions">PhotosceneCreationOptions</a></code></h4>
-<ul class="">
-<li><code><a title="adeskForgeWrapper.RealityCapture.PhotosceneCreationOptions.defaultObjectScene" href="#adeskForgeWrapper.RealityCapture.PhotosceneCreationOptions.defaultObjectScene">defaultObjectScene</a></code></li>
 </ul>
 </li>
 </ul>
