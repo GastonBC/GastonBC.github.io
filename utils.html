@@ -56,7 +56,7 @@ def checkResponse(r):
         raise AFWExceptions.APIError(&#34;CODE {e1} - {e2}&#34;.format(e1=r[&#34;errorCode&#34;], e2=r[&#34;developerMessage&#34;]))
     elif &#34;code&#34; in r and &#34;msg&#34; in r:
         raise AFWExceptions.APIError(&#34;CODE {e1} - {e2}&#34;.format(e1=r[&#34;code&#34;], e2=r[&#34;msg&#34;]))
-    elif &#34;jsonapi&#34; in r and &#34;errors&#34; in r: # Check for DM errors, response returns a list of errors so raise that list
+    elif &#34;jsonapi&#34; in r and &#34;errors&#34; in r: # Check for dm errors, response returns a list of errors so raise that list
         raise AFWExceptions.APIError(r[&#34;errors&#34;])
     elif &#34;Error&#34; in r: # This is ReCap format... too many error formats
         raise AFWExceptions.APIError(&#34;CODE {e1} - {e2}&#34;.format(e1=r[&#34;Error&#34;][&#34;code&#34;], e2=r[&#34;Error&#34;][&#34;msg&#34;]))
@@ -106,7 +106,7 @@ def batch(iterable, n=1):
         raise AFWExceptions.APIError(&#34;CODE {e1} - {e2}&#34;.format(e1=r[&#34;errorCode&#34;], e2=r[&#34;developerMessage&#34;]))
     elif &#34;code&#34; in r and &#34;msg&#34; in r:
         raise AFWExceptions.APIError(&#34;CODE {e1} - {e2}&#34;.format(e1=r[&#34;code&#34;], e2=r[&#34;msg&#34;]))
-    elif &#34;jsonapi&#34; in r and &#34;errors&#34; in r: # Check for DM errors, response returns a list of errors so raise that list
+    elif &#34;jsonapi&#34; in r and &#34;errors&#34; in r: # Check for dm errors, response returns a list of errors so raise that list
         raise AFWExceptions.APIError(r[&#34;errors&#34;])
     elif &#34;Error&#34; in r: # This is ReCap format... too many error formats
         raise AFWExceptions.APIError(&#34;CODE {e1} - {e2}&#34;.format(e1=r[&#34;Error&#34;][&#34;code&#34;], e2=r[&#34;Error&#34;][&#34;msg&#34;]))</code></pre>

@@ -66,15 +66,17 @@ class Token(object):
     getHeader&lt;br&gt;
     patchHeader&lt;br&gt;
     contentXUser&lt;br&gt;&#39;&#39;&#39;
-    def __init__(self, client, r, scope):
+    def __init__(self, client, r, scope, flow):
         self.__cliId = client.cliId
         self.__cliSecret = client.cliSecret
         self.__bimAccId = client.bimAccId
         self.__bimAccName = client.bimAccName
         self.__hubId = client.hubId
+        self.__isThreeLegged = flow
+        self.__scope = scope
         if type(r) == dict:
             self.__raw = r
-            self.__scope = scope
+            
             self.__token_type = r[&#34;token_type&#34;] or None
             self.__expires_in = r[&#34;expires_in&#34;] or None
             self.__access_token = r[&#34;access_token&#34;]
@@ -86,9 +88,9 @@ class Token(object):
 
             self.__patchHeader = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;])}
             self.__contentXUser = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;]), &#34;x-user-id&#34;:client.bimAccId}
+            self.__XUser = {&#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;]), &#34;x-user-id&#34;:client.bimAccId}
         elif type(r) == str:
             self.__raw = r
-            self.__scope = scope
             self.__token_type = None
             self.__expires_in = None
             self.__access_token = r
@@ -100,7 +102,8 @@ class Token(object):
 
             self.__patchHeader = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r)}
             self.__contentXUser = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r), &#34;x-user-id&#34;:client.bimAccId}
-            
+            self.__XUser = {&#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r), &#34;x-user-id&#34;:client.bimAccId}
+           
     @property
     def cliId(self):
         return self.__cliId
@@ -146,9 +149,15 @@ class Token(object):
     @property
     def formData(self):
         return self.__formData
+    @property
+    def isThreeLegged(self):
+        return self.__isThreeLegged
+    @property
+    def XUser(self):
+        return self.__XUser
 
     @classmethod
-    def get2LeggedToken(cls, scope: type(str), client: Client):
+    def get_2_legged_token(cls, scope: type(str), client: Client):
         &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
         Scope - The scope you aim for. &lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
@@ -160,38 +169,41 @@ class Token(object):
         endpointUrl = AUTH_API+&#34;/authenticate&#34;
         r = requests.post(endpointUrl, data, header).json()
         checkResponse(r)
-        return cls(client, r, scope)
+        return cls(client, r, scope, False)
 
     @classmethod
-    def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(str), tokenType=&#34;token&#34;):
+    def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#34;):
         &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
         Scope - The scope you aim for. &lt;br&gt;
         callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
         url must be the same callback url you used to register your Forge App.&lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
-        from urllib.parse import quote, urlparse, parse_qs
+        if  &#34;http://&#34; not in callback_URL and &#34;https://&#34; not in callback_URL:
+            raise AFWExceptions.AFWError(&#34;Protocol missing in callback_URL (http:// or https://)&#34;)
+        
+        import urllib.parse
         import webbrowser
+    
+        endpointUrl = AUTH_API+&#34;/authorize&#34;
+        params = ((&#34;client_id&#34;, client.cliId), (&#34;response_type&#34;, tokenType), (&#34;redirect_uri&#34;, callback_URL), (&#34;scope&#34;, scope))
+        r = requests.post(endpointUrl, params=params)
 
-        urlClean = quote(callback_URL, safe=&#39;&#39;)
-        endpointUrl = AUTH_API+&#34;/authorize?response_type={tokType}&amp;client_id={cliId}&amp;redirect_uri={redirect}&amp;scope={scope}&#34;.format(
-                                                            tokType = tokenType, cliId=client.cliId, redirect=urlClean, scope=scope)
-
-        r = requests.post(endpointUrl)
         checkResponse(r)
         if tokenType == &#34;token&#34;:
             print(&#34;You will be prompted to login. Do so and copy the url you were redirected to&#34;)
             webbrowser.open(r.url, new = 0, autoraise=True)
             responseUrl = input(&#34;Copy the url you were redirected to here, entirely: &#34;)
 
-            o = urlparse(responseUrl)
-            query = parse_qs(o.fragment)
+            o = urllib.parse.urlparse(responseUrl)
+            query = urllib.parse.parse_qs(o.fragment)
             r={&#34;token_type&#34;:query[&#34;token_type&#34;][0],
             &#34;expires_in&#34;:query[&#34;expires_in&#34;][0],
             &#34;access_token&#34;:query[&#34;access_token&#34;][0]}
 
-            return cls(client, r, scope)
+            return cls(client, r, scope, True)
         elif tokenType == &#34;code&#34;:
-            webbrowser.open(r.url, new = 0, autoraise=True)
+            pass
+            # TODO
             
         else:
             raise AFWExceptions.AFWError(&#34;Token type must be &#39;code&#39; or &#39;token&#39;&#34;)
@@ -273,7 +285,7 @@ bimAcc and bimAccName are your B360 credentials</p></div>
 </dd>
 <dt id="adeskForgeWrapper.client.Token"><code class="flex name class">
 <span>class <span class="ident">Token</span></span>
-<span>(</span><span>client, r, scope)</span>
+<span>(</span><span>client, r, scope, flow)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class representing the token.<br>
@@ -299,15 +311,17 @@ contentXUser<br></p></div>
     getHeader&lt;br&gt;
     patchHeader&lt;br&gt;
     contentXUser&lt;br&gt;&#39;&#39;&#39;
-    def __init__(self, client, r, scope):
+    def __init__(self, client, r, scope, flow):
         self.__cliId = client.cliId
         self.__cliSecret = client.cliSecret
         self.__bimAccId = client.bimAccId
         self.__bimAccName = client.bimAccName
         self.__hubId = client.hubId
+        self.__isThreeLegged = flow
+        self.__scope = scope
         if type(r) == dict:
             self.__raw = r
-            self.__scope = scope
+            
             self.__token_type = r[&#34;token_type&#34;] or None
             self.__expires_in = r[&#34;expires_in&#34;] or None
             self.__access_token = r[&#34;access_token&#34;]
@@ -319,9 +333,9 @@ contentXUser<br></p></div>
 
             self.__patchHeader = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;])}
             self.__contentXUser = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;]), &#34;x-user-id&#34;:client.bimAccId}
+            self.__XUser = {&#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;]), &#34;x-user-id&#34;:client.bimAccId}
         elif type(r) == str:
             self.__raw = r
-            self.__scope = scope
             self.__token_type = None
             self.__expires_in = None
             self.__access_token = r
@@ -333,7 +347,8 @@ contentXUser<br></p></div>
 
             self.__patchHeader = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r)}
             self.__contentXUser = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r), &#34;x-user-id&#34;:client.bimAccId}
-            
+            self.__XUser = {&#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r), &#34;x-user-id&#34;:client.bimAccId}
+           
     @property
     def cliId(self):
         return self.__cliId
@@ -379,9 +394,15 @@ contentXUser<br></p></div>
     @property
     def formData(self):
         return self.__formData
+    @property
+    def isThreeLegged(self):
+        return self.__isThreeLegged
+    @property
+    def XUser(self):
+        return self.__XUser
 
     @classmethod
-    def get2LeggedToken(cls, scope: type(str), client: Client):
+    def get_2_legged_token(cls, scope: type(str), client: Client):
         &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
         Scope - The scope you aim for. &lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
@@ -393,46 +414,49 @@ contentXUser<br></p></div>
         endpointUrl = AUTH_API+&#34;/authenticate&#34;
         r = requests.post(endpointUrl, data, header).json()
         checkResponse(r)
-        return cls(client, r, scope)
+        return cls(client, r, scope, False)
 
     @classmethod
-    def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(str), tokenType=&#34;token&#34;):
+    def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#34;):
         &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
         Scope - The scope you aim for. &lt;br&gt;
         callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
         url must be the same callback url you used to register your Forge App.&lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
-        from urllib.parse import quote, urlparse, parse_qs
+        if  &#34;http://&#34; not in callback_URL and &#34;https://&#34; not in callback_URL:
+            raise AFWExceptions.AFWError(&#34;Protocol missing in callback_URL (http:// or https://)&#34;)
+        
+        import urllib.parse
         import webbrowser
+    
+        endpointUrl = AUTH_API+&#34;/authorize&#34;
+        params = ((&#34;client_id&#34;, client.cliId), (&#34;response_type&#34;, tokenType), (&#34;redirect_uri&#34;, callback_URL), (&#34;scope&#34;, scope))
+        r = requests.post(endpointUrl, params=params)
 
-        urlClean = quote(callback_URL, safe=&#39;&#39;)
-        endpointUrl = AUTH_API+&#34;/authorize?response_type={tokType}&amp;client_id={cliId}&amp;redirect_uri={redirect}&amp;scope={scope}&#34;.format(
-                                                            tokType = tokenType, cliId=client.cliId, redirect=urlClean, scope=scope)
-
-        r = requests.post(endpointUrl)
         checkResponse(r)
         if tokenType == &#34;token&#34;:
             print(&#34;You will be prompted to login. Do so and copy the url you were redirected to&#34;)
             webbrowser.open(r.url, new = 0, autoraise=True)
             responseUrl = input(&#34;Copy the url you were redirected to here, entirely: &#34;)
 
-            o = urlparse(responseUrl)
-            query = parse_qs(o.fragment)
+            o = urllib.parse.urlparse(responseUrl)
+            query = urllib.parse.parse_qs(o.fragment)
             r={&#34;token_type&#34;:query[&#34;token_type&#34;][0],
             &#34;expires_in&#34;:query[&#34;expires_in&#34;][0],
             &#34;access_token&#34;:query[&#34;access_token&#34;][0]}
 
-            return cls(client, r, scope)
+            return cls(client, r, scope, True)
         elif tokenType == &#34;code&#34;:
-            webbrowser.open(r.url, new = 0, autoraise=True)
+            pass
+            # TODO
             
         else:
             raise AFWExceptions.AFWError(&#34;Token type must be &#39;code&#39; or &#39;token&#39;&#34;)</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="adeskForgeWrapper.client.Token.get2LeggedToken"><code class="name flex">
-<span>def <span class="ident">get2LeggedToken</span></span>(<span>scope: type, client: <a title="adeskForgeWrapper.client.Client" href="#adeskForgeWrapper.client.Client">Client</a>)</span>
+<dt id="adeskForgeWrapper.client.Token.get_2_legged_token"><code class="name flex">
+<span>def <span class="ident">get_2_legged_token</span></span>(<span>scope: type, client: <a title="adeskForgeWrapper.client.Client" href="#adeskForgeWrapper.client.Client">Client</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a 2 legged token according to the scope.<br>
@@ -443,7 +467,7 @@ eg "account:read data:read". client_id and client_secret from the forge api web<
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def get2LeggedToken(cls, scope: type(str), client: Client):
+def get_2_legged_token(cls, scope: type(str), client: Client):
     &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
     Scope - The scope you aim for. &lt;br&gt;
     eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
@@ -455,11 +479,11 @@ def get2LeggedToken(cls, scope: type(str), client: Client):
     endpointUrl = AUTH_API+&#34;/authenticate&#34;
     r = requests.post(endpointUrl, data, header).json()
     checkResponse(r)
-    return cls(client, r, scope)</code></pre>
+    return cls(client, r, scope, False)</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.get3LeggedToken"><code class="name flex">
-<span>def <span class="ident">get3LeggedToken</span></span>(<span>scope: type, client: <a title="adeskForgeWrapper.client.Client" href="#adeskForgeWrapper.client.Client">Client</a>, callback_URL: type, tokenType='token')</span>
+<dt id="adeskForgeWrapper.client.Token.get_3_legged_token"><code class="name flex">
+<span>def <span class="ident">get_3_legged_token</span></span>(<span>scope, client, callback_URL, tokenType='token')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Get a 3 legged token according to the scope.<br>
@@ -472,35 +496,38 @@ eg "account:read data:read". client_id and client_secret from the forge api web<
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(str), tokenType=&#34;token&#34;):
+def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#34;):
     &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
     Scope - The scope you aim for. &lt;br&gt;
     callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
     url must be the same callback url you used to register your Forge App.&lt;br&gt;
     eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
-    from urllib.parse import quote, urlparse, parse_qs
+    if  &#34;http://&#34; not in callback_URL and &#34;https://&#34; not in callback_URL:
+        raise AFWExceptions.AFWError(&#34;Protocol missing in callback_URL (http:// or https://)&#34;)
+    
+    import urllib.parse
     import webbrowser
 
-    urlClean = quote(callback_URL, safe=&#39;&#39;)
-    endpointUrl = AUTH_API+&#34;/authorize?response_type={tokType}&amp;client_id={cliId}&amp;redirect_uri={redirect}&amp;scope={scope}&#34;.format(
-                                                        tokType = tokenType, cliId=client.cliId, redirect=urlClean, scope=scope)
+    endpointUrl = AUTH_API+&#34;/authorize&#34;
+    params = ((&#34;client_id&#34;, client.cliId), (&#34;response_type&#34;, tokenType), (&#34;redirect_uri&#34;, callback_URL), (&#34;scope&#34;, scope))
+    r = requests.post(endpointUrl, params=params)
 
-    r = requests.post(endpointUrl)
     checkResponse(r)
     if tokenType == &#34;token&#34;:
         print(&#34;You will be prompted to login. Do so and copy the url you were redirected to&#34;)
         webbrowser.open(r.url, new = 0, autoraise=True)
         responseUrl = input(&#34;Copy the url you were redirected to here, entirely: &#34;)
 
-        o = urlparse(responseUrl)
-        query = parse_qs(o.fragment)
+        o = urllib.parse.urlparse(responseUrl)
+        query = urllib.parse.parse_qs(o.fragment)
         r={&#34;token_type&#34;:query[&#34;token_type&#34;][0],
         &#34;expires_in&#34;:query[&#34;expires_in&#34;][0],
         &#34;access_token&#34;:query[&#34;access_token&#34;][0]}
 
-        return cls(client, r, scope)
+        return cls(client, r, scope, True)
     elif tokenType == &#34;code&#34;:
-        webbrowser.open(r.url, new = 0, autoraise=True)
+        pass
+        # TODO
         
     else:
         raise AFWExceptions.AFWError(&#34;Token type must be &#39;code&#39; or &#39;token&#39;&#34;)</code></pre>
@@ -509,6 +536,18 @@ def get3LeggedToken(cls, scope: type(str), client: Client, callback_URL: type(st
 </dl>
 <h3>Instance variables</h3>
 <dl>
+<dt id="adeskForgeWrapper.client.Token.XUser"><code class="name">var <span class="ident">XUser</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def XUser(self):
+    return self.__XUser</code></pre>
+</details>
+</dd>
 <dt id="adeskForgeWrapper.client.Token.bimAccId"><code class="name">var <span class="ident">bimAccId</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -581,6 +620,18 @@ def hubId(self):
     return self.__hubId</code></pre>
 </details>
 </dd>
+<dt id="adeskForgeWrapper.client.Token.isThreeLegged"><code class="name">var <span class="ident">isThreeLegged</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def isThreeLegged(self):
+    return self.__isThreeLegged</code></pre>
+</details>
+</dd>
 <dt id="adeskForgeWrapper.client.Token.urlEncoded"><code class="name">var <span class="ident">urlEncoded</span></code></dt>
 <dd>
 <div class="desc"></div>
@@ -620,14 +671,16 @@ def urlEncoded(self):
 <li>
 <h4><code><a title="adeskForgeWrapper.client.Token" href="#adeskForgeWrapper.client.Token">Token</a></code></h4>
 <ul class="two-column">
+<li><code><a title="adeskForgeWrapper.client.Token.XUser" href="#adeskForgeWrapper.client.Token.XUser">XUser</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.bimAccId" href="#adeskForgeWrapper.client.Token.bimAccId">bimAccId</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.bimAccName" href="#adeskForgeWrapper.client.Token.bimAccName">bimAccName</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.cliId" href="#adeskForgeWrapper.client.Token.cliId">cliId</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.cliSecret" href="#adeskForgeWrapper.client.Token.cliSecret">cliSecret</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.formData" href="#adeskForgeWrapper.client.Token.formData">formData</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.get2LeggedToken" href="#adeskForgeWrapper.client.Token.get2LeggedToken">get2LeggedToken</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.get3LeggedToken" href="#adeskForgeWrapper.client.Token.get3LeggedToken">get3LeggedToken</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.get_2_legged_token" href="#adeskForgeWrapper.client.Token.get_2_legged_token">get_2_legged_token</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.get_3_legged_token" href="#adeskForgeWrapper.client.Token.get_3_legged_token">get_3_legged_token</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.hubId" href="#adeskForgeWrapper.client.Token.hubId">hubId</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.isThreeLegged" href="#adeskForgeWrapper.client.Token.isThreeLegged">isThreeLegged</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.urlEncoded" href="#adeskForgeWrapper.client.Token.urlEncoded">urlEncoded</a></code></li>
 </ul>
 </li>

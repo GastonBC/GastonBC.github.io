@@ -1,0 +1,1921 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.0" />
+<title>adeskForgeWrapper.datamgt API documentation</title>
+<meta name="description" content="Module for the Data Management API" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>adeskForgeWrapper.datamgt</code></h1>
+</header>
+<section id="section-intro">
+<p>Module for the Data Management API</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;Module for the Data Management API&#39;&#39;&#39;
+# ----------
+# Wrapper for DATA MANAGEMENT API
+# https://forge.autodesk.com/en/docs/data/v2/reference/http/
+# ----------
+
+# Properties in this API come in different formats, so we can&#39;t make use of __init__(self, rawDict) to
+# get all the properties, instead, props are defined by __init__ parameters (self, raw, name, hubId)
+import requests
+
+from . import AFWExceptions
+from .client import Client
+from .client import Token
+from .client import checkResponse
+from .client import checkScopes
+
+from .utils import AUTODESK_BASE_URL as BASE_URL
+
+class Hub(object):
+    __apiType = &#34;hubs&#34;
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def apiType(self):
+        return self.__apiType
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def type(self):
+        return self.__raw.get(&#34;type&#34;, None)
+    @property
+    def hubId(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)
+    @property
+    def region(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;region&#34;, None)
+
+    @classmethod
+    def hubById(cls, token, hub_id):
+        &#39;&#39;&#39;Returns info on the hub give&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def get_hubs(cls, token):
+        &#39;&#39;&#39;Returns a collection of accessible hubs for this member.&lt;br&gt;
+        Scope - data:read&lt;br&gt;&lt;br&gt;
+        
+        Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
+        A360 Personal hubs, or BIM 360 Docs accounts.&lt;br&gt;
+        Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(h) for h in r[&#34;data&#34;]]
+
+    def get_projects(self, token):
+        &#39;&#39;&#39;Returns a list of all projects in the hub&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
+        projects = requests.get(endpointUrl,headers=token.getHeader).json()
+        checkResponse(projects)
+        return [Project(p) for p in projects[&#34;data&#34;]]
+
+    def project_by_id(self, token, projectId):
+        &#39;&#39;&#39;Returns a specific project by id
+        Scope data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=self.hubId, pId=projectId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return Project(r[&#34;data&#34;])
+
+class Project(object):
+    __apiType = &#34;projects&#34;
+    def __init__(self, rawDict):
+        &#39;&#39;&#39;TODO&#39;&#39;&#39;
+        self.__raw = rawDict
+
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def apiType(self):
+        return self.__apiType
+    @property
+    def name(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)
+    @property
+    def hubId(self):
+        return self.__raw[&#34;relationships&#34;][&#34;hub&#34;][&#34;data&#34;].get(&#34;id&#34;, None)
+
+    @classmethod
+    def project_by_id(cls, token, hubId , pId):
+        &#39;&#39;&#39;Returns a specific project by id
+        Scope data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hubId, pId=pId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r[&#34;data&#34;])
+
+    def get_hub(self, token):
+        &#39;&#39;&#39;Returns a specific hub from current project
+        Scope data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        return Hub.hubById(token, self.hubId)
+
+    def top_folders(self, token):
+        &#39;&#39;&#39;Returns the details of the highest level folders the user has access to for a given project. 
+        The user must have at least read access to the folders.
+        Scope data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [Folder(tF, self.id) for tF in r[&#34;data&#34;]]
+
+class Folder(object):
+    __apiType = &#34;folders&#34;
+    def __init__(self, rawDict, projectId):
+        &#39;&#39;&#39;Base folder class&#39;&#39;&#39;
+        self.__raw = rawDict
+        self.__parentProjectId = projectId
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)
+    @property
+    def displayName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)
+    @property
+    def createTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)
+    @property
+    def createUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)
+    @property
+    def createUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)
+    @property
+    def lastModifiedTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)
+    @property
+    def lastModifiedUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)
+    @property
+    def lastModifiedUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)
+    @property
+    def objectCount(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;objectCount&#34;, None)
+    @property
+    def hidden(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;hidden&#34;, None)
+    @property
+    def parentProjectId(self):
+        return self.__parentProjectId
+
+    @classmethod
+    def folder_by_id(cls, token: Token, projectId, folderId):
+        &#39;&#39;&#39;Returns a specific folder by id
+        Scope data:read
+        projectId: the project id in which the folder is contained
+        folderId: the folder id&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=projectId, f_id=folderId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r[&#34;data&#34;], projectId)
+
+
+    def create_folder(self, token: Token, project: Project, folderId):
+        &#39;&#39;&#39;Returns a specific folder by id
+        Scope data:read
+        p_id: the project id in which the folder is contained
+        f_id: the folder id&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=self.parentProjectId, f_id=self.id)
+        r = requests.get(endpointUrl ,headers=token.getHeader).json()
+        checkResponse(r)
+        return Folder(r[&#34;data&#34;], self.parentProjectId)
+
+    def get_contents(self, token, projectId):
+        &#39;&#39;&#39;Returns a collection of items and folders within a folder. Items represent word documents, 
+        fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+
+        Notes:&lt;br&gt;&lt;br&gt;
+
+        The tip version for each item resource is included by default in the included array of the payload&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/folders/{fId}/contents&#34;.format(pId=projectId, fId=self.id)
+        if token.isThreeLegged:
+            r = requests.get(endpointUrl ,headers=token.getHeader).json()
+        elif token.isThreeLegged is False:
+            r = requests.get(endpointUrl ,headers=token.XUser).json()
+        checkResponse(r)
+        results = []
+        for res in r[&#34;data&#34;]:
+            if res[&#34;type&#34;] == &#34;folders&#34;:
+                results.append(Folder(res, self.parentProjectId))
+            elif res[&#34;type&#34;] == &#34;items&#34;:
+                results.append(Item(res, self.parentProjectId))
+            elif res[&#34;type&#34;] == &#34;versions&#34;:
+                results.append(Version(res, self.parentProjectId))
+        return results
+
+class Item(object):
+    def __init__(self, rawDict, parentProjectId):
+        self.__raw = rawDict
+        self.__parentProjectId = parentProjectId
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def displayName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)
+    @property
+    def createUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)
+    @property
+    def createUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)
+    @property
+    def lastModifiedUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)
+    @property
+    def lastModifiedUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)
+    @property
+    def lastModifiedTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)
+    @property
+    def createTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)
+    @property
+    def hidden(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;hidden&#34;, None)
+    @property
+    def parentFolderId(self):
+        return self.__raw[&#34;relationships&#34;][&#34;parent&#34;][&#34;data&#34;].get(&#34;id&#34;, None)
+    @property
+    def parentProjectId(self):
+        return self.__parentProjectId
+
+    @classmethod
+    def item_by_id(cls, token, projectId, itemId):
+        &#39;&#39;&#39;Retrieves metadata for a specified item. 
+        Items represent word documents, fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}&#34;.format(pId=projectId, itemId=itemId)
+        r = requests.get(endpointUrl, headers=token.XUser).json()
+        checkResponse(r)
+        return cls(r, projectId)
+    
+    def get_versions(self, token):
+        &#39;&#39;&#39;Retrieves metadata for a specified item. 
+        Items represent word documents, fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}/versions&#34;.format(pId=self.parentProjectId, itemId=self.id)
+        r = requests.get(endpointUrl, headers=token.XUser).json()
+        checkResponse(r)
+        return [Version(v, self.parentProjectId) for v in r[&#34;data&#34;]]
+
+
+    def get_tip_versions(self, token):
+        &#39;&#39;&#39;Returns the “tip” version for the given item.&lt;br&gt;
+        Multiple versions of a resource item can be uploaded in a project. The tip version is the most recent one.&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        # TODO Optional filter parameters
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}/tip&#34;.format(pId=self.parentProjectId, itemId=self.id)
+        r = requests.get(endpointUrl, headers=token.XUser).json()
+        checkResponse(r)
+        return Version(r, self.parentProjectId)
+
+class Version(object):
+    def __init__(self, rawDict, parentProjectId):
+        self.__raw = rawDict
+        self.__parentProjectId = parentProjectId
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)
+    @property
+    def displayName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)     
+    @property
+    def createTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)      
+    @property
+    def createUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)
+    @property
+    def createUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)
+    @property
+    def lastModifiedTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)
+    @property
+    def lastModifiedUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)
+    @property
+    def lastModifiedUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)
+    @property
+    def versionNumber(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;versionNumber&#34;, None)
+    @property
+    def mimeType(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;mimeType&#34;, None)
+    @property
+    def parentProjectId(self):
+        return self.__parentProjectId
+
+    @classmethod
+    def version_by_id(cls, token, projectId, versionId):
+        &#39;&#39;&#39;Returns the version with the given version_id&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/versions/{verId}&#34;.format(pId=projectId, verId=versionId)
+        r = requests.get(endpointUrl, headers=token.XUser).json()
+        checkResponse(r)
+        return cls(r, projectId)
+
+# TODO LEFT
+# Projects
+# GET projects/:project_id/downloads/:download_id
+# GET projects/:project_id/jobs/:job_id
+# POST projects/:project_id/downloads
+# POST projects/:project_id/storage
+
+# Folders
+# GET projects/:project_id/folders/:folder_id/parent
+# GET projects/:project_id/folders/:folder_id/refs
+# GET projects/:project_id/folders/:folder_id/relationships/links
+# GET projects/:project_id/folders/:folder_id/relationships/refs
+# GET projects/:project_id/folders/:folder_id/search
+# POST projects/:project_id/folders
+# POST projects/:project_id/folders/:folder_id/relationships/refs
+# PATCH projects/:project_id/folders/:folder_id
+
+# Items
+# GET projects/:project_id/items/:item_id/parent
+# GET projects/:project_id/items/:item_id/refs
+# GET projects/:project_id/items/:item_id/relationships/links
+# GET projects/:project_id/items/:item_id/relationships/refs
+# POST projects/:project_id/items
+# POST projects/:project_id/items/:item_id/relationships/refs
+# PATCH projects/:project_id/items/:item_id
+
+# Versions
+# GET projects/:project_id/versions/:version_id/downloadFormats
+# GET projects/:project_id/versions/:version_id/downloads
+# GET projects/:project_id/versions/:version_id/item
+# GET projects/:project_id/versions/:version_id/refs
+# GET projects/:project_id/versions/:version_id/relationships/links
+# GET projects/:project_id/versions/:version_id/relationships/refs
+# POST projects/:project_id/versions
+# POST projects/:project_id/versions/:version_id/relationships/refs
+# PATCH projects/:project_id/versions/:version_id
+
+# Commands
+# CheckPermission
+# ListRefs
+# ListItems
+# CreateFolder
+# PublishModel
+# GetPublishModelJob
+
+# OSS
+# Buckets
+# POST buckets
+# GET buckets
+# GET buckets/:bucketKey/details
+# DELETE buckets/:bucketKey
+
+# Objects
+# PUT buckets/:bucketKey/objects/:objectName
+# PUT buckets/:bucketKey/objects/:objectName/resumable
+# GET buckets/:bucketKey/objects/:objectName/status/:sessionId
+# GET buckets/:bucketKey/objects
+# GET buckets/:bucketKey/objects/:objectName/details
+# GET buckets/:bucketKey/objects/:objectName
+# POST buckets/:bucketKey/objects/:objectName/signed
+# PUT signedresources/:id
+# PUT signedresources/:id/resumable
+# GET signedresources/:id
+# DELETE signedresources/:id
+# PUT buckets/:bucketKey/objects/:objectName/copyto/:newObjectName
+# DELETE buckets/:bucketKey/objects/:objectName</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Folder"><code class="flex name class">
+<span>class <span class="ident">Folder</span></span>
+<span>(</span><span>rawDict, projectId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base folder class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Folder(object):
+    __apiType = &#34;folders&#34;
+    def __init__(self, rawDict, projectId):
+        &#39;&#39;&#39;Base folder class&#39;&#39;&#39;
+        self.__raw = rawDict
+        self.__parentProjectId = projectId
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)
+    @property
+    def displayName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)
+    @property
+    def createTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)
+    @property
+    def createUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)
+    @property
+    def createUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)
+    @property
+    def lastModifiedTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)
+    @property
+    def lastModifiedUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)
+    @property
+    def lastModifiedUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)
+    @property
+    def objectCount(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;objectCount&#34;, None)
+    @property
+    def hidden(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;hidden&#34;, None)
+    @property
+    def parentProjectId(self):
+        return self.__parentProjectId
+
+    @classmethod
+    def folder_by_id(cls, token: Token, projectId, folderId):
+        &#39;&#39;&#39;Returns a specific folder by id
+        Scope data:read
+        projectId: the project id in which the folder is contained
+        folderId: the folder id&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=projectId, f_id=folderId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r[&#34;data&#34;], projectId)
+
+
+    def create_folder(self, token: Token, project: Project, folderId):
+        &#39;&#39;&#39;Returns a specific folder by id
+        Scope data:read
+        p_id: the project id in which the folder is contained
+        f_id: the folder id&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=self.parentProjectId, f_id=self.id)
+        r = requests.get(endpointUrl ,headers=token.getHeader).json()
+        checkResponse(r)
+        return Folder(r[&#34;data&#34;], self.parentProjectId)
+
+    def get_contents(self, token, projectId):
+        &#39;&#39;&#39;Returns a collection of items and folders within a folder. Items represent word documents, 
+        fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+
+        Notes:&lt;br&gt;&lt;br&gt;
+
+        The tip version for each item resource is included by default in the included array of the payload&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/folders/{fId}/contents&#34;.format(pId=projectId, fId=self.id)
+        if token.isThreeLegged:
+            r = requests.get(endpointUrl ,headers=token.getHeader).json()
+        elif token.isThreeLegged is False:
+            r = requests.get(endpointUrl ,headers=token.XUser).json()
+        checkResponse(r)
+        results = []
+        for res in r[&#34;data&#34;]:
+            if res[&#34;type&#34;] == &#34;folders&#34;:
+                results.append(Folder(res, self.parentProjectId))
+            elif res[&#34;type&#34;] == &#34;items&#34;:
+                results.append(Item(res, self.parentProjectId))
+            elif res[&#34;type&#34;] == &#34;versions&#34;:
+                results.append(Version(res, self.parentProjectId))
+        return results</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Folder.folder_by_id"><code class="name flex">
+<span>def <span class="ident">folder_by_id</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, projectId, folderId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a specific folder by id
+Scope data:read
+projectId: the project id in which the folder is contained
+folderId: the folder id</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def folder_by_id(cls, token: Token, projectId, folderId):
+    &#39;&#39;&#39;Returns a specific folder by id
+    Scope data:read
+    projectId: the project id in which the folder is contained
+    folderId: the folder id&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=projectId, f_id=folderId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r[&#34;data&#34;], projectId)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Folder.createTime"><code class="name">var <span class="ident">createTime</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createTime(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.createUserId"><code class="name">var <span class="ident">createUserId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createUserId(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.createUserName"><code class="name">var <span class="ident">createUserName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createUserName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.displayName"><code class="name">var <span class="ident">displayName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def displayName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.hidden"><code class="name">var <span class="ident">hidden</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def hidden(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;hidden&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__raw.get(&#34;id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.lastModifiedTime"><code class="name">var <span class="ident">lastModifiedTime</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedTime(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.lastModifiedUserId"><code class="name">var <span class="ident">lastModifiedUserId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedUserId(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.lastModifiedUserName"><code class="name">var <span class="ident">lastModifiedUserName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedUserName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.objectCount"><code class="name">var <span class="ident">objectCount</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def objectCount(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;objectCount&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.parentProjectId"><code class="name">var <span class="ident">parentProjectId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def parentProjectId(self):
+    return self.__parentProjectId</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Folder.create_folder"><code class="name flex">
+<span>def <span class="ident">create_folder</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, project: <a title="adeskForgeWrapper.datamgt.Project" href="#adeskForgeWrapper.datamgt.Project">Project</a>, folderId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a specific folder by id
+Scope data:read
+p_id: the project id in which the folder is contained
+f_id: the folder id</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_folder(self, token: Token, project: Project, folderId):
+    &#39;&#39;&#39;Returns a specific folder by id
+    Scope data:read
+    p_id: the project id in which the folder is contained
+    f_id: the folder id&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{p_id}/folders/{f_id}&#34;.format(p_id=self.parentProjectId, f_id=self.id)
+    r = requests.get(endpointUrl ,headers=token.getHeader).json()
+    checkResponse(r)
+    return Folder(r[&#34;data&#34;], self.parentProjectId)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Folder.get_contents"><code class="name flex">
+<span>def <span class="ident">get_contents</span></span>(<span>self, token, projectId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a collection of items and folders within a folder. Items represent word documents,
+fusion design files, drawings, spreadsheets, etc.<br></p>
+<p>Notes:<br><br></p>
+<p>The tip version for each item resource is included by default in the included array of the payload</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_contents(self, token, projectId):
+    &#39;&#39;&#39;Returns a collection of items and folders within a folder. Items represent word documents, 
+    fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+
+    Notes:&lt;br&gt;&lt;br&gt;
+
+    The tip version for each item resource is included by default in the included array of the payload&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/folders/{fId}/contents&#34;.format(pId=projectId, fId=self.id)
+    if token.isThreeLegged:
+        r = requests.get(endpointUrl ,headers=token.getHeader).json()
+    elif token.isThreeLegged is False:
+        r = requests.get(endpointUrl ,headers=token.XUser).json()
+    checkResponse(r)
+    results = []
+    for res in r[&#34;data&#34;]:
+        if res[&#34;type&#34;] == &#34;folders&#34;:
+            results.append(Folder(res, self.parentProjectId))
+        elif res[&#34;type&#34;] == &#34;items&#34;:
+            results.append(Item(res, self.parentProjectId))
+        elif res[&#34;type&#34;] == &#34;versions&#34;:
+            results.append(Version(res, self.parentProjectId))
+    return results</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Hub"><code class="flex name class">
+<span>class <span class="ident">Hub</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Hub(object):
+    __apiType = &#34;hubs&#34;
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def apiType(self):
+        return self.__apiType
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def type(self):
+        return self.__raw.get(&#34;type&#34;, None)
+    @property
+    def hubId(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)
+    @property
+    def region(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;region&#34;, None)
+
+    @classmethod
+    def hubById(cls, token, hub_id):
+        &#39;&#39;&#39;Returns info on the hub give&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def get_hubs(cls, token):
+        &#39;&#39;&#39;Returns a collection of accessible hubs for this member.&lt;br&gt;
+        Scope - data:read&lt;br&gt;&lt;br&gt;
+        
+        Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
+        A360 Personal hubs, or BIM 360 Docs accounts.&lt;br&gt;
+        Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(h) for h in r[&#34;data&#34;]]
+
+    def get_projects(self, token):
+        &#39;&#39;&#39;Returns a list of all projects in the hub&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
+        projects = requests.get(endpointUrl,headers=token.getHeader).json()
+        checkResponse(projects)
+        return [Project(p) for p in projects[&#34;data&#34;]]
+
+    def project_by_id(self, token, projectId):
+        &#39;&#39;&#39;Returns a specific project by id
+        Scope data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=self.hubId, pId=projectId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return Project(r[&#34;data&#34;])</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Hub.get_hubs"><code class="name flex">
+<span>def <span class="ident">get_hubs</span></span>(<span>token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a collection of accessible hubs for this member.<br>
+Scope - data:read<br><br></p>
+<p>Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
+A360 Personal hubs, or BIM 360 Docs accounts.<br>
+Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def get_hubs(cls, token):
+    &#39;&#39;&#39;Returns a collection of accessible hubs for this member.&lt;br&gt;
+    Scope - data:read&lt;br&gt;&lt;br&gt;
+    
+    Hubs represent BIM 360 Team hubs, Fusion Team hubs (formerly known as A360 Team hubs),
+    A360 Personal hubs, or BIM 360 Docs accounts.&lt;br&gt;
+    Team hubs include BIM 360 Team hubs and Fusion Team hubs (formerly known as A360 Team hubs). Personal hubs include A360 Personal hubs.&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs&#34;
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return [cls(h) for h in r[&#34;data&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Hub.hubById"><code class="name flex">
+<span>def <span class="ident">hubById</span></span>(<span>token, hub_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns info on the hub give<br>
+Scope - data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def hubById(cls, token, hub_id):
+    &#39;&#39;&#39;Returns info on the hub give&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}&#34;.format(hId=hub_id)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Hub.apiType"><code class="name">var <span class="ident">apiType</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def apiType(self):
+    return self.__apiType</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Hub.hubId"><code class="name">var <span class="ident">hubId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def hubId(self):
+    return self.__raw.get(&#34;id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Hub.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Hub.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Hub.region"><code class="name">var <span class="ident">region</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def region(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;region&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Hub.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def type(self):
+    return self.__raw.get(&#34;type&#34;, None)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Hub.get_projects"><code class="name flex">
+<span>def <span class="ident">get_projects</span></span>(<span>self, token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a list of all projects in the hub<br>
+Scope - data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_projects(self, token):
+    &#39;&#39;&#39;Returns a list of all projects in the hub&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects&#34;.format(hId=self.hubId)
+    projects = requests.get(endpointUrl,headers=token.getHeader).json()
+    checkResponse(projects)
+    return [Project(p) for p in projects[&#34;data&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Hub.project_by_id"><code class="name flex">
+<span>def <span class="ident">project_by_id</span></span>(<span>self, token, projectId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a specific project by id
+Scope data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def project_by_id(self, token, projectId):
+    &#39;&#39;&#39;Returns a specific project by id
+    Scope data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=self.hubId, pId=projectId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return Project(r[&#34;data&#34;])</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item"><code class="flex name class">
+<span>class <span class="ident">Item</span></span>
+<span>(</span><span>rawDict, parentProjectId)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Item(object):
+    def __init__(self, rawDict, parentProjectId):
+        self.__raw = rawDict
+        self.__parentProjectId = parentProjectId
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def displayName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)
+    @property
+    def createUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)
+    @property
+    def createUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)
+    @property
+    def lastModifiedUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)
+    @property
+    def lastModifiedUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)
+    @property
+    def lastModifiedTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)
+    @property
+    def createTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)
+    @property
+    def hidden(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;hidden&#34;, None)
+    @property
+    def parentFolderId(self):
+        return self.__raw[&#34;relationships&#34;][&#34;parent&#34;][&#34;data&#34;].get(&#34;id&#34;, None)
+    @property
+    def parentProjectId(self):
+        return self.__parentProjectId
+
+    @classmethod
+    def item_by_id(cls, token, projectId, itemId):
+        &#39;&#39;&#39;Retrieves metadata for a specified item. 
+        Items represent word documents, fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}&#34;.format(pId=projectId, itemId=itemId)
+        r = requests.get(endpointUrl, headers=token.XUser).json()
+        checkResponse(r)
+        return cls(r, projectId)
+    
+    def get_versions(self, token):
+        &#39;&#39;&#39;Retrieves metadata for a specified item. 
+        Items represent word documents, fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}/versions&#34;.format(pId=self.parentProjectId, itemId=self.id)
+        r = requests.get(endpointUrl, headers=token.XUser).json()
+        checkResponse(r)
+        return [Version(v, self.parentProjectId) for v in r[&#34;data&#34;]]
+
+
+    def get_tip_versions(self, token):
+        &#39;&#39;&#39;Returns the “tip” version for the given item.&lt;br&gt;
+        Multiple versions of a resource item can be uploaded in a project. The tip version is the most recent one.&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        # TODO Optional filter parameters
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}/tip&#34;.format(pId=self.parentProjectId, itemId=self.id)
+        r = requests.get(endpointUrl, headers=token.XUser).json()
+        checkResponse(r)
+        return Version(r, self.parentProjectId)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Item.item_by_id"><code class="name flex">
+<span>def <span class="ident">item_by_id</span></span>(<span>token, projectId, itemId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retrieves metadata for a specified item.
+Items represent word documents, fusion design files, drawings, spreadsheets, etc.<br>
+Scope - data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def item_by_id(cls, token, projectId, itemId):
+    &#39;&#39;&#39;Retrieves metadata for a specified item. 
+    Items represent word documents, fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}&#34;.format(pId=projectId, itemId=itemId)
+    r = requests.get(endpointUrl, headers=token.XUser).json()
+    checkResponse(r)
+    return cls(r, projectId)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Item.createTime"><code class="name">var <span class="ident">createTime</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createTime(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.createUserId"><code class="name">var <span class="ident">createUserId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createUserId(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.createUserName"><code class="name">var <span class="ident">createUserName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createUserName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.displayName"><code class="name">var <span class="ident">displayName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def displayName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.hidden"><code class="name">var <span class="ident">hidden</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def hidden(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;hidden&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__raw.get(&#34;id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.lastModifiedTime"><code class="name">var <span class="ident">lastModifiedTime</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedTime(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.lastModifiedUserId"><code class="name">var <span class="ident">lastModifiedUserId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedUserId(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.lastModifiedUserName"><code class="name">var <span class="ident">lastModifiedUserName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedUserName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.parentFolderId"><code class="name">var <span class="ident">parentFolderId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def parentFolderId(self):
+    return self.__raw[&#34;relationships&#34;][&#34;parent&#34;][&#34;data&#34;].get(&#34;id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.parentProjectId"><code class="name">var <span class="ident">parentProjectId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def parentProjectId(self):
+    return self.__parentProjectId</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Item.get_tip_versions"><code class="name flex">
+<span>def <span class="ident">get_tip_versions</span></span>(<span>self, token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the “tip” version for the given item.<br>
+Multiple versions of a resource item can be uploaded in a project. The tip version is the most recent one.<br>
+Scope - data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_tip_versions(self, token):
+    &#39;&#39;&#39;Returns the “tip” version for the given item.&lt;br&gt;
+    Multiple versions of a resource item can be uploaded in a project. The tip version is the most recent one.&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
+    # TODO Optional filter parameters
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}/tip&#34;.format(pId=self.parentProjectId, itemId=self.id)
+    r = requests.get(endpointUrl, headers=token.XUser).json()
+    checkResponse(r)
+    return Version(r, self.parentProjectId)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Item.get_versions"><code class="name flex">
+<span>def <span class="ident">get_versions</span></span>(<span>self, token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retrieves metadata for a specified item.
+Items represent word documents, fusion design files, drawings, spreadsheets, etc.<br>
+Scope - data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_versions(self, token):
+    &#39;&#39;&#39;Retrieves metadata for a specified item. 
+    Items represent word documents, fusion design files, drawings, spreadsheets, etc.&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/items/{itemId}/versions&#34;.format(pId=self.parentProjectId, itemId=self.id)
+    r = requests.get(endpointUrl, headers=token.XUser).json()
+    checkResponse(r)
+    return [Version(v, self.parentProjectId) for v in r[&#34;data&#34;]]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Project"><code class="flex name class">
+<span>class <span class="ident">Project</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TODO</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Project(object):
+    __apiType = &#34;projects&#34;
+    def __init__(self, rawDict):
+        &#39;&#39;&#39;TODO&#39;&#39;&#39;
+        self.__raw = rawDict
+
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def apiType(self):
+        return self.__apiType
+    @property
+    def name(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)
+    @property
+    def hubId(self):
+        return self.__raw[&#34;relationships&#34;][&#34;hub&#34;][&#34;data&#34;].get(&#34;id&#34;, None)
+
+    @classmethod
+    def project_by_id(cls, token, hubId , pId):
+        &#39;&#39;&#39;Returns a specific project by id
+        Scope data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hubId, pId=pId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r[&#34;data&#34;])
+
+    def get_hub(self, token):
+        &#39;&#39;&#39;Returns a specific hub from current project
+        Scope data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        return Hub.hubById(token, self.hubId)
+
+    def top_folders(self, token):
+        &#39;&#39;&#39;Returns the details of the highest level folders the user has access to for a given project. 
+        The user must have at least read access to the folders.
+        Scope data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [Folder(tF, self.id) for tF in r[&#34;data&#34;]]</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Project.project_by_id"><code class="name flex">
+<span>def <span class="ident">project_by_id</span></span>(<span>token, hubId, pId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a specific project by id
+Scope data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def project_by_id(cls, token, hubId , pId):
+    &#39;&#39;&#39;Returns a specific project by id
+    Scope data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}&#34;.format(hId=hubId, pId=pId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r[&#34;data&#34;])</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Project.apiType"><code class="name">var <span class="ident">apiType</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def apiType(self):
+    return self.__apiType</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Project.hubId"><code class="name">var <span class="ident">hubId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def hubId(self):
+    return self.__raw[&#34;relationships&#34;][&#34;hub&#34;][&#34;data&#34;].get(&#34;id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Project.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__raw.get(&#34;id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Project.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Project.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Project.get_hub"><code class="name flex">
+<span>def <span class="ident">get_hub</span></span>(<span>self, token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a specific hub from current project
+Scope data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_hub(self, token):
+    &#39;&#39;&#39;Returns a specific hub from current project
+    Scope data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    return Hub.hubById(token, self.hubId)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Project.top_folders"><code class="name flex">
+<span>def <span class="ident">top_folders</span></span>(<span>self, token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the details of the highest level folders the user has access to for a given project.
+The user must have at least read access to the folders.
+Scope data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def top_folders(self, token):
+    &#39;&#39;&#39;Returns the details of the highest level folders the user has access to for a given project. 
+    The user must have at least read access to the folders.
+    Scope data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/project/v1/hubs/{hId}/projects/{pId}/topFolders&#34;.format(hId=self.hubId, pId=self.id)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return [Folder(tF, self.id) for tF in r[&#34;data&#34;]]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version"><code class="flex name class">
+<span>class <span class="ident">Version</span></span>
+<span>(</span><span>rawDict, parentProjectId)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Version(object):
+    def __init__(self, rawDict, parentProjectId):
+        self.__raw = rawDict
+        self.__parentProjectId = parentProjectId
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)
+    @property
+    def displayName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)     
+    @property
+    def createTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)      
+    @property
+    def createUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)
+    @property
+    def createUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)
+    @property
+    def lastModifiedTime(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)
+    @property
+    def lastModifiedUserId(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)
+    @property
+    def lastModifiedUserName(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)
+    @property
+    def versionNumber(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;versionNumber&#34;, None)
+    @property
+    def mimeType(self):
+        return self.__raw[&#34;attributes&#34;].get(&#34;mimeType&#34;, None)
+    @property
+    def parentProjectId(self):
+        return self.__parentProjectId
+
+    @classmethod
+    def version_by_id(cls, token, projectId, versionId):
+        &#39;&#39;&#39;Returns the version with the given version_id&lt;br&gt;
+        Scope - data:read&#39;&#39;&#39;
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/versions/{verId}&#34;.format(pId=projectId, verId=versionId)
+        r = requests.get(endpointUrl, headers=token.XUser).json()
+        checkResponse(r)
+        return cls(r, projectId)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Version.version_by_id"><code class="name flex">
+<span>def <span class="ident">version_by_id</span></span>(<span>token, projectId, versionId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the version with the given version_id<br>
+Scope - data:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def version_by_id(cls, token, projectId, versionId):
+    &#39;&#39;&#39;Returns the version with the given version_id&lt;br&gt;
+    Scope - data:read&#39;&#39;&#39;
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/data/v1/projects/{pId}/versions/{verId}&#34;.format(pId=projectId, verId=versionId)
+    r = requests.get(endpointUrl, headers=token.XUser).json()
+    checkResponse(r)
+    return cls(r, projectId)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.datamgt.Version.createTime"><code class="name">var <span class="ident">createTime</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createTime(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createTime&#34;, None)      </code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.createUserId"><code class="name">var <span class="ident">createUserId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createUserId(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createUserId&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.createUserName"><code class="name">var <span class="ident">createUserName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def createUserName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;createUserName&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.displayName"><code class="name">var <span class="ident">displayName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def displayName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;displayName&#34;, None)     </code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def id(self):
+    return self.__raw.get(&#34;id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.lastModifiedTime"><code class="name">var <span class="ident">lastModifiedTime</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedTime(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedTime&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.lastModifiedUserId"><code class="name">var <span class="ident">lastModifiedUserId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedUserId(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserId&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.lastModifiedUserName"><code class="name">var <span class="ident">lastModifiedUserName</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def lastModifiedUserName(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;lastModifiedUserName&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.mimeType"><code class="name">var <span class="ident">mimeType</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def mimeType(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;mimeType&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;name&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.parentProjectId"><code class="name">var <span class="ident">parentProjectId</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def parentProjectId(self):
+    return self.__parentProjectId</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.raw"><code class="name">var <span class="ident">raw</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def raw(self):
+    return self.__raw</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.datamgt.Version.versionNumber"><code class="name">var <span class="ident">versionNumber</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def versionNumber(self):
+    return self.__raw[&#34;attributes&#34;].get(&#34;versionNumber&#34;, None)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="adeskForgeWrapper" href="index.html">adeskForgeWrapper</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="adeskForgeWrapper.datamgt.Folder" href="#adeskForgeWrapper.datamgt.Folder">Folder</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.createTime" href="#adeskForgeWrapper.datamgt.Folder.createTime">createTime</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.createUserId" href="#adeskForgeWrapper.datamgt.Folder.createUserId">createUserId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.createUserName" href="#adeskForgeWrapper.datamgt.Folder.createUserName">createUserName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.create_folder" href="#adeskForgeWrapper.datamgt.Folder.create_folder">create_folder</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.displayName" href="#adeskForgeWrapper.datamgt.Folder.displayName">displayName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.folder_by_id" href="#adeskForgeWrapper.datamgt.Folder.folder_by_id">folder_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.get_contents" href="#adeskForgeWrapper.datamgt.Folder.get_contents">get_contents</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.hidden" href="#adeskForgeWrapper.datamgt.Folder.hidden">hidden</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.id" href="#adeskForgeWrapper.datamgt.Folder.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.lastModifiedTime" href="#adeskForgeWrapper.datamgt.Folder.lastModifiedTime">lastModifiedTime</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.lastModifiedUserId" href="#adeskForgeWrapper.datamgt.Folder.lastModifiedUserId">lastModifiedUserId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.lastModifiedUserName" href="#adeskForgeWrapper.datamgt.Folder.lastModifiedUserName">lastModifiedUserName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.name" href="#adeskForgeWrapper.datamgt.Folder.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.objectCount" href="#adeskForgeWrapper.datamgt.Folder.objectCount">objectCount</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.parentProjectId" href="#adeskForgeWrapper.datamgt.Folder.parentProjectId">parentProjectId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Folder.raw" href="#adeskForgeWrapper.datamgt.Folder.raw">raw</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.datamgt.Hub" href="#adeskForgeWrapper.datamgt.Hub">Hub</a></code></h4>
+<ul class="two-column">
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.apiType" href="#adeskForgeWrapper.datamgt.Hub.apiType">apiType</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.get_hubs" href="#adeskForgeWrapper.datamgt.Hub.get_hubs">get_hubs</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.get_projects" href="#adeskForgeWrapper.datamgt.Hub.get_projects">get_projects</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.hubById" href="#adeskForgeWrapper.datamgt.Hub.hubById">hubById</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.hubId" href="#adeskForgeWrapper.datamgt.Hub.hubId">hubId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.name" href="#adeskForgeWrapper.datamgt.Hub.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.project_by_id" href="#adeskForgeWrapper.datamgt.Hub.project_by_id">project_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.raw" href="#adeskForgeWrapper.datamgt.Hub.raw">raw</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.region" href="#adeskForgeWrapper.datamgt.Hub.region">region</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Hub.type" href="#adeskForgeWrapper.datamgt.Hub.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.datamgt.Item" href="#adeskForgeWrapper.datamgt.Item">Item</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.datamgt.Item.createTime" href="#adeskForgeWrapper.datamgt.Item.createTime">createTime</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.createUserId" href="#adeskForgeWrapper.datamgt.Item.createUserId">createUserId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.createUserName" href="#adeskForgeWrapper.datamgt.Item.createUserName">createUserName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.displayName" href="#adeskForgeWrapper.datamgt.Item.displayName">displayName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.get_tip_versions" href="#adeskForgeWrapper.datamgt.Item.get_tip_versions">get_tip_versions</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.get_versions" href="#adeskForgeWrapper.datamgt.Item.get_versions">get_versions</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.hidden" href="#adeskForgeWrapper.datamgt.Item.hidden">hidden</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.id" href="#adeskForgeWrapper.datamgt.Item.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.item_by_id" href="#adeskForgeWrapper.datamgt.Item.item_by_id">item_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.lastModifiedTime" href="#adeskForgeWrapper.datamgt.Item.lastModifiedTime">lastModifiedTime</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.lastModifiedUserId" href="#adeskForgeWrapper.datamgt.Item.lastModifiedUserId">lastModifiedUserId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.lastModifiedUserName" href="#adeskForgeWrapper.datamgt.Item.lastModifiedUserName">lastModifiedUserName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.parentFolderId" href="#adeskForgeWrapper.datamgt.Item.parentFolderId">parentFolderId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.parentProjectId" href="#adeskForgeWrapper.datamgt.Item.parentProjectId">parentProjectId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Item.raw" href="#adeskForgeWrapper.datamgt.Item.raw">raw</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.datamgt.Project" href="#adeskForgeWrapper.datamgt.Project">Project</a></code></h4>
+<ul class="two-column">
+<li><code><a title="adeskForgeWrapper.datamgt.Project.apiType" href="#adeskForgeWrapper.datamgt.Project.apiType">apiType</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Project.get_hub" href="#adeskForgeWrapper.datamgt.Project.get_hub">get_hub</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Project.hubId" href="#adeskForgeWrapper.datamgt.Project.hubId">hubId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Project.id" href="#adeskForgeWrapper.datamgt.Project.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Project.name" href="#adeskForgeWrapper.datamgt.Project.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Project.project_by_id" href="#adeskForgeWrapper.datamgt.Project.project_by_id">project_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Project.raw" href="#adeskForgeWrapper.datamgt.Project.raw">raw</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Project.top_folders" href="#adeskForgeWrapper.datamgt.Project.top_folders">top_folders</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.datamgt.Version" href="#adeskForgeWrapper.datamgt.Version">Version</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.datamgt.Version.createTime" href="#adeskForgeWrapper.datamgt.Version.createTime">createTime</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.createUserId" href="#adeskForgeWrapper.datamgt.Version.createUserId">createUserId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.createUserName" href="#adeskForgeWrapper.datamgt.Version.createUserName">createUserName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.displayName" href="#adeskForgeWrapper.datamgt.Version.displayName">displayName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.id" href="#adeskForgeWrapper.datamgt.Version.id">id</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.lastModifiedTime" href="#adeskForgeWrapper.datamgt.Version.lastModifiedTime">lastModifiedTime</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.lastModifiedUserId" href="#adeskForgeWrapper.datamgt.Version.lastModifiedUserId">lastModifiedUserId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.lastModifiedUserName" href="#adeskForgeWrapper.datamgt.Version.lastModifiedUserName">lastModifiedUserName</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.mimeType" href="#adeskForgeWrapper.datamgt.Version.mimeType">mimeType</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.name" href="#adeskForgeWrapper.datamgt.Version.name">name</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.parentProjectId" href="#adeskForgeWrapper.datamgt.Version.parentProjectId">parentProjectId</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.raw" href="#adeskForgeWrapper.datamgt.Version.raw">raw</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.versionNumber" href="#adeskForgeWrapper.datamgt.Version.versionNumber">versionNumber</a></code></li>
+<li><code><a title="adeskForgeWrapper.datamgt.Version.version_by_id" href="#adeskForgeWrapper.datamgt.Version.version_by_id">version_by_id</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.0</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

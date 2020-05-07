@@ -1,0 +1,3122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.8.0" />
+<title>adeskForgeWrapper.b360 API documentation</title>
+<meta name="description" content="Module for the BIM360 API" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>adeskForgeWrapper.b360</code></h1>
+</header>
+<section id="section-intro">
+<p>Module for the BIM360 API</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># ----------
+# Wrapper for BIM360 API
+# https://forge.autodesk.com/en/docs/bim360/v1/reference/http/
+# ----------
+&#39;&#39;&#39;Module for the BIM360 API&#39;&#39;&#39;
+import requests
+
+from . import AFWExceptions
+from . import client
+from .utils import checkScopes
+from .utils import checkResponse
+from .utils import AUTODESK_BASE_URL as BASE_URL
+import json
+
+
+class Options(object):
+    &#39;&#39;&#39;Some methods require data and parameters in diferent formats, 
+    this class makes it easy to add those and ensures the information is sent the right way.&#39;&#39;&#39;
+    @staticmethod
+    def create_project_options(name, start_date, end_date, project_type, value, currency, service_types=None,
+                            job_number=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, 
+                            postal_code=None, country=None, business_unit_id=None, timezone=None, language=None, construction_type=None, 
+                            contract_type=None, template_project_id=None, include_companies=None, include_locations=None):
+        &#39;&#39;&#39;Data used to create a project.&lt;br&gt;
+        Note that NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are required values.
+        start_date - YYYY-MM-DD
+        end_date - YYYY-MM-DD, later than start date
+        project_type - Refer to parameters (https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/)
+        currency - Refer to parameters
+        language - Refer to parameters&#39;&#39;&#39;
+
+        data = {
+            &#34;name&#34;:name,
+            &#34;service_types&#34;:service_types,
+            &#34;start_date&#34;:start_date,
+            &#34;end_date&#34;:end_date,
+            &#34;project_type&#34;:project_type, 
+            &#34;value&#34;:value,
+            &#34;currency&#34;:currency,
+            &#34;job_number&#34;:job_number,
+            &#34;address_line_1&#34;:address_line_1,
+            &#34;address_line_2&#34;:address_line_2,
+            &#34;city&#34;:city,
+            &#34;state_or_province&#34;:state_or_province,
+            &#34;postal_code&#34;:postal_code,
+            &#34;country&#34;:country,
+            &#34;business_unit_id&#34;:business_unit_id,
+            &#34;timezone&#34;:timezone,
+            &#34;language&#34;:language,
+            &#34;construction_type&#34;:construction_type,
+            &#34;contract_type&#34;:contract_type,
+            &#34;template_project_id&#34;:template_project_id,
+            &#34;include_companies&#34;:include_companies,
+            &#34;include_locations&#34;:include_locations,
+        }
+        data = {k : v for k,v in data.items() if v is not None}
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def update_project_options(name = None, service_types = None, status = None, start_date = None,
+                             end_date = None, project_type = None, value = None, currency = None, job_number = None,
+                             address_line_1 = None, address_line_2 = None, city = None, state_or_province = None,
+                             postal_code = None, country = None, business_unit_id = None, timezone = None, language = None,
+                             construction_type = None, contract_type = None):
+        &#39;&#39;&#39;Options to update a project.&#39;&#39;&#39;
+        
+        data = {
+            &#34;name&#34;:name,
+            &#34;service_types&#34;:service_types,
+            &#34;status&#34;:status,
+            &#34;start_date&#34;:start_date,
+            &#34;end_date&#34;:end_date,
+            &#34;project_type&#34;:project_type,
+            &#34;value&#34;:value,
+            &#34;currency&#34;:currency,
+            &#34;job_number&#34;:job_number,
+            &#34;address_line_1&#34;:address_line_1,
+            &#34;address_line_2&#34;:address_line_2,
+            &#34;city&#34;:city,
+            &#34;state_or_province&#34;:state_or_province,
+            &#34;postal_code&#34;:postal_code,
+            &#34;country&#34;:country,
+            &#34;business_unit_id&#34;:business_unit_id,
+            &#34;timezone&#34;:timezone,
+            &#34;language&#34;:language,
+            &#34;construction_type&#34;:construction_type,
+            &#34;contract_type&#34;:contract_type
+        }
+        data = {k : v for k,v in data.items() if v is not None} 
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def export_PDF_options(versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
+        &#39;&#39;&#39;Options to export PDFs&#39;&#39;&#39;
+        if type(includeMarkups) != bool or type(includeMarkups) != bool:
+            raise TypeError(&#34;includeMarkups/includeHyperlinks expected bool&#34;)
+        data={&#34;includeMarkups&#34;: includeMarkups,
+              &#34;includeHyperlinks&#34;: includeHyperlinks}
+        return (versionId, data)
+
+    @staticmethod
+    def update_user_options(status, company_id):
+        &#39;&#39;&#39;Options to update a user&#39;&#39;&#39;
+        data = {
+                &#34;status&#34;: status,
+                &#34;company_id&#34;: company_id
+                }
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def update_company_options(name = None, trade = None, address_line_1 = None, address_line_2 = None, city = None, state_or_province = None, country = None,
+                             phone = None, website_url = None, description = None, erp_id = None, tax_id = None):
+        &#39;&#39;&#39;Options for updateCompany&#39;&#39;&#39;
+        
+        data = {&#34;name&#34;:name,
+                &#34;trade&#34;:trade,
+                &#34;address_line_1&#34;:address_line_1,
+                &#34;address_line_2&#34;:address_line_2,
+                &#34;city&#34;:city,
+                &#34;state_or_province&#34;:state_or_province,
+                &#34;country&#34;:country,
+                &#34;phone&#34;:phone,
+                &#34;website_url&#34;:website_url,
+                &#34;description&#34;:description,
+                &#34;erp_id&#34;:erp_id,
+                &#34;tax_id&#34;:tax_id
+                }
+        data = {k : v for k,v in data.items() if v is not None} 
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def search_companies_options(name = None, trade = None, operator = None, partial = None, limit = None, offset = None, sort = None, field = None):
+        &#39;&#39;&#39;Options for searchCompany&#39;&#39;&#39;
+        params = (
+                (&#39;name&#39;, name),
+                (&#39;trade&#39;, trade),
+                (&#39;operator&#39;, operator),
+                (&#39;partial&#39;, partial),
+                (&#39;limit&#39;, limit),
+                (&#39;offset&#39;, offset),
+                (&#39;sort&#39;, sort),
+                (&#39;field&#39;, field)
+        )
+        return params
+
+    @staticmethod
+    def add_user_options(email = None, user_id = None, services = None, docManagementAccessLevel = None,
+                                projectAdminAccessLevel = None, company_id = None, industry_roles = None):
+        &#39;&#39;&#39;Use this method for each user you want to update&#39;&#39;&#39;
+        data={
+            &#34;email&#34;: email,
+            &#34;user_id&#34;: user_id,
+            &#34;services&#34;: {
+                        &#34;document_management&#34;: {&#34;access_level&#34;: docManagementAccessLevel},
+                        &#34;project_administration&#34;: {&#34;access_level&#34;: projectAdminAccessLevel},
+                        },
+            &#34;company_id&#34;:company_id,
+            &#34;industry_roles&#34;:industry_roles
+          }
+        return data
+
+class Project(object):
+#hiddenRegion
+    &#39;&#39;&#39;Class for B360 API projects. Properties below
+    Project.raw&lt;br&gt;
+    Project.id&lt;br&gt;
+    Project.accId&lt;br&gt;
+    Project.name&lt;br&gt;
+    Project.start_date&lt;br&gt;
+    Project.end_date&lt;br&gt;
+    Project.project_type&lt;br&gt;
+    Project.value&lt;br&gt;
+    Project.currency&lt;br&gt;
+    Project.status&lt;br&gt;
+    Project.job_number&lt;br&gt;
+    Project.address_line_1&lt;br&gt; 
+    Project.address_line_2&lt;br&gt;
+    Project.city&lt;br&gt;
+    Project.state_or_province&lt;br&gt;
+    Project.postal_code&lt;br&gt;
+    Project.country&lt;br&gt;
+    Project.business_unit_id&lt;br&gt;
+    Project.timezone&lt;br&gt;
+    Project.language &lt;br&gt;
+    Project.construction_type&lt;br&gt;
+    Project.contract_type&lt;br&gt;
+    Project.service_types&lt;br&gt;
+    Project.created_at&lt;br&gt;
+    Project.updated_at&#39;&#39;&#39;
+
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def start_date(self):
+        return self.__raw.get(&#34;start_date&#34;, None)
+    @property
+    def end_date(self):
+        return self.__raw.get(&#34;end_date&#34;, None)
+    @property
+    def project_type(self):
+        return self.__raw.get(&#34;project_type&#34;, None)
+    @property
+    def value(self):
+        return self.__raw.get(&#34;value&#34;, None)
+    @property
+    def currency(self):
+        return self.__raw.get(&#34;currency&#34;, None)
+    @property
+    def status(self):
+        return self.__raw.get(&#34;status&#34;, None)
+    @property
+    def job_number(self):
+        return self.__raw.get(&#34;job_number&#34;, None)
+    @property
+    def address_line_1(self):
+        return self.__raw.get(&#34;address_line_1&#34;, None)
+    @property
+    def address_line_2(self):
+        return self.__raw.get(&#34;address_line_2&#34;, None)
+    @property
+    def city(self):
+        return self.__raw.get(&#34;city&#34;, None)
+    @property
+    def state_or_province(self):
+        return self.__raw.get(&#34;state_or_province&#34;, None)
+    @property
+    def postal_code(self):
+        return self.__raw.get(&#34;postal_code&#34;, None)
+    @property
+    def country(self):
+        return self.__raw.get(&#34;country&#34;, None)
+    @property
+    def business_unit_id(self):
+        return self.__raw.get(&#34;business_unit_id&#34;, None)
+    @property
+    def timezone(self):
+        return self.__raw.get(&#34;timezone&#34;, None)
+    @property
+    def language(self):
+        return self.__raw.get(&#34;language&#34;, None)
+    @property
+    def construction_type(self):
+        return self.__raw.get(&#34;construction_type&#34;, None)
+    @property
+    def contract_type(self):
+        return self.__raw.get(&#34;contract_type&#34;, None)
+    @property
+    def last_sign_in(self):
+        return self.__raw.get(&#34;last_sign_in&#34;, None)
+    @property
+    def service_types(self):
+        return self.__raw.get(&#34;service_types&#34;, None)
+    @property
+    def created_at(self):
+        return self.__raw.get(&#34;created_at&#34;, None)
+    @property
+    def updated_at(self):
+        return self.__raw.get(&#34;updated_at&#34;, None)
+#endRegion
+
+    @classmethod
+    def get_projects(cls, token: client.Token):
+        &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.&lt;br&gt;
+        Scope - account:read&lt;br&gt;
+        Returns a list of project objects.&#39;&#39;&#39;
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects&#34;.format(aId=token.bimAccId)
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(p) for p in r]
+
+
+    @classmethod
+    def project_by_id(cls, token: client.Token, p_id):
+        &#39;&#39;&#39;Query the details of a specific BIM 360 project.&lt;br&gt;
+        Scope: account:read&#39;&#39;&#39;
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=token.bimAccId, pId=p_id)
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+
+    @classmethod
+    def create_project(cls, token: client.Token, create_project_options):
+        &#39;&#39;&#39;Create a new BIM 360 project in a specific BIM 360 account.&lt;br&gt;
+        Scope - account:write&lt;br&gt;
+        creationOps - From Options Class, createProjectOptions()&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects&#34;.format(aId=token.bimAccId)
+        r = requests.post(endpointUrl, headers=token.patchHeader, data=create_project_options).json()
+        print(r)
+        checkResponse(r)
+        return cls(r)
+
+    def update_project(self, token: client.Token, update_project_options):
+        &#39;&#39;&#39;Update the properties of only the specified attributes of a specific BIM 360 project.&lt;br&gt;
+           Scope - account:write account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=self.account_id, pId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_project_options).json()
+        checkResponse(r)
+        return Project(r)
+    
+    def get_users(self, token: client.Token):
+        &#39;&#39;&#39;Retrieves information about all the users in a project.&lt;br&gt;
+        To get information about all the users in an account, see GET accounts/users.&lt;br&gt;
+        Scope - account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/bim360/admin/v1/projects/{pId}/users&#34;.format(pId=self.id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [User(u) for u in r[&#34;results&#34;]]
+
+    def user_by_id(self, token: client.Token, userId):
+        &#39;&#39;&#39;Retrieves detailed information about a single user in a project.&lt;br&gt;
+        Scope - account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/bim360/admin/v1/projects/{pId}/users/{uId}&#34;.format(pId=self.id, uId=userId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return User(r)
+
+    def add_users(self, token: client.Token, add_user_options: list):
+        # TODO TO REVIEW. ITEMS FAIL
+        # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
+        # TODO ADD OPTIONS class
+        &#39;&#39;&#39;Adds users (project admin and project user) to a project. You can add up to 50 users per call.&lt;br&gt;
+            Scope - account:write&lt;br&gt;
+            addUserToProjectOps - MUST BE A LIST of Options.addUserToProjectOptions&lt;br&gt;
+
+            To add users to an account (account user), see POST users.&lt;br&gt;
+            You can specify the following details about the user:&lt;br&gt;
+            The user’s access level for the project (admin or user).&lt;br&gt;
+            The company the user is assigned to for the project.&lt;br&gt;
+            The industry roles assigned to the user for the project.&lt;br&gt;
+            The user’s email address.&lt;br&gt;&lt;br&gt;
+            &#39;&#39;&#39;
+        if type(add_user_options) != list:
+            raise AFWExceptions.AFWError(&#34;add_user_options must be a list of Options.add_user_options&#34;)
+        checkScopes(token, &#34;account:write&#34;)
+        add_user_options = json.dumps(add_user_options)
+        endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/users/import&#34;.format(aId=self.account_id ,pId=self.id)
+        r = requests.post(endpointUrl, headers=token.contentXUser, data=add_user_options).json()
+        checkResponse(r)
+        print(&#34;Success:&#34;, r[&#34;success&#34;])
+        print(&#34;Failed:&#34;, r[&#34;failure&#34;])
+        return [User.user_by_id(token, u[&#34;user_id&#34;]) for u in r[&#34;success_items&#34;]]
+
+    def update_user_by_id(self, token: client.Token, userId, update_user_options):
+        &#39;&#39;&#39;Updates a user’s profile for a project, including:&lt;br&gt;&lt;br&gt;
+
+        The company the user is assigned to for the project.&lt;br&gt;
+        The industry roles assigned to the user for the project.&lt;br&gt;&lt;br&gt;
+        Scope - account:write
+        
+        Returns a User object&#39;&#39;&#39;
+        # TODO: Thinking about changing user id with user object, updating the user object with the response
+
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}&#34;.format(aId=self.account_id ,pId=self.id, uId=userId)
+        r = requests.patch(endpointUrl, headers=token.contentXUser, data=update_user_options).json()
+        checkResponse(r)
+        return User(r)
+    def industry_roles(self, token: client.Token):
+        &#39;&#39;&#39;Retrieves the industry roles for the project. For example, contractor and architect.&lt;br&gt;
+        Scope - account:read&#39;&#39;&#39;
+
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/industry_roles&#34;.format(aId=self.account_id ,pId=self.id)
+        r = requests.get(endpointUrl, headers=token.patchHeader).json()
+        checkResponse(r)
+        return [IndustryRoles(i) for i in r]
+
+    def export_PDF(self, token: client.Token, export_PDF_options):
+        &#39;&#39;&#39;Exports a single page from an uploaded PDF file into a new PDF file.&lt;br&gt;
+            You can also export the page’s markups (annotations) and hyperlinks.&lt;br&gt;
+            Scope - data:read&lt;br&gt;
+            exportOptions - exportPDFOptions()&lt;br&gt;
+            Note that you can only export a page from a PDF file that was uploaded to the Plans folder or 
+            to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management 
+            splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page.&lt;br&gt;
+            You can identify exportable PDF files, by searching for files with the following combmination of properties:&lt;br&gt;&lt;br&gt;
+
+            attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)&lt;br&gt;
+            attributes.extension.data.sourceFileName: &lt;filename&gt;.pdf (identifies all PDF files)&lt;br&gt;
+            You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from 
+            PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the 
+            BIM 360 endpoints, see the File Upload tutorial.&lt;br&gt;&lt;br&gt;
+
+            Note that this endpoint is asynchronous and initiates a job that 
+            runs in the background, rather than halting execution of your program.&lt;br&gt;
+            The response returns an export ID that you can use to call getPDFExport() 
+            to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.&lt;br&gt;&lt;br&gt;
+
+            Note that the user must have permission to view files. For information about permissions, see the Help documentation.&lt;br&gt;&lt;br&gt;
+
+            For more details about exporting PDF files, see the PDF Export tutorial.&lt;br&gt;&lt;br&gt;
+
+            For more information about Document Management endpoints, see the Data Management API&lt;br&gt;&lt;br&gt;
+            &#39;&#39;&#39;
+
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/bim360/docs/v1/projects/{pId}/versions/{vId}/exports&#34;.format(pId=self.id, vId=export_PDF_options[0])
+        r = requests.post(endpointUrl, headers=token.patchHeader, data=str(export_PDF_options[1])).json()
+        checkResponse(r)
+        print(&#34;Id: {id}\nStatus: {status}&#34;.format(id=r[&#34;id&#34;], status=r[&#34;status&#34;]))
+        return r
+
+    def get_PDF_export(self, token: client.Token, versionId: str, exportId: str):
+        &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.&lt;br&gt;
+            The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.&lt;br&gt;
+            To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn.&lt;br&gt;&lt;br&gt;
+            
+            For more information about Document Management endpoints, see the Data Management API&#39;&#39;&#39;
+            # TODO: Model derivative api function here
+
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}&#34;.format(pId=self.id, vId=versionId, eId=exportId)
+        r = requests.get(endpointUrl, headers=token.contentXUser).json()
+        checkResponse(r)
+        print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
+                 #TODO: Range header
+        return r
+
+class Company(object):
+#hiddenRegion
+    &#39;&#39;&#39;Base class for B360 API companies. Properties below&lt;br&gt;
+    Company.raw &lt;br&gt;
+    Company.id&lt;br&gt;
+    Company.accId&lt;br&gt;
+    Company.name&lt;br&gt;
+    Company.trade&lt;br&gt;
+    Company.address_line_1&lt;br&gt;
+    Company.address_line_2&lt;br&gt;
+    Company.city&lt;br&gt;
+    Company.postal_code&lt;br&gt;
+    Company.state_or_province&lt;br&gt;
+    Company.country&lt;br&gt;
+    Company.phone&lt;br&gt;
+    Company.website_url&lt;br&gt;
+    Company.description&lt;br&gt;
+    Company.created_at&lt;br&gt;
+    Company.updated_at&lt;br&gt;
+    Company.erp_id&lt;br&gt;
+    Company.tax_id&#39;&#39;&#39;
+
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def trade(self):
+        return self.__raw.get(&#34;trade&#34;, None)
+    @property
+    def address_line_1(self):
+        return self.__raw.get(&#34;address_line_1&#34;, None)
+    @property
+    def address_line_2(self):
+        return self.__raw.get(&#34;address_line_2&#34;, None)
+    @property
+    def city(self):
+        return self.__raw.get(&#34;city&#34;, None)
+    @property
+    def postal_code(self):
+        return self.__raw.get(&#34;postal_code&#34;, None)
+    @property
+    def state_or_province(self):
+        return self.__raw.get(&#34;state_or_province&#34;, None)
+    @property
+    def country(self):
+        return self.__raw.get(&#34;country&#34;, None)
+    @property
+    def phone(self):
+        return self.__raw.get(&#34;phone&#34;, None)
+    @property
+    def website_url(self):
+        return self.__raw.get(&#34;website_url&#34;, None)
+    @property
+    def description(self):
+        return self.__raw.get(&#34;description&#34;, None)
+    @property
+    def created_at(self):
+        return self.__raw.get(&#34;created_at&#34;, None)
+    @property
+    def updated_at(self):
+        return self.__raw.get(&#34;updated_at&#34;, None)
+    @property
+    def erp_id(self):
+        return self.__raw.get(&#34;erp_id&#34;, None)
+    @property
+    def tax_id(self):
+        return self.__raw.get(&#34;tax_id&#34;, None)
+#endRegion
+
+    @classmethod
+    def company_by_id(cls, token: client.Token, c_id):
+        &#39;&#39;&#39;Query the details of a specific partner company.&lt;br&gt;
+        Scope: account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=token.bimAccId, cId=c_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def get_companies(cls, token: client.Token):
+        &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.&lt;br&gt;
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies&#34;.format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(c) for c in r]
+
+    @classmethod
+    def searchCompaniesByName(cls, token: client.Token, searchOps):
+        &#39;&#39;&#39;Search partner companies in a specific BIM 360 account by name.&lt;br&gt;
+        Scope - account:read&lt;br&gt;
+        searchOps - Options.searchCompaniesOptions()
+        &#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/search&#34;.format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader, params=searchOps).json()
+        checkResponse(r)
+        if r == []:
+            return None
+        else:
+            return [cls(c) for c in r]
+
+    @classmethod
+    def importCompanies(cls, token: client.Token, Data: list):
+        &#39;&#39;&#39;TODO: ---NOT WORKING??  TRY---
+        Bulk import partner companies to the company directory in a specific BIM 360 account.
+        (50 companies maximum can be included in each call.)
+        Scope account:write
+        
+        Data template, must be a string.
+        data = [{
+                &#34;name&#34;:&#34;&#34;,
+                &#34;trade&#34;: &#34;&#34;,
+                &#34;website_url&#34;: &#34;&#34;,
+                &#34;city&#34;: &#34;&#34;,
+                &#34;country&#34;: &#34;&#34;,
+                &#34;address_line_1&#34;: &#34;&#34;,
+                &#34;address_line_2&#34;: &#34;&#34;,
+                &#34;postal_code&#34;: &#34;&#34;,
+                &#34;erp_id&#34;:&#34;&#34;,
+                &#34;tax_id&#34;:&#34;&#34;,
+                &#34;phone&#34;: &#34;&#34;,
+                &#34;description&#34;: &#34;&#34;
+                }]&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/import&#34;.format(aId=token.bimAccId)
+        r = requests.post(endpointUrl, headers=token.patchHeader,data=Data).json()
+        checkResponse(r)
+        print(&#34;Success:&#34;, r[&#34;success&#34;])
+        print(&#34;Failure:&#34;, r[&#34;failure&#34;])
+        return [cls(c) for c in r[&#34;success_items&#34;]]
+
+
+    def updateCompany(self, token: client.Token, updateCompanyOptions):
+        &#39;&#39;&#39;Update the properties of only the specified attributes of a specific partner company.&lt;br&gt;
+        Scope - account:write&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=self.account_id, cId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader,data=updateCompanyOptions).json()
+        checkResponse(r)
+        return Company(r)
+
+class User(object):
+#hiddenRegion
+    &#39;&#39;&#39;User.raw&lt;br&gt;
+    User.id&lt;br&gt;
+    User.account_id&lt;br&gt;
+    User.status&lt;br&gt;
+    User.role&lt;br&gt;
+    User.company_id&lt;br&gt;
+    User.company_name&lt;br&gt;
+    User.last_sign_in&lt;br&gt;
+    User.email&lt;br&gt;
+    User.name&lt;br&gt;
+    User.nickname&lt;br&gt;
+    User.first_name&lt;br&gt;
+    User.last_name&lt;br&gt;
+    User.uid&lt;br&gt;
+    User.image_url&lt;br&gt;
+    User.address_line_1&lt;br&gt;
+    User.address_line_2&lt;br&gt;
+    User.city&lt;br&gt;
+    User.postal_code&lt;br&gt;
+    User.state_or_province&lt;br&gt;
+    User.country&lt;br&gt;
+    User.phone&lt;br&gt;
+    User.company&lt;br&gt;
+    User.job_title&lt;br&gt;
+    User.industry&lt;br&gt;
+    User.about_me&lt;br&gt;
+    User.created_at&lt;br&gt;
+    User.updated_at&lt;br&gt;&#39;&#39;&#39;
+
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+        
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def status(self):
+        return self.__raw.get(&#34;status&#34;, None)
+    @property
+    def role(self):
+        return self.__raw.get(&#34;role&#34;, None)
+    @property
+    def company_id(self):
+        return self.__raw.get(&#34;company_id&#34;, None)
+    @property
+    def company_name(self):
+        return self.__raw.get(&#34;company_name&#34;, None)
+    @property
+    def last_sign_in(self):
+        return self.__raw.get(&#34;last_sign_in&#34;, None)
+    @property
+    def email(self):
+        return self.__raw.get(&#34;email&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def nickname(self):
+        return self.__raw.get(&#34;nickname&#34;, None)
+    @property
+    def first_name(self):
+        return self.__raw.get(&#34;first_name&#34;, None)
+    @property
+    def last_name(self):
+        return self.__raw.get(&#34;last_name&#34;, None)
+    @property
+    def uid(self):
+        return self.__raw.get(&#34;uid&#34;, None)
+    @property
+    def image_url(self):
+        return self.__raw.get(&#34;image_url&#34;, None)
+    @property
+    def address_line_1(self):
+        return self.__raw.get(&#34;address_line_1&#34;, None)
+    @property
+    def address_line_2(self):
+        return self.__raw.get(&#34;address_line_2&#34;, None)
+    @property
+    def city(self):
+        return self.__raw.get(&#34;city&#34;, None)
+    @property
+    def postal_code(self):
+        return self.__raw.get(&#34;postal_code&#34;, None)
+    @property
+    def state_or_province(self):
+        return self.__raw.get(&#34;state_or_province&#34;, None)
+    @property
+    def country(self):
+        return self.__raw.get(&#34;country&#34;, None)
+    @property
+    def phone(self):
+        return self.__raw.get(&#34;phone&#34;, None)
+    @property
+    def company(self):
+        return self.__raw.get(&#34;company&#34;, None)
+    @property
+    def job_title(self):
+        prop = self.__raw.get(&#34;job_title&#34;, None) or self.__raw.get(&#34;jobTitle&#34;, None)
+        return prop
+    @property
+    def industry(self):
+        return self.__raw.get(&#34;industry&#34;, None)
+    @property
+    def about_me(self):
+        return self.__raw.get(&#34;about_me&#34;, None)
+    @property
+    def created_at(self):
+        return self.__raw.get(&#34;created_at&#34;, None)
+    @property
+    def updated_at(self):
+        return self.__raw.get(&#34;updated_at&#34;, None)
+#endregion
+
+    @classmethod
+    def users_from_account(cls, token: client.Token):
+        &#39;&#39;&#39;Query all the users in a specific BIM 360 account.&lt;br&gt;
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/users&#34;.format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(u) for u in r]
+
+    @classmethod
+    def user_by_id(cls, token: client.Token, userId):
+        &#39;&#39;&#39;Query the details of a specific user.&lt;br&gt;
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=userId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def update_user_by_id(cls, token: client.Token, userId, update_user_options):
+        &#39;&#39;&#39;Update a specific user’s status or default company. Data template below&lt;br&gt;
+        Scope - account:write&lt;br&gt;
+        updateUserOptions - From Options class&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=userId)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
+        checkResponse(r)
+        return cls(r)
+
+    def update_user(self, token: client.Token, update_user_options):
+        &#39;&#39;&#39;Update a specific user’s status or default company. Data template below&lt;br&gt;
+        Scope - account:write&lt;br&gt;
+        updateUserOptions - From Options class&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
+        checkResponse(r)
+        return User(r)
+
+class IndustryRoles(object):
+    &#39;&#39;&#39;IndustryRoles.raw&lt;br&gt;
+    IndustryRoles.id&lt;br&gt;
+    IndustryRoles.project_id&lt;br&gt;
+    IndustryRoles.name&lt;br&gt;
+    IndustryRoles.projectAdminAccess&lt;br&gt;
+    IndustryRoles.insightAccess&lt;br&gt;
+    IndustryRoles.docManagementAccess&lt;br&gt;
+    IndustryRoles.member_group_id&#39;&#39;&#39;
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def project_id(self):
+        return self.__raw.get(&#34;project_id&#34;, None)
+    @property
+    def projectAdminAccess(self):
+        return self.__raw[&#34;services&#34;][&#34;project_administration&#34;].get(&#34;access_level&#34;, None)
+    @property
+    def insightAccess(self):
+        return self.__raw.get[&#34;services&#34;][&#34;insight&#34;].get(&#34;access_level&#34;, None)
+    @property
+    def docManagementAccess(self):
+        return self.__raw[&#34;services&#34;][&#34;document_management&#34;].get(&#34;access_level&#34;, None)
+    @property
+    def member_group_id(self):
+        return self.__raw.get(&#34;member_group_id&#34;, None)
+
+class BusinessUnits(object):
+    &#39;&#39;&#39;BusinessUnits.raw&lt;br&gt;
+    BusinessUnits.id&lt;br&gt;
+    BusinessUnits.account_id&lt;br&gt;
+    BusinessUnits.parent_id&lt;br&gt;
+    BusinessUnits.name&lt;br&gt;
+    BusinessUnits.description&lt;br&gt;
+    BusinessUnits.path&lt;br&gt;
+    BusinessUnits.created_at&lt;br&gt;
+    BusinessUnits.updated_at&#39;&#39;&#39;
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def parent_id(self):
+        return self.__raw.get(&#34;parent_id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def description(self):
+        return self.__raw.get(&#34;description&#34;, None)
+    @property
+    def path(self):
+        return self.__raw.get(&#34;path&#34;, None)
+    @property
+    def created_at(self):
+        return self.__raw.get(&#34;created_at&#34;, None)
+    @property
+    def updated_at(self):
+        return self.__raw.get(&#34;updated_at&#34;, None)
+
+    @classmethod
+    def get_business_units(cls, token):
+        &#39;&#39;&#39;Query all the business units in a specific BIM 360 account.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        if r == {}:
+            raise AFWExceptions.APIError(&#34;No business units in this account.&#34;)
+        else:
+            return [cls(u) for u in r[&#34;business_units&#34;]]
+
+    @classmethod
+    def create_business_units(cls, token: client.Token, Data: list):
+        &#39;&#39;&#39;Creates or redefines the business units of a specific BIM 360 account.
+        Scope account:write
+        Data: A list of dictionaries with the following structure. Name is mandatory
+        &#39;Data = [
+                    {
+                        &#34;id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                        &#34;parent_id&#34;: null,
+                        &#34;name&#34;: &#34;North America&#34;,
+                        &#34;description&#34;: &#34;USA, Canada&#34;
+                    },
+                    {
+                        &#34;id&#34;: &#34;fda4ab9e-ab82-4ba9-8d6c-ae7dbd7cee31&#34;,
+                        &#34;parent_id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                        &#34;name&#34;: &#34;USA Western Region&#34;,
+                        &#34;description&#34;: &#34;California, Nevada, Washington&#34;
+                    }
+                ]&#39;&#39;&#39; # TODO Maybe to cope with list of dicts, solution could be createBusinessUnit and silently call the batch __createBusinessUnits (this func)
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=token.bimAccId)
+        bness = {&#34;business_units&#34;: Data}
+        r = requests.put(endpointUrl, headers=token.patchHeader, data=str(bness)).json()
+        checkResponse(r)
+        return [cls(u) for u in r[&#34;business_units&#34;]]
+
+class Jobs(object):
+    &#39;&#39;&#39;Jobs.raw&lt;br&gt;
+    Jobs.id&lt;br&gt;
+    Jobs.account_id&lt;br&gt;
+    Jobs.name&lt;br&gt;
+    Jobs.status&lt;br&gt;
+    Jobs.details&#39;&#39;&#39;
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def status(self):
+        return self.__raw.get(&#34;status&#34;, None)
+    @property
+    def details(self):
+        return self.__raw.get(&#34;details&#34;, None)
+
+# pDocs ignore
+__pdoc__ = {}
+__pdoc__[&#39;Project.raw&#39;] = False
+__pdoc__[&#39;Project.id&#39;] = False
+__pdoc__[&#39;Project.accId&#39;] = False    
+__pdoc__[&#39;Project.name&#39;] = False
+__pdoc__[&#39;Project.start_date&#39;] = False
+__pdoc__[&#39;Project.end_date&#39;] = False
+__pdoc__[&#39;Project.project_type&#39;] = False
+__pdoc__[&#39;Project.value&#39;] = False
+__pdoc__[&#39;Project.currency&#39;] = False
+__pdoc__[&#39;Project.status&#39;] = False
+__pdoc__[&#39;Project.job_number&#39;] = False
+__pdoc__[&#39;Project.address_line_1&#39;] = False
+__pdoc__[&#39;Project.address_line_2&#39;] = False
+__pdoc__[&#39;Project.city&#39;] = False
+__pdoc__[&#39;Project.state_or_province&#39;] = False
+__pdoc__[&#39;Project.postal_code&#39;] = False
+__pdoc__[&#39;Project.country&#39;] = False
+__pdoc__[&#39;Project.business_unit_id&#39;] = False
+__pdoc__[&#39;Project.timezone&#39;] = False
+__pdoc__[&#39;Project.language&#39;] = False
+__pdoc__[&#39;Project.construction_type&#39;] = False
+__pdoc__[&#39;Project.contract_type&#39;] = False
+__pdoc__[&#39;Project.service_types&#39;] = False
+__pdoc__[&#39;Project.created_at&#39;] = False
+__pdoc__[&#39;Project.updated_at&#39;] = False
+__pdoc__[&#39;Project.include_companies&#39;] = False
+__pdoc__[&#39;Project.include_locations&#39;] = False
+__pdoc__[&#39;Project.template_project_id&#39;] = False
+
+__pdoc__[&#39;Company.raw&#39;] = False
+__pdoc__[&#39;Company.id&#39;] = False
+__pdoc__[&#39;Company.accId&#39;] = False
+__pdoc__[&#39;Company.name&#39;] = False
+__pdoc__[&#39;Company.trade&#39;] = False
+__pdoc__[&#39;Company.address_line_1&#39;] = False
+__pdoc__[&#39;Company.address_line_2&#39;] = False
+__pdoc__[&#39;Company.city&#39;] = False
+__pdoc__[&#39;Company.postal_code&#39;] = False
+__pdoc__[&#39;Company.state_or_province&#39;] = False
+__pdoc__[&#39;Company.country&#39;] = False
+__pdoc__[&#39;Company.phone&#39;] = False
+__pdoc__[&#39;Company.website_url&#39;] = False
+__pdoc__[&#39;Company.description&#39;] = False
+__pdoc__[&#39;Company.created_at&#39;] = False
+__pdoc__[&#39;Company.updated_at&#39;] = False
+__pdoc__[&#39;Company.erp_id&#39;] = False
+__pdoc__[&#39;Company.tax_id&#39;] = False
+
+__pdoc__[&#39;User.raw&#39;] = False
+__pdoc__[&#39;User.id&#39;] = False
+__pdoc__[&#39;User.account_id&#39;] = False
+__pdoc__[&#39;User.status&#39;] = False
+__pdoc__[&#39;User.role&#39;] = False
+__pdoc__[&#39;User.company_id&#39;] = False
+__pdoc__[&#39;User.company_name&#39;] = False
+__pdoc__[&#39;User.last_sign_in&#39;] = False
+__pdoc__[&#39;User.email&#39;] = False
+__pdoc__[&#39;User.name&#39;] = False
+__pdoc__[&#39;User.nickname&#39;] = False
+__pdoc__[&#39;User.first_name&#39;] = False
+__pdoc__[&#39;User.last_name&#39;] = False
+__pdoc__[&#39;User.uid&#39;] = False
+__pdoc__[&#39;User.image_url&#39;] = False
+__pdoc__[&#39;User.address_line_1&#39;] = False
+__pdoc__[&#39;User.address_line_2&#39;] = False
+__pdoc__[&#39;User.city&#39;] = False
+__pdoc__[&#39;User.postal_code&#39;] = False
+__pdoc__[&#39;User.state_or_province&#39;] = False
+__pdoc__[&#39;User.country&#39;] = False
+__pdoc__[&#39;User.phone&#39;] = False
+__pdoc__[&#39;User.company&#39;] = False
+__pdoc__[&#39;User.job_title&#39;] = False
+__pdoc__[&#39;User.industry&#39;] = False
+__pdoc__[&#39;User.about_me&#39;] = False
+__pdoc__[&#39;User.created_at&#39;] = False
+__pdoc__[&#39;User.updated_at&#39;] = False
+
+__pdoc__[&#39;IndustryRoles.raw&#39;] = False
+__pdoc__[&#39;IndustryRoles.id&#39;] = False
+__pdoc__[&#39;IndustryRoles.project_id&#39;] = False
+__pdoc__[&#39;IndustryRoles.name&#39;] = False
+__pdoc__[&#39;IndustryRoles.projectAdminAccess&#39;] = False
+__pdoc__[&#39;IndustryRoles.insightAccess&#39;] = False
+__pdoc__[&#39;IndustryRoles.docManagementAccess&#39;] = False
+__pdoc__[&#39;IndustryRoles.member_group_id&#39;] = False
+
+__pdoc__[&#39;BusinessUnits.raw&#39;] = False
+__pdoc__[&#39;BusinessUnits.id&#39;] = False
+__pdoc__[&#39;BusinessUnits.account_id&#39;] = False
+__pdoc__[&#39;BusinessUnits.parent_id&#39;] = False
+__pdoc__[&#39;BusinessUnits.name&#39;] = False
+__pdoc__[&#39;BusinessUnits.description&#39;] = False
+__pdoc__[&#39;BusinessUnits.path&#39;] = False
+__pdoc__[&#39;BusinessUnits.created_at&#39;] = False
+__pdoc__[&#39;BusinessUnits.updated_at&#39;] = False
+
+__pdoc__[&#39;Jobs.raw&#39;] = False
+__pdoc__[&#39;Jobs.id&#39;] = False
+__pdoc__[&#39;Jobs.account_id&#39;] = False
+__pdoc__[&#39;Jobs.name&#39;] = False
+__pdoc__[&#39;Jobs.status&#39;] = False
+__pdoc__[&#39;Jobs.details&#39;] = False
+
+# TODO Try string dictionaries with import companies. critical - OPTIONS CLASS
+# TODO change dictionary templates with &#34;options&#34; class. Maybe &#34;AfwOptions&#34; or &#34;ForgeOptions&#34; or &#34;CreationOptions&#34;
+# TODO json.dumps(data) to all options for requests data
+# TODO Remove all client parameters. client information is included in the Token now
+
+# Account Admin
+# Projects
+# PATCH projects/:project_id/image
+
+# Companies
+# POST companies/import NOT WORKING?
+
+# PATCH companies/:company_id/image
+
+# Account Users
+# POST users
+# POST users/import
+# GET users/search</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="adeskForgeWrapper.b360.BusinessUnits"><code class="flex name class">
+<span>class <span class="ident">BusinessUnits</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>BusinessUnits.raw<br>
+BusinessUnits.id<br>
+BusinessUnits.account_id<br>
+BusinessUnits.parent_id<br>
+BusinessUnits.name<br>
+BusinessUnits.description<br>
+BusinessUnits.path<br>
+BusinessUnits.created_at<br>
+BusinessUnits.updated_at</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BusinessUnits(object):
+    &#39;&#39;&#39;BusinessUnits.raw&lt;br&gt;
+    BusinessUnits.id&lt;br&gt;
+    BusinessUnits.account_id&lt;br&gt;
+    BusinessUnits.parent_id&lt;br&gt;
+    BusinessUnits.name&lt;br&gt;
+    BusinessUnits.description&lt;br&gt;
+    BusinessUnits.path&lt;br&gt;
+    BusinessUnits.created_at&lt;br&gt;
+    BusinessUnits.updated_at&#39;&#39;&#39;
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def parent_id(self):
+        return self.__raw.get(&#34;parent_id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def description(self):
+        return self.__raw.get(&#34;description&#34;, None)
+    @property
+    def path(self):
+        return self.__raw.get(&#34;path&#34;, None)
+    @property
+    def created_at(self):
+        return self.__raw.get(&#34;created_at&#34;, None)
+    @property
+    def updated_at(self):
+        return self.__raw.get(&#34;updated_at&#34;, None)
+
+    @classmethod
+    def get_business_units(cls, token):
+        &#39;&#39;&#39;Query all the business units in a specific BIM 360 account.
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        if r == {}:
+            raise AFWExceptions.APIError(&#34;No business units in this account.&#34;)
+        else:
+            return [cls(u) for u in r[&#34;business_units&#34;]]
+
+    @classmethod
+    def create_business_units(cls, token: client.Token, Data: list):
+        &#39;&#39;&#39;Creates or redefines the business units of a specific BIM 360 account.
+        Scope account:write
+        Data: A list of dictionaries with the following structure. Name is mandatory
+        &#39;Data = [
+                    {
+                        &#34;id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                        &#34;parent_id&#34;: null,
+                        &#34;name&#34;: &#34;North America&#34;,
+                        &#34;description&#34;: &#34;USA, Canada&#34;
+                    },
+                    {
+                        &#34;id&#34;: &#34;fda4ab9e-ab82-4ba9-8d6c-ae7dbd7cee31&#34;,
+                        &#34;parent_id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                        &#34;name&#34;: &#34;USA Western Region&#34;,
+                        &#34;description&#34;: &#34;California, Nevada, Washington&#34;
+                    }
+                ]&#39;&#39;&#39; # TODO Maybe to cope with list of dicts, solution could be createBusinessUnit and silently call the batch __createBusinessUnits (this func)
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=token.bimAccId)
+        bness = {&#34;business_units&#34;: Data}
+        r = requests.put(endpointUrl, headers=token.patchHeader, data=str(bness)).json()
+        checkResponse(r)
+        return [cls(u) for u in r[&#34;business_units&#34;]]</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.create_business_units"><code class="name flex">
+<span>def <span class="ident">create_business_units</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Data: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates or redefines the business units of a specific BIM 360 account.
+Scope account:write
+Data: A list of dictionaries with the following structure. Name is mandatory
+'Data = [
+{
+"id": "933df8fd-abb2-4e4e-8f79-95ba2afebc6c",
+"parent_id": null,
+"name": "North America",
+"description": "USA, Canada"
+},
+{
+"id": "fda4ab9e-ab82-4ba9-8d6c-ae7dbd7cee31",
+"parent_id": "933df8fd-abb2-4e4e-8f79-95ba2afebc6c",
+"name": "USA Western Region",
+"description": "California, Nevada, Washington"
+}
+]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def create_business_units(cls, token: client.Token, Data: list):
+    &#39;&#39;&#39;Creates or redefines the business units of a specific BIM 360 account.
+    Scope account:write
+    Data: A list of dictionaries with the following structure. Name is mandatory
+    &#39;Data = [
+                {
+                    &#34;id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                    &#34;parent_id&#34;: null,
+                    &#34;name&#34;: &#34;North America&#34;,
+                    &#34;description&#34;: &#34;USA, Canada&#34;
+                },
+                {
+                    &#34;id&#34;: &#34;fda4ab9e-ab82-4ba9-8d6c-ae7dbd7cee31&#34;,
+                    &#34;parent_id&#34;: &#34;933df8fd-abb2-4e4e-8f79-95ba2afebc6c&#34;,
+                    &#34;name&#34;: &#34;USA Western Region&#34;,
+                    &#34;description&#34;: &#34;California, Nevada, Washington&#34;
+                }
+            ]&#39;&#39;&#39; # TODO Maybe to cope with list of dicts, solution could be createBusinessUnit and silently call the batch __createBusinessUnits (this func)
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = &#34;/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=token.bimAccId)
+    bness = {&#34;business_units&#34;: Data}
+    r = requests.put(endpointUrl, headers=token.patchHeader, data=str(bness)).json()
+    checkResponse(r)
+    return [cls(u) for u in r[&#34;business_units&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.BusinessUnits.get_business_units"><code class="name flex">
+<span>def <span class="ident">get_business_units</span></span>(<span>token)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query all the business units in a specific BIM 360 account.
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def get_business_units(cls, token):
+    &#39;&#39;&#39;Query all the business units in a specific BIM 360 account.
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = &#34;/hq/v1/accounts/{aId}/business_units_structure&#34;.format(aId=token.bimAccId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    if r == {}:
+        raise AFWExceptions.APIError(&#34;No business units in this account.&#34;)
+    else:
+        return [cls(u) for u in r[&#34;business_units&#34;]]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company"><code class="flex name class">
+<span>class <span class="ident">Company</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for B360 API companies. Properties below<br>
+Company.raw <br>
+Company.id<br>
+Company.accId<br>
+Company.name<br>
+Company.trade<br>
+Company.address_line_1<br>
+Company.address_line_2<br>
+Company.city<br>
+Company.postal_code<br>
+Company.state_or_province<br>
+Company.country<br>
+Company.phone<br>
+Company.website_url<br>
+Company.description<br>
+Company.created_at<br>
+Company.updated_at<br>
+Company.erp_id<br>
+Company.tax_id</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Company(object):
+#hiddenRegion
+    &#39;&#39;&#39;Base class for B360 API companies. Properties below&lt;br&gt;
+    Company.raw &lt;br&gt;
+    Company.id&lt;br&gt;
+    Company.accId&lt;br&gt;
+    Company.name&lt;br&gt;
+    Company.trade&lt;br&gt;
+    Company.address_line_1&lt;br&gt;
+    Company.address_line_2&lt;br&gt;
+    Company.city&lt;br&gt;
+    Company.postal_code&lt;br&gt;
+    Company.state_or_province&lt;br&gt;
+    Company.country&lt;br&gt;
+    Company.phone&lt;br&gt;
+    Company.website_url&lt;br&gt;
+    Company.description&lt;br&gt;
+    Company.created_at&lt;br&gt;
+    Company.updated_at&lt;br&gt;
+    Company.erp_id&lt;br&gt;
+    Company.tax_id&#39;&#39;&#39;
+
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def trade(self):
+        return self.__raw.get(&#34;trade&#34;, None)
+    @property
+    def address_line_1(self):
+        return self.__raw.get(&#34;address_line_1&#34;, None)
+    @property
+    def address_line_2(self):
+        return self.__raw.get(&#34;address_line_2&#34;, None)
+    @property
+    def city(self):
+        return self.__raw.get(&#34;city&#34;, None)
+    @property
+    def postal_code(self):
+        return self.__raw.get(&#34;postal_code&#34;, None)
+    @property
+    def state_or_province(self):
+        return self.__raw.get(&#34;state_or_province&#34;, None)
+    @property
+    def country(self):
+        return self.__raw.get(&#34;country&#34;, None)
+    @property
+    def phone(self):
+        return self.__raw.get(&#34;phone&#34;, None)
+    @property
+    def website_url(self):
+        return self.__raw.get(&#34;website_url&#34;, None)
+    @property
+    def description(self):
+        return self.__raw.get(&#34;description&#34;, None)
+    @property
+    def created_at(self):
+        return self.__raw.get(&#34;created_at&#34;, None)
+    @property
+    def updated_at(self):
+        return self.__raw.get(&#34;updated_at&#34;, None)
+    @property
+    def erp_id(self):
+        return self.__raw.get(&#34;erp_id&#34;, None)
+    @property
+    def tax_id(self):
+        return self.__raw.get(&#34;tax_id&#34;, None)
+#endRegion
+
+    @classmethod
+    def company_by_id(cls, token: client.Token, c_id):
+        &#39;&#39;&#39;Query the details of a specific partner company.&lt;br&gt;
+        Scope: account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=token.bimAccId, cId=c_id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def get_companies(cls, token: client.Token):
+        &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.&lt;br&gt;
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies&#34;.format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(c) for c in r]
+
+    @classmethod
+    def searchCompaniesByName(cls, token: client.Token, searchOps):
+        &#39;&#39;&#39;Search partner companies in a specific BIM 360 account by name.&lt;br&gt;
+        Scope - account:read&lt;br&gt;
+        searchOps - Options.searchCompaniesOptions()
+        &#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/search&#34;.format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader, params=searchOps).json()
+        checkResponse(r)
+        if r == []:
+            return None
+        else:
+            return [cls(c) for c in r]
+
+    @classmethod
+    def importCompanies(cls, token: client.Token, Data: list):
+        &#39;&#39;&#39;TODO: ---NOT WORKING??  TRY---
+        Bulk import partner companies to the company directory in a specific BIM 360 account.
+        (50 companies maximum can be included in each call.)
+        Scope account:write
+        
+        Data template, must be a string.
+        data = [{
+                &#34;name&#34;:&#34;&#34;,
+                &#34;trade&#34;: &#34;&#34;,
+                &#34;website_url&#34;: &#34;&#34;,
+                &#34;city&#34;: &#34;&#34;,
+                &#34;country&#34;: &#34;&#34;,
+                &#34;address_line_1&#34;: &#34;&#34;,
+                &#34;address_line_2&#34;: &#34;&#34;,
+                &#34;postal_code&#34;: &#34;&#34;,
+                &#34;erp_id&#34;:&#34;&#34;,
+                &#34;tax_id&#34;:&#34;&#34;,
+                &#34;phone&#34;: &#34;&#34;,
+                &#34;description&#34;: &#34;&#34;
+                }]&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/import&#34;.format(aId=token.bimAccId)
+        r = requests.post(endpointUrl, headers=token.patchHeader,data=Data).json()
+        checkResponse(r)
+        print(&#34;Success:&#34;, r[&#34;success&#34;])
+        print(&#34;Failure:&#34;, r[&#34;failure&#34;])
+        return [cls(c) for c in r[&#34;success_items&#34;]]
+
+
+    def updateCompany(self, token: client.Token, updateCompanyOptions):
+        &#39;&#39;&#39;Update the properties of only the specified attributes of a specific partner company.&lt;br&gt;
+        Scope - account:write&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=self.account_id, cId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader,data=updateCompanyOptions).json()
+        checkResponse(r)
+        return Company(r)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Company.company_by_id"><code class="name flex">
+<span>def <span class="ident">company_by_id</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, c_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query the details of a specific partner company.<br>
+Scope: account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def company_by_id(cls, token: client.Token, c_id):
+    &#39;&#39;&#39;Query the details of a specific partner company.&lt;br&gt;
+    Scope: account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=token.bimAccId, cId=c_id)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.get_companies"><code class="name flex">
+<span>def <span class="ident">get_companies</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query all the partner companies in a specific BIM 360 account.<br>
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def get_companies(cls, token: client.Token):
+    &#39;&#39;&#39;Query all the partner companies in a specific BIM 360 account.&lt;br&gt;
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies&#34;.format(aId=token.bimAccId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return [cls(c) for c in r]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.importCompanies"><code class="name flex">
+<span>def <span class="ident">importCompanies</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Data: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>TODO: &mdash;NOT WORKING??
+TRY&mdash;
+Bulk import partner companies to the company directory in a specific BIM 360 account.
+(50 companies maximum can be included in each call.)
+Scope account:write</p>
+<p>Data template, must be a string.
+data = [{
+"name":"",
+"trade": "",
+"website_url": "",
+"city": "",
+"country": "",
+"address_line_1": "",
+"address_line_2": "",
+"postal_code": "",
+"erp_id":"",
+"tax_id":"",
+"phone": "",
+"description": ""
+}]</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def importCompanies(cls, token: client.Token, Data: list):
+    &#39;&#39;&#39;TODO: ---NOT WORKING??  TRY---
+    Bulk import partner companies to the company directory in a specific BIM 360 account.
+    (50 companies maximum can be included in each call.)
+    Scope account:write
+    
+    Data template, must be a string.
+    data = [{
+            &#34;name&#34;:&#34;&#34;,
+            &#34;trade&#34;: &#34;&#34;,
+            &#34;website_url&#34;: &#34;&#34;,
+            &#34;city&#34;: &#34;&#34;,
+            &#34;country&#34;: &#34;&#34;,
+            &#34;address_line_1&#34;: &#34;&#34;,
+            &#34;address_line_2&#34;: &#34;&#34;,
+            &#34;postal_code&#34;: &#34;&#34;,
+            &#34;erp_id&#34;:&#34;&#34;,
+            &#34;tax_id&#34;:&#34;&#34;,
+            &#34;phone&#34;: &#34;&#34;,
+            &#34;description&#34;: &#34;&#34;
+            }]&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/import&#34;.format(aId=token.bimAccId)
+    r = requests.post(endpointUrl, headers=token.patchHeader,data=Data).json()
+    checkResponse(r)
+    print(&#34;Success:&#34;, r[&#34;success&#34;])
+    print(&#34;Failure:&#34;, r[&#34;failure&#34;])
+    return [cls(c) for c in r[&#34;success_items&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Company.searchCompaniesByName"><code class="name flex">
+<span>def <span class="ident">searchCompaniesByName</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, searchOps)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Search partner companies in a specific BIM 360 account by name.<br>
+Scope - account:read<br>
+searchOps - Options.searchCompaniesOptions()</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def searchCompaniesByName(cls, token: client.Token, searchOps):
+    &#39;&#39;&#39;Search partner companies in a specific BIM 360 account by name.&lt;br&gt;
+    Scope - account:read&lt;br&gt;
+    searchOps - Options.searchCompaniesOptions()
+    &#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/search&#34;.format(aId=token.bimAccId)
+    r = requests.get(endpointUrl, headers=token.getHeader, params=searchOps).json()
+    checkResponse(r)
+    if r == []:
+        return None
+    else:
+        return [cls(c) for c in r]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Company.account_id"><code class="name">var <span class="ident">account_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def account_id(self):
+    return self.__raw.get(&#34;account_id&#34;, None)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Company.updateCompany"><code class="name flex">
+<span>def <span class="ident">updateCompany</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, updateCompanyOptions)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the properties of only the specified attributes of a specific partner company.<br>
+Scope - account:write</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def updateCompany(self, token: client.Token, updateCompanyOptions):
+    &#39;&#39;&#39;Update the properties of only the specified attributes of a specific partner company.&lt;br&gt;
+    Scope - account:write&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/companies/{cId}&#34;.format(aId=self.account_id, cId=self.id)
+    r = requests.patch(endpointUrl, headers=token.patchHeader,data=updateCompanyOptions).json()
+    checkResponse(r)
+    return Company(r)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.IndustryRoles"><code class="flex name class">
+<span>class <span class="ident">IndustryRoles</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>IndustryRoles.raw<br>
+IndustryRoles.id<br>
+IndustryRoles.project_id<br>
+IndustryRoles.name<br>
+IndustryRoles.projectAdminAccess<br>
+IndustryRoles.insightAccess<br>
+IndustryRoles.docManagementAccess<br>
+IndustryRoles.member_group_id</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IndustryRoles(object):
+    &#39;&#39;&#39;IndustryRoles.raw&lt;br&gt;
+    IndustryRoles.id&lt;br&gt;
+    IndustryRoles.project_id&lt;br&gt;
+    IndustryRoles.name&lt;br&gt;
+    IndustryRoles.projectAdminAccess&lt;br&gt;
+    IndustryRoles.insightAccess&lt;br&gt;
+    IndustryRoles.docManagementAccess&lt;br&gt;
+    IndustryRoles.member_group_id&#39;&#39;&#39;
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def project_id(self):
+        return self.__raw.get(&#34;project_id&#34;, None)
+    @property
+    def projectAdminAccess(self):
+        return self.__raw[&#34;services&#34;][&#34;project_administration&#34;].get(&#34;access_level&#34;, None)
+    @property
+    def insightAccess(self):
+        return self.__raw.get[&#34;services&#34;][&#34;insight&#34;].get(&#34;access_level&#34;, None)
+    @property
+    def docManagementAccess(self):
+        return self.__raw[&#34;services&#34;][&#34;document_management&#34;].get(&#34;access_level&#34;, None)
+    @property
+    def member_group_id(self):
+        return self.__raw.get(&#34;member_group_id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Jobs"><code class="flex name class">
+<span>class <span class="ident">Jobs</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Jobs.raw<br>
+Jobs.id<br>
+Jobs.account_id<br>
+Jobs.name<br>
+Jobs.status<br>
+Jobs.details</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Jobs(object):
+    &#39;&#39;&#39;Jobs.raw&lt;br&gt;
+    Jobs.id&lt;br&gt;
+    Jobs.account_id&lt;br&gt;
+    Jobs.name&lt;br&gt;
+    Jobs.status&lt;br&gt;
+    Jobs.details&#39;&#39;&#39;
+    def __init__(self, rawDict):
+        self.__raw = rawDict or None
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def status(self):
+        return self.__raw.get(&#34;status&#34;, None)
+    @property
+    def details(self):
+        return self.__raw.get(&#34;details&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Options"><code class="flex name class">
+<span>class <span class="ident">Options</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Some methods require data and parameters in diferent formats,
+this class makes it easy to add those and ensures the information is sent the right way.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Options(object):
+    &#39;&#39;&#39;Some methods require data and parameters in diferent formats, 
+    this class makes it easy to add those and ensures the information is sent the right way.&#39;&#39;&#39;
+    @staticmethod
+    def create_project_options(name, start_date, end_date, project_type, value, currency, service_types=None,
+                            job_number=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, 
+                            postal_code=None, country=None, business_unit_id=None, timezone=None, language=None, construction_type=None, 
+                            contract_type=None, template_project_id=None, include_companies=None, include_locations=None):
+        &#39;&#39;&#39;Data used to create a project.&lt;br&gt;
+        Note that NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are required values.
+        start_date - YYYY-MM-DD
+        end_date - YYYY-MM-DD, later than start date
+        project_type - Refer to parameters (https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/)
+        currency - Refer to parameters
+        language - Refer to parameters&#39;&#39;&#39;
+
+        data = {
+            &#34;name&#34;:name,
+            &#34;service_types&#34;:service_types,
+            &#34;start_date&#34;:start_date,
+            &#34;end_date&#34;:end_date,
+            &#34;project_type&#34;:project_type, 
+            &#34;value&#34;:value,
+            &#34;currency&#34;:currency,
+            &#34;job_number&#34;:job_number,
+            &#34;address_line_1&#34;:address_line_1,
+            &#34;address_line_2&#34;:address_line_2,
+            &#34;city&#34;:city,
+            &#34;state_or_province&#34;:state_or_province,
+            &#34;postal_code&#34;:postal_code,
+            &#34;country&#34;:country,
+            &#34;business_unit_id&#34;:business_unit_id,
+            &#34;timezone&#34;:timezone,
+            &#34;language&#34;:language,
+            &#34;construction_type&#34;:construction_type,
+            &#34;contract_type&#34;:contract_type,
+            &#34;template_project_id&#34;:template_project_id,
+            &#34;include_companies&#34;:include_companies,
+            &#34;include_locations&#34;:include_locations,
+        }
+        data = {k : v for k,v in data.items() if v is not None}
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def update_project_options(name = None, service_types = None, status = None, start_date = None,
+                             end_date = None, project_type = None, value = None, currency = None, job_number = None,
+                             address_line_1 = None, address_line_2 = None, city = None, state_or_province = None,
+                             postal_code = None, country = None, business_unit_id = None, timezone = None, language = None,
+                             construction_type = None, contract_type = None):
+        &#39;&#39;&#39;Options to update a project.&#39;&#39;&#39;
+        
+        data = {
+            &#34;name&#34;:name,
+            &#34;service_types&#34;:service_types,
+            &#34;status&#34;:status,
+            &#34;start_date&#34;:start_date,
+            &#34;end_date&#34;:end_date,
+            &#34;project_type&#34;:project_type,
+            &#34;value&#34;:value,
+            &#34;currency&#34;:currency,
+            &#34;job_number&#34;:job_number,
+            &#34;address_line_1&#34;:address_line_1,
+            &#34;address_line_2&#34;:address_line_2,
+            &#34;city&#34;:city,
+            &#34;state_or_province&#34;:state_or_province,
+            &#34;postal_code&#34;:postal_code,
+            &#34;country&#34;:country,
+            &#34;business_unit_id&#34;:business_unit_id,
+            &#34;timezone&#34;:timezone,
+            &#34;language&#34;:language,
+            &#34;construction_type&#34;:construction_type,
+            &#34;contract_type&#34;:contract_type
+        }
+        data = {k : v for k,v in data.items() if v is not None} 
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def export_PDF_options(versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
+        &#39;&#39;&#39;Options to export PDFs&#39;&#39;&#39;
+        if type(includeMarkups) != bool or type(includeMarkups) != bool:
+            raise TypeError(&#34;includeMarkups/includeHyperlinks expected bool&#34;)
+        data={&#34;includeMarkups&#34;: includeMarkups,
+              &#34;includeHyperlinks&#34;: includeHyperlinks}
+        return (versionId, data)
+
+    @staticmethod
+    def update_user_options(status, company_id):
+        &#39;&#39;&#39;Options to update a user&#39;&#39;&#39;
+        data = {
+                &#34;status&#34;: status,
+                &#34;company_id&#34;: company_id
+                }
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def update_company_options(name = None, trade = None, address_line_1 = None, address_line_2 = None, city = None, state_or_province = None, country = None,
+                             phone = None, website_url = None, description = None, erp_id = None, tax_id = None):
+        &#39;&#39;&#39;Options for updateCompany&#39;&#39;&#39;
+        
+        data = {&#34;name&#34;:name,
+                &#34;trade&#34;:trade,
+                &#34;address_line_1&#34;:address_line_1,
+                &#34;address_line_2&#34;:address_line_2,
+                &#34;city&#34;:city,
+                &#34;state_or_province&#34;:state_or_province,
+                &#34;country&#34;:country,
+                &#34;phone&#34;:phone,
+                &#34;website_url&#34;:website_url,
+                &#34;description&#34;:description,
+                &#34;erp_id&#34;:erp_id,
+                &#34;tax_id&#34;:tax_id
+                }
+        data = {k : v for k,v in data.items() if v is not None} 
+        return json.dumps(data, ensure_ascii=True)
+
+    @staticmethod
+    def search_companies_options(name = None, trade = None, operator = None, partial = None, limit = None, offset = None, sort = None, field = None):
+        &#39;&#39;&#39;Options for searchCompany&#39;&#39;&#39;
+        params = (
+                (&#39;name&#39;, name),
+                (&#39;trade&#39;, trade),
+                (&#39;operator&#39;, operator),
+                (&#39;partial&#39;, partial),
+                (&#39;limit&#39;, limit),
+                (&#39;offset&#39;, offset),
+                (&#39;sort&#39;, sort),
+                (&#39;field&#39;, field)
+        )
+        return params
+
+    @staticmethod
+    def add_user_options(email = None, user_id = None, services = None, docManagementAccessLevel = None,
+                                projectAdminAccessLevel = None, company_id = None, industry_roles = None):
+        &#39;&#39;&#39;Use this method for each user you want to update&#39;&#39;&#39;
+        data={
+            &#34;email&#34;: email,
+            &#34;user_id&#34;: user_id,
+            &#34;services&#34;: {
+                        &#34;document_management&#34;: {&#34;access_level&#34;: docManagementAccessLevel},
+                        &#34;project_administration&#34;: {&#34;access_level&#34;: projectAdminAccessLevel},
+                        },
+            &#34;company_id&#34;:company_id,
+            &#34;industry_roles&#34;:industry_roles
+          }
+        return data</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Options.add_user_options"><code class="name flex">
+<span>def <span class="ident">add_user_options</span></span>(<span>email=None, user_id=None, services=None, docManagementAccessLevel=None, projectAdminAccessLevel=None, company_id=None, industry_roles=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Use this method for each user you want to update</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def add_user_options(email = None, user_id = None, services = None, docManagementAccessLevel = None,
+                            projectAdminAccessLevel = None, company_id = None, industry_roles = None):
+    &#39;&#39;&#39;Use this method for each user you want to update&#39;&#39;&#39;
+    data={
+        &#34;email&#34;: email,
+        &#34;user_id&#34;: user_id,
+        &#34;services&#34;: {
+                    &#34;document_management&#34;: {&#34;access_level&#34;: docManagementAccessLevel},
+                    &#34;project_administration&#34;: {&#34;access_level&#34;: projectAdminAccessLevel},
+                    },
+        &#34;company_id&#34;:company_id,
+        &#34;industry_roles&#34;:industry_roles
+      }
+    return data</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Options.create_project_options"><code class="name flex">
+<span>def <span class="ident">create_project_options</span></span>(<span>name, start_date, end_date, project_type, value, currency, service_types=None, job_number=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, postal_code=None, country=None, business_unit_id=None, timezone=None, language=None, construction_type=None, contract_type=None, template_project_id=None, include_companies=None, include_locations=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Data used to create a project.<br>
+Note that NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are required values.
+start_date - YYYY-MM-DD
+end_date - YYYY-MM-DD, later than start date
+project_type - Refer to parameters (<a href="https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/">https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/</a>)
+currency - Refer to parameters
+language - Refer to parameters</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def create_project_options(name, start_date, end_date, project_type, value, currency, service_types=None,
+                        job_number=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, 
+                        postal_code=None, country=None, business_unit_id=None, timezone=None, language=None, construction_type=None, 
+                        contract_type=None, template_project_id=None, include_companies=None, include_locations=None):
+    &#39;&#39;&#39;Data used to create a project.&lt;br&gt;
+    Note that NAME, START_DATE, END_DATE, PROJECT_TYPE, VALUE and CURRENCY are required values.
+    start_date - YYYY-MM-DD
+    end_date - YYYY-MM-DD, later than start date
+    project_type - Refer to parameters (https://forge.autodesk.com/en/docs/bim360/v1/overview/parameters/)
+    currency - Refer to parameters
+    language - Refer to parameters&#39;&#39;&#39;
+
+    data = {
+        &#34;name&#34;:name,
+        &#34;service_types&#34;:service_types,
+        &#34;start_date&#34;:start_date,
+        &#34;end_date&#34;:end_date,
+        &#34;project_type&#34;:project_type, 
+        &#34;value&#34;:value,
+        &#34;currency&#34;:currency,
+        &#34;job_number&#34;:job_number,
+        &#34;address_line_1&#34;:address_line_1,
+        &#34;address_line_2&#34;:address_line_2,
+        &#34;city&#34;:city,
+        &#34;state_or_province&#34;:state_or_province,
+        &#34;postal_code&#34;:postal_code,
+        &#34;country&#34;:country,
+        &#34;business_unit_id&#34;:business_unit_id,
+        &#34;timezone&#34;:timezone,
+        &#34;language&#34;:language,
+        &#34;construction_type&#34;:construction_type,
+        &#34;contract_type&#34;:contract_type,
+        &#34;template_project_id&#34;:template_project_id,
+        &#34;include_companies&#34;:include_companies,
+        &#34;include_locations&#34;:include_locations,
+    }
+    data = {k : v for k,v in data.items() if v is not None}
+    return json.dumps(data, ensure_ascii=True)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Options.export_PDF_options"><code class="name flex">
+<span>def <span class="ident">export_PDF_options</span></span>(<span>versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Options to export PDFs</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def export_PDF_options(versionId: str, includeMarkups: bool = False, includeHyperlinks: bool = False):
+    &#39;&#39;&#39;Options to export PDFs&#39;&#39;&#39;
+    if type(includeMarkups) != bool or type(includeMarkups) != bool:
+        raise TypeError(&#34;includeMarkups/includeHyperlinks expected bool&#34;)
+    data={&#34;includeMarkups&#34;: includeMarkups,
+          &#34;includeHyperlinks&#34;: includeHyperlinks}
+    return (versionId, data)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Options.search_companies_options"><code class="name flex">
+<span>def <span class="ident">search_companies_options</span></span>(<span>name=None, trade=None, operator=None, partial=None, limit=None, offset=None, sort=None, field=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Options for searchCompany</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def search_companies_options(name = None, trade = None, operator = None, partial = None, limit = None, offset = None, sort = None, field = None):
+    &#39;&#39;&#39;Options for searchCompany&#39;&#39;&#39;
+    params = (
+            (&#39;name&#39;, name),
+            (&#39;trade&#39;, trade),
+            (&#39;operator&#39;, operator),
+            (&#39;partial&#39;, partial),
+            (&#39;limit&#39;, limit),
+            (&#39;offset&#39;, offset),
+            (&#39;sort&#39;, sort),
+            (&#39;field&#39;, field)
+    )
+    return params</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Options.update_company_options"><code class="name flex">
+<span>def <span class="ident">update_company_options</span></span>(<span>name=None, trade=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, country=None, phone=None, website_url=None, description=None, erp_id=None, tax_id=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Options for updateCompany</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def update_company_options(name = None, trade = None, address_line_1 = None, address_line_2 = None, city = None, state_or_province = None, country = None,
+                         phone = None, website_url = None, description = None, erp_id = None, tax_id = None):
+    &#39;&#39;&#39;Options for updateCompany&#39;&#39;&#39;
+    
+    data = {&#34;name&#34;:name,
+            &#34;trade&#34;:trade,
+            &#34;address_line_1&#34;:address_line_1,
+            &#34;address_line_2&#34;:address_line_2,
+            &#34;city&#34;:city,
+            &#34;state_or_province&#34;:state_or_province,
+            &#34;country&#34;:country,
+            &#34;phone&#34;:phone,
+            &#34;website_url&#34;:website_url,
+            &#34;description&#34;:description,
+            &#34;erp_id&#34;:erp_id,
+            &#34;tax_id&#34;:tax_id
+            }
+    data = {k : v for k,v in data.items() if v is not None} 
+    return json.dumps(data, ensure_ascii=True)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Options.update_project_options"><code class="name flex">
+<span>def <span class="ident">update_project_options</span></span>(<span>name=None, service_types=None, status=None, start_date=None, end_date=None, project_type=None, value=None, currency=None, job_number=None, address_line_1=None, address_line_2=None, city=None, state_or_province=None, postal_code=None, country=None, business_unit_id=None, timezone=None, language=None, construction_type=None, contract_type=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Options to update a project.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def update_project_options(name = None, service_types = None, status = None, start_date = None,
+                         end_date = None, project_type = None, value = None, currency = None, job_number = None,
+                         address_line_1 = None, address_line_2 = None, city = None, state_or_province = None,
+                         postal_code = None, country = None, business_unit_id = None, timezone = None, language = None,
+                         construction_type = None, contract_type = None):
+    &#39;&#39;&#39;Options to update a project.&#39;&#39;&#39;
+    
+    data = {
+        &#34;name&#34;:name,
+        &#34;service_types&#34;:service_types,
+        &#34;status&#34;:status,
+        &#34;start_date&#34;:start_date,
+        &#34;end_date&#34;:end_date,
+        &#34;project_type&#34;:project_type,
+        &#34;value&#34;:value,
+        &#34;currency&#34;:currency,
+        &#34;job_number&#34;:job_number,
+        &#34;address_line_1&#34;:address_line_1,
+        &#34;address_line_2&#34;:address_line_2,
+        &#34;city&#34;:city,
+        &#34;state_or_province&#34;:state_or_province,
+        &#34;postal_code&#34;:postal_code,
+        &#34;country&#34;:country,
+        &#34;business_unit_id&#34;:business_unit_id,
+        &#34;timezone&#34;:timezone,
+        &#34;language&#34;:language,
+        &#34;construction_type&#34;:construction_type,
+        &#34;contract_type&#34;:contract_type
+    }
+    data = {k : v for k,v in data.items() if v is not None} 
+    return json.dumps(data, ensure_ascii=True)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Options.update_user_options"><code class="name flex">
+<span>def <span class="ident">update_user_options</span></span>(<span>status, company_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Options to update a user</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def update_user_options(status, company_id):
+    &#39;&#39;&#39;Options to update a user&#39;&#39;&#39;
+    data = {
+            &#34;status&#34;: status,
+            &#34;company_id&#34;: company_id
+            }
+    return json.dumps(data, ensure_ascii=True)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project"><code class="flex name class">
+<span>class <span class="ident">Project</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for B360 API projects. Properties below
+Project.raw<br>
+Project.id<br>
+Project.accId<br>
+Project.name<br>
+Project.start_date<br>
+Project.end_date<br>
+Project.project_type<br>
+Project.value<br>
+Project.currency<br>
+Project.status<br>
+Project.job_number<br>
+Project.address_line_1<br>
+Project.address_line_2<br>
+Project.city<br>
+Project.state_or_province<br>
+Project.postal_code<br>
+Project.country<br>
+Project.business_unit_id<br>
+Project.timezone<br>
+Project.language <br>
+Project.construction_type<br>
+Project.contract_type<br>
+Project.service_types<br>
+Project.created_at<br>
+Project.updated_at</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Project(object):
+#hiddenRegion
+    &#39;&#39;&#39;Class for B360 API projects. Properties below
+    Project.raw&lt;br&gt;
+    Project.id&lt;br&gt;
+    Project.accId&lt;br&gt;
+    Project.name&lt;br&gt;
+    Project.start_date&lt;br&gt;
+    Project.end_date&lt;br&gt;
+    Project.project_type&lt;br&gt;
+    Project.value&lt;br&gt;
+    Project.currency&lt;br&gt;
+    Project.status&lt;br&gt;
+    Project.job_number&lt;br&gt;
+    Project.address_line_1&lt;br&gt; 
+    Project.address_line_2&lt;br&gt;
+    Project.city&lt;br&gt;
+    Project.state_or_province&lt;br&gt;
+    Project.postal_code&lt;br&gt;
+    Project.country&lt;br&gt;
+    Project.business_unit_id&lt;br&gt;
+    Project.timezone&lt;br&gt;
+    Project.language &lt;br&gt;
+    Project.construction_type&lt;br&gt;
+    Project.contract_type&lt;br&gt;
+    Project.service_types&lt;br&gt;
+    Project.created_at&lt;br&gt;
+    Project.updated_at&#39;&#39;&#39;
+
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def start_date(self):
+        return self.__raw.get(&#34;start_date&#34;, None)
+    @property
+    def end_date(self):
+        return self.__raw.get(&#34;end_date&#34;, None)
+    @property
+    def project_type(self):
+        return self.__raw.get(&#34;project_type&#34;, None)
+    @property
+    def value(self):
+        return self.__raw.get(&#34;value&#34;, None)
+    @property
+    def currency(self):
+        return self.__raw.get(&#34;currency&#34;, None)
+    @property
+    def status(self):
+        return self.__raw.get(&#34;status&#34;, None)
+    @property
+    def job_number(self):
+        return self.__raw.get(&#34;job_number&#34;, None)
+    @property
+    def address_line_1(self):
+        return self.__raw.get(&#34;address_line_1&#34;, None)
+    @property
+    def address_line_2(self):
+        return self.__raw.get(&#34;address_line_2&#34;, None)
+    @property
+    def city(self):
+        return self.__raw.get(&#34;city&#34;, None)
+    @property
+    def state_or_province(self):
+        return self.__raw.get(&#34;state_or_province&#34;, None)
+    @property
+    def postal_code(self):
+        return self.__raw.get(&#34;postal_code&#34;, None)
+    @property
+    def country(self):
+        return self.__raw.get(&#34;country&#34;, None)
+    @property
+    def business_unit_id(self):
+        return self.__raw.get(&#34;business_unit_id&#34;, None)
+    @property
+    def timezone(self):
+        return self.__raw.get(&#34;timezone&#34;, None)
+    @property
+    def language(self):
+        return self.__raw.get(&#34;language&#34;, None)
+    @property
+    def construction_type(self):
+        return self.__raw.get(&#34;construction_type&#34;, None)
+    @property
+    def contract_type(self):
+        return self.__raw.get(&#34;contract_type&#34;, None)
+    @property
+    def last_sign_in(self):
+        return self.__raw.get(&#34;last_sign_in&#34;, None)
+    @property
+    def service_types(self):
+        return self.__raw.get(&#34;service_types&#34;, None)
+    @property
+    def created_at(self):
+        return self.__raw.get(&#34;created_at&#34;, None)
+    @property
+    def updated_at(self):
+        return self.__raw.get(&#34;updated_at&#34;, None)
+#endRegion
+
+    @classmethod
+    def get_projects(cls, token: client.Token):
+        &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.&lt;br&gt;
+        Scope - account:read&lt;br&gt;
+        Returns a list of project objects.&#39;&#39;&#39;
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects&#34;.format(aId=token.bimAccId)
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(p) for p in r]
+
+
+    @classmethod
+    def project_by_id(cls, token: client.Token, p_id):
+        &#39;&#39;&#39;Query the details of a specific BIM 360 project.&lt;br&gt;
+        Scope: account:read&#39;&#39;&#39;
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=token.bimAccId, pId=p_id)
+        checkScopes(token, &#34;account:read&#34;)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+
+    @classmethod
+    def create_project(cls, token: client.Token, create_project_options):
+        &#39;&#39;&#39;Create a new BIM 360 project in a specific BIM 360 account.&lt;br&gt;
+        Scope - account:write&lt;br&gt;
+        creationOps - From Options Class, createProjectOptions()&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects&#34;.format(aId=token.bimAccId)
+        r = requests.post(endpointUrl, headers=token.patchHeader, data=create_project_options).json()
+        print(r)
+        checkResponse(r)
+        return cls(r)
+
+    def update_project(self, token: client.Token, update_project_options):
+        &#39;&#39;&#39;Update the properties of only the specified attributes of a specific BIM 360 project.&lt;br&gt;
+           Scope - account:write account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=self.account_id, pId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_project_options).json()
+        checkResponse(r)
+        return Project(r)
+    
+    def get_users(self, token: client.Token):
+        &#39;&#39;&#39;Retrieves information about all the users in a project.&lt;br&gt;
+        To get information about all the users in an account, see GET accounts/users.&lt;br&gt;
+        Scope - account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/bim360/admin/v1/projects/{pId}/users&#34;.format(pId=self.id)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [User(u) for u in r[&#34;results&#34;]]
+
+    def user_by_id(self, token: client.Token, userId):
+        &#39;&#39;&#39;Retrieves detailed information about a single user in a project.&lt;br&gt;
+        Scope - account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/bim360/admin/v1/projects/{pId}/users/{uId}&#34;.format(pId=self.id, uId=userId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return User(r)
+
+    def add_users(self, token: client.Token, add_user_options: list):
+        # TODO TO REVIEW. ITEMS FAIL
+        # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
+        # TODO ADD OPTIONS class
+        &#39;&#39;&#39;Adds users (project admin and project user) to a project. You can add up to 50 users per call.&lt;br&gt;
+            Scope - account:write&lt;br&gt;
+            addUserToProjectOps - MUST BE A LIST of Options.addUserToProjectOptions&lt;br&gt;
+
+            To add users to an account (account user), see POST users.&lt;br&gt;
+            You can specify the following details about the user:&lt;br&gt;
+            The user’s access level for the project (admin or user).&lt;br&gt;
+            The company the user is assigned to for the project.&lt;br&gt;
+            The industry roles assigned to the user for the project.&lt;br&gt;
+            The user’s email address.&lt;br&gt;&lt;br&gt;
+            &#39;&#39;&#39;
+        if type(add_user_options) != list:
+            raise AFWExceptions.AFWError(&#34;add_user_options must be a list of Options.add_user_options&#34;)
+        checkScopes(token, &#34;account:write&#34;)
+        add_user_options = json.dumps(add_user_options)
+        endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/users/import&#34;.format(aId=self.account_id ,pId=self.id)
+        r = requests.post(endpointUrl, headers=token.contentXUser, data=add_user_options).json()
+        checkResponse(r)
+        print(&#34;Success:&#34;, r[&#34;success&#34;])
+        print(&#34;Failed:&#34;, r[&#34;failure&#34;])
+        return [User.user_by_id(token, u[&#34;user_id&#34;]) for u in r[&#34;success_items&#34;]]
+
+    def update_user_by_id(self, token: client.Token, userId, update_user_options):
+        &#39;&#39;&#39;Updates a user’s profile for a project, including:&lt;br&gt;&lt;br&gt;
+
+        The company the user is assigned to for the project.&lt;br&gt;
+        The industry roles assigned to the user for the project.&lt;br&gt;&lt;br&gt;
+        Scope - account:write
+        
+        Returns a User object&#39;&#39;&#39;
+        # TODO: Thinking about changing user id with user object, updating the user object with the response
+
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}&#34;.format(aId=self.account_id ,pId=self.id, uId=userId)
+        r = requests.patch(endpointUrl, headers=token.contentXUser, data=update_user_options).json()
+        checkResponse(r)
+        return User(r)
+    def industry_roles(self, token: client.Token):
+        &#39;&#39;&#39;Retrieves the industry roles for the project. For example, contractor and architect.&lt;br&gt;
+        Scope - account:read&#39;&#39;&#39;
+
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/industry_roles&#34;.format(aId=self.account_id ,pId=self.id)
+        r = requests.get(endpointUrl, headers=token.patchHeader).json()
+        checkResponse(r)
+        return [IndustryRoles(i) for i in r]
+
+    def export_PDF(self, token: client.Token, export_PDF_options):
+        &#39;&#39;&#39;Exports a single page from an uploaded PDF file into a new PDF file.&lt;br&gt;
+            You can also export the page’s markups (annotations) and hyperlinks.&lt;br&gt;
+            Scope - data:read&lt;br&gt;
+            exportOptions - exportPDFOptions()&lt;br&gt;
+            Note that you can only export a page from a PDF file that was uploaded to the Plans folder or 
+            to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management 
+            splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page.&lt;br&gt;
+            You can identify exportable PDF files, by searching for files with the following combmination of properties:&lt;br&gt;&lt;br&gt;
+
+            attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)&lt;br&gt;
+            attributes.extension.data.sourceFileName: &lt;filename&gt;.pdf (identifies all PDF files)&lt;br&gt;
+            You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from 
+            PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the 
+            BIM 360 endpoints, see the File Upload tutorial.&lt;br&gt;&lt;br&gt;
+
+            Note that this endpoint is asynchronous and initiates a job that 
+            runs in the background, rather than halting execution of your program.&lt;br&gt;
+            The response returns an export ID that you can use to call getPDFExport() 
+            to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.&lt;br&gt;&lt;br&gt;
+
+            Note that the user must have permission to view files. For information about permissions, see the Help documentation.&lt;br&gt;&lt;br&gt;
+
+            For more details about exporting PDF files, see the PDF Export tutorial.&lt;br&gt;&lt;br&gt;
+
+            For more information about Document Management endpoints, see the Data Management API&lt;br&gt;&lt;br&gt;
+            &#39;&#39;&#39;
+
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/bim360/docs/v1/projects/{pId}/versions/{vId}/exports&#34;.format(pId=self.id, vId=export_PDF_options[0])
+        r = requests.post(endpointUrl, headers=token.patchHeader, data=str(export_PDF_options[1])).json()
+        checkResponse(r)
+        print(&#34;Id: {id}\nStatus: {status}&#34;.format(id=r[&#34;id&#34;], status=r[&#34;status&#34;]))
+        return r
+
+    def get_PDF_export(self, token: client.Token, versionId: str, exportId: str):
+        &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.&lt;br&gt;
+            The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.&lt;br&gt;
+            To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn.&lt;br&gt;&lt;br&gt;
+            
+            For more information about Document Management endpoints, see the Data Management API&#39;&#39;&#39;
+            # TODO: Model derivative api function here
+
+        checkScopes(token, &#34;data:read&#34;)
+        endpointUrl = BASE_URL+&#34;/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}&#34;.format(pId=self.id, vId=versionId, eId=exportId)
+        r = requests.get(endpointUrl, headers=token.contentXUser).json()
+        checkResponse(r)
+        print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
+                 #TODO: Range header
+        return r</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Project.create_project"><code class="name flex">
+<span>def <span class="ident">create_project</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, create_project_options)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create a new BIM 360 project in a specific BIM 360 account.<br>
+Scope - account:write<br>
+creationOps - From Options Class, createProjectOptions()</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def create_project(cls, token: client.Token, create_project_options):
+    &#39;&#39;&#39;Create a new BIM 360 project in a specific BIM 360 account.&lt;br&gt;
+    Scope - account:write&lt;br&gt;
+    creationOps - From Options Class, createProjectOptions()&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects&#34;.format(aId=token.bimAccId)
+    r = requests.post(endpointUrl, headers=token.patchHeader, data=create_project_options).json()
+    print(r)
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.get_projects"><code class="name flex">
+<span>def <span class="ident">get_projects</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query all the projects in a specific BIM 360 account.<br>
+Scope - account:read<br>
+Returns a list of project objects.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def get_projects(cls, token: client.Token):
+    &#39;&#39;&#39;Query all the projects in a specific BIM 360 account.&lt;br&gt;
+    Scope - account:read&lt;br&gt;
+    Returns a list of project objects.&#39;&#39;&#39;
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects&#34;.format(aId=token.bimAccId)
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return [cls(p) for p in r]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.project_by_id"><code class="name flex">
+<span>def <span class="ident">project_by_id</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, p_id)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query the details of a specific BIM 360 project.<br>
+Scope: account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def project_by_id(cls, token: client.Token, p_id):
+    &#39;&#39;&#39;Query the details of a specific BIM 360 project.&lt;br&gt;
+    Scope: account:read&#39;&#39;&#39;
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=token.bimAccId, pId=p_id)
+    checkScopes(token, &#34;account:read&#34;)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Project.account_id"><code class="name">var <span class="ident">account_id</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def account_id(self):
+    return self.__raw.get(&#34;account_id&#34;, None)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.last_sign_in"><code class="name">var <span class="ident">last_sign_in</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def last_sign_in(self):
+    return self.__raw.get(&#34;last_sign_in&#34;, None)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.Project.add_users"><code class="name flex">
+<span>def <span class="ident">add_users</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, add_user_options: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds users (project admin and project user) to a project. You can add up to 50 users per call.<br>
+Scope - account:write<br>
+addUserToProjectOps - MUST BE A LIST of Options.addUserToProjectOptions<br></p>
+<p>To add users to an account (account user), see POST users.<br>
+You can specify the following details about the user:<br>
+The user’s access level for the project (admin or user).<br>
+The company the user is assigned to for the project.<br>
+The industry roles assigned to the user for the project.<br>
+The user’s email address.<br><br></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_users(self, token: client.Token, add_user_options: list):
+    # TODO TO REVIEW. ITEMS FAIL
+    # TODO ADD NEW HEADER ITEM, X-USER-ID TO TOKEN
+    # TODO ADD OPTIONS class
+    &#39;&#39;&#39;Adds users (project admin and project user) to a project. You can add up to 50 users per call.&lt;br&gt;
+        Scope - account:write&lt;br&gt;
+        addUserToProjectOps - MUST BE A LIST of Options.addUserToProjectOptions&lt;br&gt;
+
+        To add users to an account (account user), see POST users.&lt;br&gt;
+        You can specify the following details about the user:&lt;br&gt;
+        The user’s access level for the project (admin or user).&lt;br&gt;
+        The company the user is assigned to for the project.&lt;br&gt;
+        The industry roles assigned to the user for the project.&lt;br&gt;
+        The user’s email address.&lt;br&gt;&lt;br&gt;
+        &#39;&#39;&#39;
+    if type(add_user_options) != list:
+        raise AFWExceptions.AFWError(&#34;add_user_options must be a list of Options.add_user_options&#34;)
+    checkScopes(token, &#34;account:write&#34;)
+    add_user_options = json.dumps(add_user_options)
+    endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/users/import&#34;.format(aId=self.account_id ,pId=self.id)
+    r = requests.post(endpointUrl, headers=token.contentXUser, data=add_user_options).json()
+    checkResponse(r)
+    print(&#34;Success:&#34;, r[&#34;success&#34;])
+    print(&#34;Failed:&#34;, r[&#34;failure&#34;])
+    return [User.user_by_id(token, u[&#34;user_id&#34;]) for u in r[&#34;success_items&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.export_PDF"><code class="name flex">
+<span>def <span class="ident">export_PDF</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, export_PDF_options)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exports a single page from an uploaded PDF file into a new PDF file.<br>
+You can also export the page’s markups (annotations) and hyperlinks.<br>
+Scope - data:read<br>
+exportOptions - exportPDFOptions()<br>
+Note that you can only export a page from a PDF file that was uploaded to the Plans folder or
+to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management
+splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page.<br>
+You can identify exportable PDF files, by searching for files with the following combmination of properties:<br><br></p>
+<p>attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)<br>
+attributes.extension.data.sourceFileName: <filename>.pdf (identifies all PDF files)<br>
+You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from
+PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the
+BIM 360 endpoints, see the File Upload tutorial.<br><br></p>
+<p>Note that this endpoint is asynchronous and initiates a job that
+runs in the background, rather than halting execution of your program.<br>
+The response returns an export ID that you can use to call getPDFExport()
+to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.<br><br></p>
+<p>Note that the user must have permission to view files. For information about permissions, see the Help documentation.<br><br></p>
+<p>For more details about exporting PDF files, see the PDF Export tutorial.<br><br></p>
+<p>For more information about Document Management endpoints, see the Data Management API<br><br></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_PDF(self, token: client.Token, export_PDF_options):
+    &#39;&#39;&#39;Exports a single page from an uploaded PDF file into a new PDF file.&lt;br&gt;
+        You can also export the page’s markups (annotations) and hyperlinks.&lt;br&gt;
+        Scope - data:read&lt;br&gt;
+        exportOptions - exportPDFOptions()&lt;br&gt;
+        Note that you can only export a page from a PDF file that was uploaded to the Plans folder or 
+        to a folder nested under the Plans folder (attributes.extension.data.actions: SPLIT). BIM 360 Document Management 
+        splits these files into separate pages (sheets) when they are uploaded, and assigns a separate ID to each page.&lt;br&gt;
+        You can identify exportable PDF files, by searching for files with the following combmination of properties:&lt;br&gt;&lt;br&gt;
+
+        attributes.extension.type: items:autodesk.bim360.Document (identifies all files that are split into separate pages)&lt;br&gt;
+        attributes.extension.data.sourceFileName: &lt;filename&gt;.pdf (identifies all PDF files)&lt;br&gt;
+        You can export PDF pages both from PDF files that were uploaded via the BIM 360 Document Management UI and from 
+        PDF files that were uploaded via BIM 360 endpoints. For more details about uploading documents to BIM 360 via the 
+        BIM 360 endpoints, see the File Upload tutorial.&lt;br&gt;&lt;br&gt;
+
+        Note that this endpoint is asynchronous and initiates a job that 
+        runs in the background, rather than halting execution of your program.&lt;br&gt;
+        The response returns an export ID that you can use to call getPDFExport() 
+        to verify the status of the job. When the job is complete, you can retrieve the data you need to download the exported page.&lt;br&gt;&lt;br&gt;
+
+        Note that the user must have permission to view files. For information about permissions, see the Help documentation.&lt;br&gt;&lt;br&gt;
+
+        For more details about exporting PDF files, see the PDF Export tutorial.&lt;br&gt;&lt;br&gt;
+
+        For more information about Document Management endpoints, see the Data Management API&lt;br&gt;&lt;br&gt;
+        &#39;&#39;&#39;
+
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/bim360/docs/v1/projects/{pId}/versions/{vId}/exports&#34;.format(pId=self.id, vId=export_PDF_options[0])
+    r = requests.post(endpointUrl, headers=token.patchHeader, data=str(export_PDF_options[1])).json()
+    checkResponse(r)
+    print(&#34;Id: {id}\nStatus: {status}&#34;.format(id=r[&#34;id&#34;], status=r[&#34;status&#34;]))
+    return r</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.get_PDF_export"><code class="name flex">
+<span>def <span class="ident">get_PDF_export</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, versionId: str, exportId: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.<br>
+The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.<br>
+To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn.<br><br></p>
+<p>For more information about Document Management endpoints, see the Data Management API</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_PDF_export(self, token: client.Token, versionId: str, exportId: str):
+    &#39;&#39;&#39;Returns the status of a PDF export job, as well as data you need to download the exported file when the export is complete.&lt;br&gt;
+        The exportPDF() function initiates the job, and returns a job ID to be used in this endopint.&lt;br&gt;
+        To download the exported PDF file after the job is complete, use GET :urn/manifest/:derivativeurn.&lt;br&gt;&lt;br&gt;
+        
+        For more information about Document Management endpoints, see the Data Management API&#39;&#39;&#39;
+        # TODO: Model derivative api function here
+
+    checkScopes(token, &#34;data:read&#34;)
+    endpointUrl = BASE_URL+&#34;/bim360/docs/v1/projects/{pId}/versions/{vId}/exports/{eId}&#34;.format(pId=self.id, vId=versionId, eId=exportId)
+    r = requests.get(endpointUrl, headers=token.contentXUser).json()
+    checkResponse(r)
+    print(r) #TODO: Try, .json() may not work here. will probably find a way once model derivative api is running.
+             #TODO: Range header
+    return r</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.get_users"><code class="name flex">
+<span>def <span class="ident">get_users</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retrieves information about all the users in a project.<br>
+To get information about all the users in an account, see GET accounts/users.<br>
+Scope - account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_users(self, token: client.Token):
+    &#39;&#39;&#39;Retrieves information about all the users in a project.&lt;br&gt;
+    To get information about all the users in an account, see GET accounts/users.&lt;br&gt;
+    Scope - account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = BASE_URL+&#34;/bim360/admin/v1/projects/{pId}/users&#34;.format(pId=self.id)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return [User(u) for u in r[&#34;results&#34;]]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.industry_roles"><code class="name flex">
+<span>def <span class="ident">industry_roles</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retrieves the industry roles for the project. For example, contractor and architect.<br>
+Scope - account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def industry_roles(self, token: client.Token):
+    &#39;&#39;&#39;Retrieves the industry roles for the project. For example, contractor and architect.&lt;br&gt;
+    Scope - account:read&#39;&#39;&#39;
+
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/industry_roles&#34;.format(aId=self.account_id ,pId=self.id)
+    r = requests.get(endpointUrl, headers=token.patchHeader).json()
+    checkResponse(r)
+    return [IndustryRoles(i) for i in r]</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.update_project"><code class="name flex">
+<span>def <span class="ident">update_project</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, update_project_options)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the properties of only the specified attributes of a specific BIM 360 project.<br>
+Scope - account:write account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_project(self, token: client.Token, update_project_options):
+    &#39;&#39;&#39;Update the properties of only the specified attributes of a specific BIM 360 project.&lt;br&gt;
+       Scope - account:write account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read account:write&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/projects/{pId}&#34;.format(aId=self.account_id, pId=self.id)
+    r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_project_options).json()
+    checkResponse(r)
+    return Project(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.update_user_by_id"><code class="name flex">
+<span>def <span class="ident">update_user_by_id</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, userId, update_user_options)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates a user’s profile for a project, including:<br><br></p>
+<p>The company the user is assigned to for the project.<br>
+The industry roles assigned to the user for the project.<br><br>
+Scope - account:write</p>
+<p>Returns a User object</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_user_by_id(self, token: client.Token, userId, update_user_options):
+    &#39;&#39;&#39;Updates a user’s profile for a project, including:&lt;br&gt;&lt;br&gt;
+
+    The company the user is assigned to for the project.&lt;br&gt;
+    The industry roles assigned to the user for the project.&lt;br&gt;&lt;br&gt;
+    Scope - account:write
+    
+    Returns a User object&#39;&#39;&#39;
+    # TODO: Thinking about changing user id with user object, updating the user object with the response
+
+    checkScopes(token, &#34;account:write&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v2/accounts/{aId}/projects/{pId}/users/{uId}&#34;.format(aId=self.account_id ,pId=self.id, uId=userId)
+    r = requests.patch(endpointUrl, headers=token.contentXUser, data=update_user_options).json()
+    checkResponse(r)
+    return User(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.Project.user_by_id"><code class="name flex">
+<span>def <span class="ident">user_by_id</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, userId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Retrieves detailed information about a single user in a project.<br>
+Scope - account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def user_by_id(self, token: client.Token, userId):
+    &#39;&#39;&#39;Retrieves detailed information about a single user in a project.&lt;br&gt;
+    Scope - account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = BASE_URL+&#34;/bim360/admin/v1/projects/{pId}/users/{uId}&#34;.format(pId=self.id, uId=userId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return User(r)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="adeskForgeWrapper.b360.User"><code class="flex name class">
+<span>class <span class="ident">User</span></span>
+<span>(</span><span>rawDict)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>User.raw<br>
+User.id<br>
+User.account_id<br>
+User.status<br>
+User.role<br>
+User.company_id<br>
+User.company_name<br>
+User.last_sign_in<br>
+User.email<br>
+User.name<br>
+User.nickname<br>
+User.first_name<br>
+User.last_name<br>
+User.uid<br>
+User.image_url<br>
+User.address_line_1<br>
+User.address_line_2<br>
+User.city<br>
+User.postal_code<br>
+User.state_or_province<br>
+User.country<br>
+User.phone<br>
+User.company<br>
+User.job_title<br>
+User.industry<br>
+User.about_me<br>
+User.created_at<br>
+User.updated_at<br></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class User(object):
+#hiddenRegion
+    &#39;&#39;&#39;User.raw&lt;br&gt;
+    User.id&lt;br&gt;
+    User.account_id&lt;br&gt;
+    User.status&lt;br&gt;
+    User.role&lt;br&gt;
+    User.company_id&lt;br&gt;
+    User.company_name&lt;br&gt;
+    User.last_sign_in&lt;br&gt;
+    User.email&lt;br&gt;
+    User.name&lt;br&gt;
+    User.nickname&lt;br&gt;
+    User.first_name&lt;br&gt;
+    User.last_name&lt;br&gt;
+    User.uid&lt;br&gt;
+    User.image_url&lt;br&gt;
+    User.address_line_1&lt;br&gt;
+    User.address_line_2&lt;br&gt;
+    User.city&lt;br&gt;
+    User.postal_code&lt;br&gt;
+    User.state_or_province&lt;br&gt;
+    User.country&lt;br&gt;
+    User.phone&lt;br&gt;
+    User.company&lt;br&gt;
+    User.job_title&lt;br&gt;
+    User.industry&lt;br&gt;
+    User.about_me&lt;br&gt;
+    User.created_at&lt;br&gt;
+    User.updated_at&lt;br&gt;&#39;&#39;&#39;
+
+    def __init__(self, rawDict):
+        self.__raw = rawDict
+        
+    @property
+    def raw(self):
+        return self.__raw
+    @property
+    def id(self):
+        return self.__raw.get(&#34;id&#34;, None)
+    @property
+    def account_id(self):
+        return self.__raw.get(&#34;account_id&#34;, None)
+    @property
+    def status(self):
+        return self.__raw.get(&#34;status&#34;, None)
+    @property
+    def role(self):
+        return self.__raw.get(&#34;role&#34;, None)
+    @property
+    def company_id(self):
+        return self.__raw.get(&#34;company_id&#34;, None)
+    @property
+    def company_name(self):
+        return self.__raw.get(&#34;company_name&#34;, None)
+    @property
+    def last_sign_in(self):
+        return self.__raw.get(&#34;last_sign_in&#34;, None)
+    @property
+    def email(self):
+        return self.__raw.get(&#34;email&#34;, None)
+    @property
+    def name(self):
+        return self.__raw.get(&#34;name&#34;, None)
+    @property
+    def nickname(self):
+        return self.__raw.get(&#34;nickname&#34;, None)
+    @property
+    def first_name(self):
+        return self.__raw.get(&#34;first_name&#34;, None)
+    @property
+    def last_name(self):
+        return self.__raw.get(&#34;last_name&#34;, None)
+    @property
+    def uid(self):
+        return self.__raw.get(&#34;uid&#34;, None)
+    @property
+    def image_url(self):
+        return self.__raw.get(&#34;image_url&#34;, None)
+    @property
+    def address_line_1(self):
+        return self.__raw.get(&#34;address_line_1&#34;, None)
+    @property
+    def address_line_2(self):
+        return self.__raw.get(&#34;address_line_2&#34;, None)
+    @property
+    def city(self):
+        return self.__raw.get(&#34;city&#34;, None)
+    @property
+    def postal_code(self):
+        return self.__raw.get(&#34;postal_code&#34;, None)
+    @property
+    def state_or_province(self):
+        return self.__raw.get(&#34;state_or_province&#34;, None)
+    @property
+    def country(self):
+        return self.__raw.get(&#34;country&#34;, None)
+    @property
+    def phone(self):
+        return self.__raw.get(&#34;phone&#34;, None)
+    @property
+    def company(self):
+        return self.__raw.get(&#34;company&#34;, None)
+    @property
+    def job_title(self):
+        prop = self.__raw.get(&#34;job_title&#34;, None) or self.__raw.get(&#34;jobTitle&#34;, None)
+        return prop
+    @property
+    def industry(self):
+        return self.__raw.get(&#34;industry&#34;, None)
+    @property
+    def about_me(self):
+        return self.__raw.get(&#34;about_me&#34;, None)
+    @property
+    def created_at(self):
+        return self.__raw.get(&#34;created_at&#34;, None)
+    @property
+    def updated_at(self):
+        return self.__raw.get(&#34;updated_at&#34;, None)
+#endregion
+
+    @classmethod
+    def users_from_account(cls, token: client.Token):
+        &#39;&#39;&#39;Query all the users in a specific BIM 360 account.&lt;br&gt;
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/users&#34;.format(aId=token.bimAccId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return [cls(u) for u in r]
+
+    @classmethod
+    def user_by_id(cls, token: client.Token, userId):
+        &#39;&#39;&#39;Query the details of a specific user.&lt;br&gt;
+        Scope account:read&#39;&#39;&#39;
+        checkScopes(token, &#34;account:read&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=userId)
+        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        checkResponse(r)
+        return cls(r)
+
+    @classmethod
+    def update_user_by_id(cls, token: client.Token, userId, update_user_options):
+        &#39;&#39;&#39;Update a specific user’s status or default company. Data template below&lt;br&gt;
+        Scope - account:write&lt;br&gt;
+        updateUserOptions - From Options class&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=userId)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
+        checkResponse(r)
+        return cls(r)
+
+    def update_user(self, token: client.Token, update_user_options):
+        &#39;&#39;&#39;Update a specific user’s status or default company. Data template below&lt;br&gt;
+        Scope - account:write&lt;br&gt;
+        updateUserOptions - From Options class&#39;&#39;&#39;
+        checkScopes(token, &#34;account:write&#34;)
+        endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=self.id)
+        r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
+        checkResponse(r)
+        return User(r)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.User.update_user_by_id"><code class="name flex">
+<span>def <span class="ident">update_user_by_id</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, userId, update_user_options)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update a specific user’s status or default company. Data template below<br>
+Scope - account:write<br>
+updateUserOptions - From Options class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def update_user_by_id(cls, token: client.Token, userId, update_user_options):
+    &#39;&#39;&#39;Update a specific user’s status or default company. Data template below&lt;br&gt;
+    Scope - account:write&lt;br&gt;
+    updateUserOptions - From Options class&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=userId)
+    r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.user_by_id"><code class="name flex">
+<span>def <span class="ident">user_by_id</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, userId)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query the details of a specific user.<br>
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def user_by_id(cls, token: client.Token, userId):
+    &#39;&#39;&#39;Query the details of a specific user.&lt;br&gt;
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=userId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return cls(r)</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.b360.User.users_from_account"><code class="name flex">
+<span>def <span class="ident">users_from_account</span></span>(<span>token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Query all the users in a specific BIM 360 account.<br>
+Scope account:read</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def users_from_account(cls, token: client.Token):
+    &#39;&#39;&#39;Query all the users in a specific BIM 360 account.&lt;br&gt;
+    Scope account:read&#39;&#39;&#39;
+    checkScopes(token, &#34;account:read&#34;)
+    endpointUrl = BASE_URL+&#34;/hq/v1/accounts/{aId}/users&#34;.format(aId=token.bimAccId)
+    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    checkResponse(r)
+    return [cls(u) for u in r]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="adeskForgeWrapper.b360.User.update_user"><code class="name flex">
+<span>def <span class="ident">update_user</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, update_user_options)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update a specific user’s status or default company. Data template below<br>
+Scope - account:write<br>
+updateUserOptions - From Options class</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_user(self, token: client.Token, update_user_options):
+    &#39;&#39;&#39;Update a specific user’s status or default company. Data template below&lt;br&gt;
+    Scope - account:write&lt;br&gt;
+    updateUserOptions - From Options class&#39;&#39;&#39;
+    checkScopes(token, &#34;account:write&#34;)
+    endpointUrl = &#34;/hq/v1/accounts/{aId}/users/{uId}&#34;.format(aId=token.bimAccId, uId=self.id)
+    r = requests.patch(endpointUrl, headers=token.patchHeader, data=update_user_options).json()
+    checkResponse(r)
+    return User(r)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="adeskForgeWrapper" href="index.html">adeskForgeWrapper</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.BusinessUnits" href="#adeskForgeWrapper.b360.BusinessUnits">BusinessUnits</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.create_business_units" href="#adeskForgeWrapper.b360.BusinessUnits.create_business_units">create_business_units</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.BusinessUnits.get_business_units" href="#adeskForgeWrapper.b360.BusinessUnits.get_business_units">get_business_units</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.Company" href="#adeskForgeWrapper.b360.Company">Company</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.b360.Company.account_id" href="#adeskForgeWrapper.b360.Company.account_id">account_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.company_by_id" href="#adeskForgeWrapper.b360.Company.company_by_id">company_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.get_companies" href="#adeskForgeWrapper.b360.Company.get_companies">get_companies</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.importCompanies" href="#adeskForgeWrapper.b360.Company.importCompanies">importCompanies</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.searchCompaniesByName" href="#adeskForgeWrapper.b360.Company.searchCompaniesByName">searchCompaniesByName</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Company.updateCompany" href="#adeskForgeWrapper.b360.Company.updateCompany">updateCompany</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.IndustryRoles" href="#adeskForgeWrapper.b360.IndustryRoles">IndustryRoles</a></code></h4>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.Jobs" href="#adeskForgeWrapper.b360.Jobs">Jobs</a></code></h4>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.Options" href="#adeskForgeWrapper.b360.Options">Options</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.b360.Options.add_user_options" href="#adeskForgeWrapper.b360.Options.add_user_options">add_user_options</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Options.create_project_options" href="#adeskForgeWrapper.b360.Options.create_project_options">create_project_options</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Options.export_PDF_options" href="#adeskForgeWrapper.b360.Options.export_PDF_options">export_PDF_options</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Options.search_companies_options" href="#adeskForgeWrapper.b360.Options.search_companies_options">search_companies_options</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Options.update_company_options" href="#adeskForgeWrapper.b360.Options.update_company_options">update_company_options</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Options.update_project_options" href="#adeskForgeWrapper.b360.Options.update_project_options">update_project_options</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Options.update_user_options" href="#adeskForgeWrapper.b360.Options.update_user_options">update_user_options</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.Project" href="#adeskForgeWrapper.b360.Project">Project</a></code></h4>
+<ul class="two-column">
+<li><code><a title="adeskForgeWrapper.b360.Project.account_id" href="#adeskForgeWrapper.b360.Project.account_id">account_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.add_users" href="#adeskForgeWrapper.b360.Project.add_users">add_users</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.create_project" href="#adeskForgeWrapper.b360.Project.create_project">create_project</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.export_PDF" href="#adeskForgeWrapper.b360.Project.export_PDF">export_PDF</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.get_PDF_export" href="#adeskForgeWrapper.b360.Project.get_PDF_export">get_PDF_export</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.get_projects" href="#adeskForgeWrapper.b360.Project.get_projects">get_projects</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.get_users" href="#adeskForgeWrapper.b360.Project.get_users">get_users</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.industry_roles" href="#adeskForgeWrapper.b360.Project.industry_roles">industry_roles</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.last_sign_in" href="#adeskForgeWrapper.b360.Project.last_sign_in">last_sign_in</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.project_by_id" href="#adeskForgeWrapper.b360.Project.project_by_id">project_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.update_project" href="#adeskForgeWrapper.b360.Project.update_project">update_project</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.update_user_by_id" href="#adeskForgeWrapper.b360.Project.update_user_by_id">update_user_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.Project.user_by_id" href="#adeskForgeWrapper.b360.Project.user_by_id">user_by_id</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="adeskForgeWrapper.b360.User" href="#adeskForgeWrapper.b360.User">User</a></code></h4>
+<ul class="">
+<li><code><a title="adeskForgeWrapper.b360.User.update_user" href="#adeskForgeWrapper.b360.User.update_user">update_user</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.update_user_by_id" href="#adeskForgeWrapper.b360.User.update_user_by_id">update_user_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.user_by_id" href="#adeskForgeWrapper.b360.User.user_by_id">user_by_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.b360.User.users_from_account" href="#adeskForgeWrapper.b360.User.users_from_account">users_from_account</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.0</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
