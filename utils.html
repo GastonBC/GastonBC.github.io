@@ -35,18 +35,20 @@ TOKENFLEX_API = AUTODESK_BASE_URL+&#34;/tokenflex/v1&#34;
 RECAP_API = AUTODESK_BASE_URL+&#34;/photo-to-3d/v1&#34;
 AUTH_API = AUTODESK_BASE_URL+&#34;/authentication/v1&#34;
 INFO_AUTH = AUTODESK_BASE_URL+&#34;/userprofile/v1&#34;
+DA_API = AUTODESK_BASE_URL+&#34;/da/us-east/v3&#34;
+
 # BIM360 and data management APIs are not consistent with their API urls
 
 
-def checkScopes(token, endpointScope: str):
+def checkScopes(token, endpoint_scope: str):
     &#39;&#39;&#39;Checks scopes before making the request.&#39;&#39;&#39;
-    tokenScope = token.scope.split()
-    endpointScope = endpointScope.split()
-    result =  all(elem in tokenScope  for elem in endpointScope)
+    token_scope = token.scope.split()
+    endpoint_scope = endpoint_scope.split()
+    result =  all(elem in token_scope  for elem in endpoint_scope)
     if result:
         return True
     else:
-        raise AFWExceptions.AFWError(&#34;Missing required scopes:&#34;, endpointScope)
+        raise AFWExceptions.AFWError(&#34;Missing required scopes:&#34;, endpoint_scope)
 
 def checkResponse(r):
     &#39;&#39;&#39;If the response raised an error, this will detect it&#39;&#39;&#39;
@@ -64,7 +66,13 @@ def checkResponse(r):
 def batch(iterable, n=1):
     l = len(iterable)
     for ndx in range(0, l, n):
-        yield iterable[ndx:min(ndx + n, l)]</code></pre>
+        yield iterable[ndx:min(ndx + n, l)]
+
+def allowed_kwargs_check(allowedKwgs, kwgs):
+    &#39;&#39;&#39;Check kwargs&#39;&#39;&#39;
+    for kwg in kwgs:
+        if kwg not in allowedKwgs:
+            raise AFWExceptions.AFWError(&#34;Invalid kwarg. See allowed kwargs in the docstring&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -74,6 +82,22 @@ def batch(iterable, n=1):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="adeskForgeWrapper.utils.allowed_kwargs_check"><code class="name flex">
+<span>def <span class="ident">allowed_kwargs_check</span></span>(<span>allowedKwgs, kwgs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check kwargs</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def allowed_kwargs_check(allowedKwgs, kwgs):
+    &#39;&#39;&#39;Check kwargs&#39;&#39;&#39;
+    for kwg in kwgs:
+        if kwg not in allowedKwgs:
+            raise AFWExceptions.AFWError(&#34;Invalid kwarg. See allowed kwargs in the docstring&#34;)</code></pre>
+</details>
+</dd>
 <dt id="adeskForgeWrapper.utils.batch"><code class="name flex">
 <span>def <span class="ident">batch</span></span>(<span>iterable, n=1)</span>
 </code></dt>
@@ -113,7 +137,7 @@ def batch(iterable, n=1):
 </details>
 </dd>
 <dt id="adeskForgeWrapper.utils.checkScopes"><code class="name flex">
-<span>def <span class="ident">checkScopes</span></span>(<span>token, endpointScope: str)</span>
+<span>def <span class="ident">checkScopes</span></span>(<span>token, endpoint_scope: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Checks scopes before making the request.</p></div>
@@ -121,15 +145,15 @@ def batch(iterable, n=1):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def checkScopes(token, endpointScope: str):
+<pre><code class="python">def checkScopes(token, endpoint_scope: str):
     &#39;&#39;&#39;Checks scopes before making the request.&#39;&#39;&#39;
-    tokenScope = token.scope.split()
-    endpointScope = endpointScope.split()
-    result =  all(elem in tokenScope  for elem in endpointScope)
+    token_scope = token.scope.split()
+    endpoint_scope = endpoint_scope.split()
+    result =  all(elem in token_scope  for elem in endpoint_scope)
     if result:
         return True
     else:
-        raise AFWExceptions.AFWError(&#34;Missing required scopes:&#34;, endpointScope)</code></pre>
+        raise AFWExceptions.AFWError(&#34;Missing required scopes:&#34;, endpoint_scope)</code></pre>
 </details>
 </dd>
 </dl>
@@ -150,6 +174,7 @@ def batch(iterable, n=1):
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="adeskForgeWrapper.utils.allowed_kwargs_check" href="#adeskForgeWrapper.utils.allowed_kwargs_check">allowed_kwargs_check</a></code></li>
 <li><code><a title="adeskForgeWrapper.utils.batch" href="#adeskForgeWrapper.utils.batch">batch</a></code></li>
 <li><code><a title="adeskForgeWrapper.utils.checkResponse" href="#adeskForgeWrapper.utils.checkResponse">checkResponse</a></code></li>
 <li><code><a title="adeskForgeWrapper.utils.checkScopes" href="#adeskForgeWrapper.utils.checkScopes">checkScopes</a></code></li>

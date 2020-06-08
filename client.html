@@ -39,19 +39,21 @@ from . import AFWExceptions
 
 class Client(object):
     &#39;&#39;&#39;A class containing information from the user&#39;s end
-    cliId and cliSecret from the Forge app
-    bimAcc and bimAccName are your B360 credentials&#39;&#39;&#39;
-    def __init__(self, cliId, cliSecret, bimAccId, bimAccName):
-        self.cliId = cliId
-        self.cliSecret = cliSecret
-        self.bimAccId = bimAccId
-        self.bimAccName = bimAccName
-        self.hubId = &#34;b.{}&#34;.format(bimAccId)
+    client_id and client_secret from the Forge app
+    bimAcc and bim_account_name are your B360 credentials&#39;&#39;&#39;
+    
+    def __init__(self, client_id, client_secret, bim_account_id, bim_account_name):
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.bim_account_id = bim_account_id
+        self.bim_account_name = bim_account_name
+        self.hub_id = &#34;b.{}&#34;.format(bim_account_id)
 
     def me(self, token):
-        &#39;&#39;&#39;Get the profile information of an authorizing end user in a three-legged context.&#39;&#39;&#39;
-        endpointUrl = INFO_AUTH+&#34;/users/@me&#34;
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        &#39;&#39;&#39;Get the profile information of an authorizing end user in a 
+        three-legged context.&#39;&#39;&#39;
+        endpoint_url = INFO_AUTH+&#34;/users/@me&#34;
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         print(r) # TODO Maybe can return a DM.User object
 
@@ -63,111 +65,108 @@ class Token(object):
     token_type&lt;br&gt;
     expires_in&lt;br&gt;
     access_token&lt;br&gt;
-    getHeader&lt;br&gt;
+    get_header&lt;br&gt;
     patchHeader&lt;br&gt;
     contentXUser&lt;br&gt;&#39;&#39;&#39;
     def __init__(self, client, r, scope, flow):
-        self.__cliId = client.cliId
-        self.__cliSecret = client.cliSecret
-        self.__bimAccId = client.bimAccId
-        self.__bimAccName = client.bimAccName
-        self.__hubId = client.hubId
-        self.__isThreeLegged = flow
-        self.__scope = scope
+        self._client_id = client.client_id
+        self._client_secret = client.client_secret
+        self._bim_account_id = client.bim_account_id
+        self._bim_account_name = client.bim_account_name
+        self._hub_id = client.hub_id
+        self._is_three_legged = flow
+        self._scope = scope
+
         if type(r) == dict:
-            self.__raw = r
+            self._raw = r
             
-            self.__token_type = r[&#34;token_type&#34;] or None
-            self.__expires_in = r[&#34;expires_in&#34;] or None
-            self.__access_token = r[&#34;access_token&#34;]
+            self._token_type = r.get(&#34;token_type&#34;, None)
+            self._expires_in = r.get(&#34;expires_in&#34;, None)
+            self._access_token = &#39;Bearer {}&#39;.format(r.get(&#34;access_token&#34;))
 
-            self.__getHeader = {&#34;Authorization&#34;:&#34;Bearer {}&#34;.format(r[&#34;access_token&#34;])}
-            self.__urlEncoded = {&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;])}
-
-            self.__formData = {&#39;Content-Type&#39;: &#39;multipart/form-data&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;])}
-
-            self.__patchHeader = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;])}
-            self.__contentXUser = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;]), &#34;x-user-id&#34;:client.bimAccId}
-            self.__XUser = {&#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;]), &#34;x-user-id&#34;:client.bimAccId}
         elif type(r) == str:
-            self.__raw = r
-            self.__token_type = None
-            self.__expires_in = None
-            self.__access_token = r
-
-            self.__getHeader = {&#34;Authorization&#34;:&#34;Bearer {}&#34;.format(r)}
-            self.__urlEncoded = {&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r)}
-
-            self.__formData = {&#39;Content-Type&#39;: &#39;multipart/form-data&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r)}
-
-            self.__patchHeader = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r)}
-            self.__contentXUser = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r), &#34;x-user-id&#34;:client.bimAccId}
-            self.__XUser = {&#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r), &#34;x-user-id&#34;:client.bimAccId}
-           
+            self._raw = r
+            self._token_type = None
+            self._expires_in = None
+            self._access_token = &#39;Bearer {}&#39;.format(r)
+       
     @property
-    def cliId(self):
-        return self.__cliId
+    def client_id(self):
+        return self._client_id
     @property
-    def cliSecret(self):
-        return self.__cliSecret
+    def client_secret(self):
+        return self._client_secret
     @property
-    def bimAccId(self):
-        return self.__bimAccId
+    def bim_account_id(self):
+        return self._bim_account_id
     @property
-    def bimAccName(self):
-        return self.__bimAccName
+    def bim_account_name(self):
+        return self._bim_account_name
     @property
-    def hubId(self):
-        return self.__hubId
+    def hub_id(self):
+        return self._hub_id
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def scope(self):
-        return self.__scope
+        return self._scope
     @property
     def token_type(self):
-        return self.__token_type
+        return self._token_type
     @property
     def expires_in(self):
-        return self.__expires_in
+        return self._expires_in
     @property
     def access_token(self):
-        return self.__access_token
+        return self._access_token
     @property
-    def getHeader(self):
-        return self.__getHeader
+    def get_header(self):
+        header = {&#34;Authorization&#34;:self._access_token}
+        return header
     @property
-    def patchHeader(self):
-        return self.__patchHeader
+    def patch_header(self):
+        header = {&#39;Content-Type&#39;: &#39;application/json&#39;, 
+                  &#39;Authorization&#39;: self._access_token}
+        return header
     @property
-    def contentXUser(self):
-        return self.__contentXUser
+    def content_x_user(self):
+        header = {&#39;Content-Type&#39;: &#39;application/json&#39;, 
+                  &#39;Authorization&#39;: self._access_token, 
+                  &#39;x-user-id&#39;:self._bim_account_id}
+        return header
     @property
-    def urlEncoded(self):
-        return self.__urlEncoded
+    def url_encoded(self):
+        header = {&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;, 
+                  &#39;Authorization&#39;: self._access_token}
+        return header
     @property
-    def formData(self):
-        return self.__formData
+    def form_data(self):
+        header = {&#39;Content-Type&#39;: &#39;multipart/form-data&#39;, 
+                  &#39;Authorization&#39;: self._access_token}
+        return header
     @property
-    def isThreeLegged(self):
-        return self.__isThreeLegged
+    def x_user(self):
+        header = {&#39;Authorization&#39;:self._access_token, 
+                  &#39;x-user-id&#39;:self._bim_account_id}
+        return header
     @property
-    def XUser(self):
-        return self.__XUser
+    def is_three_legged(self):
+        return self._is_three_legged
 
     @classmethod
-    def get_2_legged_token(cls, scope: type(str), client: Client):
+    def get_2_legged_token(cls, scope, client):
         &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
         Scope - The scope you aim for. &lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
+
         header = {&#34;Content-Type&#34;:&#34;application/x-www-form-urlencoded&#34;}
-        data = {&#34;client_id&#34;:client.cliId,
-                &#34;client_secret&#34;:client.cliSecret,
+        data = {&#34;client_id&#34;:client.client_id,
+                &#34;client_secret&#34;:client.client_secret,
                 &#34;grant_type&#34;:&#34;client_credentials&#34;,
                 &#34;scope&#34;:&#34;{}&#34;.format(scope)}
-        endpointUrl = AUTH_API+&#34;/authenticate&#34;
-        r = requests.post(endpointUrl, data, header).json()
+        endpoint_url = AUTH_API+&#34;/authenticate&#34;
+        r = requests.post(endpoint_url, data, header).json()
         checkResponse(r)
         return cls(client, r, scope, False)
 
@@ -175,18 +174,24 @@ class Token(object):
     def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#34;):
         &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
         Scope - The scope you aim for. &lt;br&gt;
-        callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
+        callback_URL: The callback url the user will be taken to after authorization.&lt;br&gt;
         url must be the same callback url you used to register your Forge App.&lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
+
         if  &#34;http://&#34; not in callback_URL and &#34;https://&#34; not in callback_URL:
             raise AFWExceptions.AFWError(&#34;Protocol missing in callback_URL (http:// or https://)&#34;)
         
         import urllib.parse
         import webbrowser
     
-        endpointUrl = AUTH_API+&#34;/authorize&#34;
-        params = ((&#34;client_id&#34;, client.cliId), (&#34;response_type&#34;, tokenType), (&#34;redirect_uri&#34;, callback_URL), (&#34;scope&#34;, scope))
-        r = requests.post(endpointUrl, params=params)
+        endpoint_url = AUTH_API+&#34;/authorize&#34;
+
+        params = ((&#34;client_id&#34;, client.client_id), 
+                  (&#34;response_type&#34;, tokenType), 
+                  (&#34;redirect_uri&#34;, callback_URL), 
+                  (&#34;scope&#34;, scope))
+
+        r = requests.post(endpoint_url, params=params)
 
         checkResponse(r)
         if tokenType == &#34;token&#34;:
@@ -202,8 +207,8 @@ class Token(object):
 
             return cls(client, r, scope, True)
         elif tokenType == &#34;code&#34;:
-            pass
-            # TODO
+            pass # TODO
+            
             
         else:
             raise AFWExceptions.AFWError(&#34;Token type must be &#39;code&#39; or &#39;token&#39;&#34;)
@@ -218,7 +223,7 @@ __pdoc__[&#39;Token.scope&#39;] = False
 __pdoc__[&#39;Token.token_type&#39;] = False
 __pdoc__[&#39;Token.expires_in&#39;] = False
 __pdoc__[&#39;Token.access_token&#39;] = False
-__pdoc__[&#39;Token.getHeader&#39;] = False
+__pdoc__[&#39;Token.get_header&#39;] = False
 __pdoc__[&#39;Token.patchHeader&#39;] = False
 __pdoc__[&#39;Token.contentXUser&#39;] = False</code></pre>
 </details>
@@ -234,31 +239,33 @@ __pdoc__[&#39;Token.contentXUser&#39;] = False</code></pre>
 <dl>
 <dt id="adeskForgeWrapper.client.Client"><code class="flex name class">
 <span>class <span class="ident">Client</span></span>
-<span>(</span><span>cliId, cliSecret, bimAccId, bimAccName)</span>
+<span>(</span><span>client_id, client_secret, bim_account_id, bim_account_name)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class containing information from the user's end
-cliId and cliSecret from the Forge app
-bimAcc and bimAccName are your B360 credentials</p></div>
+client_id and client_secret from the Forge app
+bimAcc and bim_account_name are your B360 credentials</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Client(object):
     &#39;&#39;&#39;A class containing information from the user&#39;s end
-    cliId and cliSecret from the Forge app
-    bimAcc and bimAccName are your B360 credentials&#39;&#39;&#39;
-    def __init__(self, cliId, cliSecret, bimAccId, bimAccName):
-        self.cliId = cliId
-        self.cliSecret = cliSecret
-        self.bimAccId = bimAccId
-        self.bimAccName = bimAccName
-        self.hubId = &#34;b.{}&#34;.format(bimAccId)
+    client_id and client_secret from the Forge app
+    bimAcc and bim_account_name are your B360 credentials&#39;&#39;&#39;
+    
+    def __init__(self, client_id, client_secret, bim_account_id, bim_account_name):
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.bim_account_id = bim_account_id
+        self.bim_account_name = bim_account_name
+        self.hub_id = &#34;b.{}&#34;.format(bim_account_id)
 
     def me(self, token):
-        &#39;&#39;&#39;Get the profile information of an authorizing end user in a three-legged context.&#39;&#39;&#39;
-        endpointUrl = INFO_AUTH+&#34;/users/@me&#34;
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        &#39;&#39;&#39;Get the profile information of an authorizing end user in a 
+        three-legged context.&#39;&#39;&#39;
+        endpoint_url = INFO_AUTH+&#34;/users/@me&#34;
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         print(r) # TODO Maybe can return a DM.User object</code></pre>
 </details>
@@ -268,15 +275,17 @@ bimAcc and bimAccName are your B360 credentials</p></div>
 <span>def <span class="ident">me</span></span>(<span>self, token)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Get the profile information of an authorizing end user in a three-legged context.</p></div>
+<div class="desc"><p>Get the profile information of an authorizing end user in a
+three-legged context.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def me(self, token):
-    &#39;&#39;&#39;Get the profile information of an authorizing end user in a three-legged context.&#39;&#39;&#39;
-    endpointUrl = INFO_AUTH+&#34;/users/@me&#34;
-    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    &#39;&#39;&#39;Get the profile information of an authorizing end user in a 
+    three-legged context.&#39;&#39;&#39;
+    endpoint_url = INFO_AUTH+&#34;/users/@me&#34;
+    r = requests.get(endpoint_url, headers=token.get_header).json()
     checkResponse(r)
     print(r) # TODO Maybe can return a DM.User object</code></pre>
 </details>
@@ -294,7 +303,7 @@ scope<br>
 token_type<br>
 expires_in<br>
 access_token<br>
-getHeader<br>
+get_header<br>
 patchHeader<br>
 contentXUser<br></p></div>
 <details class="source">
@@ -308,111 +317,108 @@ contentXUser<br></p></div>
     token_type&lt;br&gt;
     expires_in&lt;br&gt;
     access_token&lt;br&gt;
-    getHeader&lt;br&gt;
+    get_header&lt;br&gt;
     patchHeader&lt;br&gt;
     contentXUser&lt;br&gt;&#39;&#39;&#39;
     def __init__(self, client, r, scope, flow):
-        self.__cliId = client.cliId
-        self.__cliSecret = client.cliSecret
-        self.__bimAccId = client.bimAccId
-        self.__bimAccName = client.bimAccName
-        self.__hubId = client.hubId
-        self.__isThreeLegged = flow
-        self.__scope = scope
+        self._client_id = client.client_id
+        self._client_secret = client.client_secret
+        self._bim_account_id = client.bim_account_id
+        self._bim_account_name = client.bim_account_name
+        self._hub_id = client.hub_id
+        self._is_three_legged = flow
+        self._scope = scope
+
         if type(r) == dict:
-            self.__raw = r
+            self._raw = r
             
-            self.__token_type = r[&#34;token_type&#34;] or None
-            self.__expires_in = r[&#34;expires_in&#34;] or None
-            self.__access_token = r[&#34;access_token&#34;]
+            self._token_type = r.get(&#34;token_type&#34;, None)
+            self._expires_in = r.get(&#34;expires_in&#34;, None)
+            self._access_token = &#39;Bearer {}&#39;.format(r.get(&#34;access_token&#34;))
 
-            self.__getHeader = {&#34;Authorization&#34;:&#34;Bearer {}&#34;.format(r[&#34;access_token&#34;])}
-            self.__urlEncoded = {&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;])}
-
-            self.__formData = {&#39;Content-Type&#39;: &#39;multipart/form-data&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;])}
-
-            self.__patchHeader = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;])}
-            self.__contentXUser = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;]), &#34;x-user-id&#34;:client.bimAccId}
-            self.__XUser = {&#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r[&#34;access_token&#34;]), &#34;x-user-id&#34;:client.bimAccId}
         elif type(r) == str:
-            self.__raw = r
-            self.__token_type = None
-            self.__expires_in = None
-            self.__access_token = r
-
-            self.__getHeader = {&#34;Authorization&#34;:&#34;Bearer {}&#34;.format(r)}
-            self.__urlEncoded = {&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r)}
-
-            self.__formData = {&#39;Content-Type&#39;: &#39;multipart/form-data&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r)}
-
-            self.__patchHeader = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r)}
-            self.__contentXUser = {&#39;Content-Type&#39;: &#39;application/json&#39;, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r), &#34;x-user-id&#34;:client.bimAccId}
-            self.__XUser = {&#39;Authorization&#39;: &#39;Bearer {}&#39;.format(r), &#34;x-user-id&#34;:client.bimAccId}
-           
+            self._raw = r
+            self._token_type = None
+            self._expires_in = None
+            self._access_token = &#39;Bearer {}&#39;.format(r)
+       
     @property
-    def cliId(self):
-        return self.__cliId
+    def client_id(self):
+        return self._client_id
     @property
-    def cliSecret(self):
-        return self.__cliSecret
+    def client_secret(self):
+        return self._client_secret
     @property
-    def bimAccId(self):
-        return self.__bimAccId
+    def bim_account_id(self):
+        return self._bim_account_id
     @property
-    def bimAccName(self):
-        return self.__bimAccName
+    def bim_account_name(self):
+        return self._bim_account_name
     @property
-    def hubId(self):
-        return self.__hubId
+    def hub_id(self):
+        return self._hub_id
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def scope(self):
-        return self.__scope
+        return self._scope
     @property
     def token_type(self):
-        return self.__token_type
+        return self._token_type
     @property
     def expires_in(self):
-        return self.__expires_in
+        return self._expires_in
     @property
     def access_token(self):
-        return self.__access_token
+        return self._access_token
     @property
-    def getHeader(self):
-        return self.__getHeader
+    def get_header(self):
+        header = {&#34;Authorization&#34;:self._access_token}
+        return header
     @property
-    def patchHeader(self):
-        return self.__patchHeader
+    def patch_header(self):
+        header = {&#39;Content-Type&#39;: &#39;application/json&#39;, 
+                  &#39;Authorization&#39;: self._access_token}
+        return header
     @property
-    def contentXUser(self):
-        return self.__contentXUser
+    def content_x_user(self):
+        header = {&#39;Content-Type&#39;: &#39;application/json&#39;, 
+                  &#39;Authorization&#39;: self._access_token, 
+                  &#39;x-user-id&#39;:self._bim_account_id}
+        return header
     @property
-    def urlEncoded(self):
-        return self.__urlEncoded
+    def url_encoded(self):
+        header = {&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;, 
+                  &#39;Authorization&#39;: self._access_token}
+        return header
     @property
-    def formData(self):
-        return self.__formData
+    def form_data(self):
+        header = {&#39;Content-Type&#39;: &#39;multipart/form-data&#39;, 
+                  &#39;Authorization&#39;: self._access_token}
+        return header
     @property
-    def isThreeLegged(self):
-        return self.__isThreeLegged
+    def x_user(self):
+        header = {&#39;Authorization&#39;:self._access_token, 
+                  &#39;x-user-id&#39;:self._bim_account_id}
+        return header
     @property
-    def XUser(self):
-        return self.__XUser
+    def is_three_legged(self):
+        return self._is_three_legged
 
     @classmethod
-    def get_2_legged_token(cls, scope: type(str), client: Client):
+    def get_2_legged_token(cls, scope, client):
         &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
         Scope - The scope you aim for. &lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
+
         header = {&#34;Content-Type&#34;:&#34;application/x-www-form-urlencoded&#34;}
-        data = {&#34;client_id&#34;:client.cliId,
-                &#34;client_secret&#34;:client.cliSecret,
+        data = {&#34;client_id&#34;:client.client_id,
+                &#34;client_secret&#34;:client.client_secret,
                 &#34;grant_type&#34;:&#34;client_credentials&#34;,
                 &#34;scope&#34;:&#34;{}&#34;.format(scope)}
-        endpointUrl = AUTH_API+&#34;/authenticate&#34;
-        r = requests.post(endpointUrl, data, header).json()
+        endpoint_url = AUTH_API+&#34;/authenticate&#34;
+        r = requests.post(endpoint_url, data, header).json()
         checkResponse(r)
         return cls(client, r, scope, False)
 
@@ -420,18 +426,24 @@ contentXUser<br></p></div>
     def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#34;):
         &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
         Scope - The scope you aim for. &lt;br&gt;
-        callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
+        callback_URL: The callback url the user will be taken to after authorization.&lt;br&gt;
         url must be the same callback url you used to register your Forge App.&lt;br&gt;
         eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
+
         if  &#34;http://&#34; not in callback_URL and &#34;https://&#34; not in callback_URL:
             raise AFWExceptions.AFWError(&#34;Protocol missing in callback_URL (http:// or https://)&#34;)
         
         import urllib.parse
         import webbrowser
     
-        endpointUrl = AUTH_API+&#34;/authorize&#34;
-        params = ((&#34;client_id&#34;, client.cliId), (&#34;response_type&#34;, tokenType), (&#34;redirect_uri&#34;, callback_URL), (&#34;scope&#34;, scope))
-        r = requests.post(endpointUrl, params=params)
+        endpoint_url = AUTH_API+&#34;/authorize&#34;
+
+        params = ((&#34;client_id&#34;, client.client_id), 
+                  (&#34;response_type&#34;, tokenType), 
+                  (&#34;redirect_uri&#34;, callback_URL), 
+                  (&#34;scope&#34;, scope))
+
+        r = requests.post(endpoint_url, params=params)
 
         checkResponse(r)
         if tokenType == &#34;token&#34;:
@@ -447,8 +459,8 @@ contentXUser<br></p></div>
 
             return cls(client, r, scope, True)
         elif tokenType == &#34;code&#34;:
-            pass
-            # TODO
+            pass # TODO
+            
             
         else:
             raise AFWExceptions.AFWError(&#34;Token type must be &#39;code&#39; or &#39;token&#39;&#34;)</code></pre>
@@ -456,7 +468,7 @@ contentXUser<br></p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="adeskForgeWrapper.client.Token.get_2_legged_token"><code class="name flex">
-<span>def <span class="ident">get_2_legged_token</span></span>(<span>scope: type, client: <a title="adeskForgeWrapper.client.Client" href="#adeskForgeWrapper.client.Client">Client</a>)</span>
+<span>def <span class="ident">get_2_legged_token</span></span>(<span>scope, client)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a 2 legged token according to the scope.<br>
@@ -467,17 +479,18 @@ eg "account:read data:read". client_id and client_secret from the forge api web<
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@classmethod
-def get_2_legged_token(cls, scope: type(str), client: Client):
+def get_2_legged_token(cls, scope, client):
     &#39;&#39;&#39;Gets a 2 legged token according to the scope.&lt;br&gt;
     Scope - The scope you aim for. &lt;br&gt;
     eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
+
     header = {&#34;Content-Type&#34;:&#34;application/x-www-form-urlencoded&#34;}
-    data = {&#34;client_id&#34;:client.cliId,
-            &#34;client_secret&#34;:client.cliSecret,
+    data = {&#34;client_id&#34;:client.client_id,
+            &#34;client_secret&#34;:client.client_secret,
             &#34;grant_type&#34;:&#34;client_credentials&#34;,
             &#34;scope&#34;:&#34;{}&#34;.format(scope)}
-    endpointUrl = AUTH_API+&#34;/authenticate&#34;
-    r = requests.post(endpointUrl, data, header).json()
+    endpoint_url = AUTH_API+&#34;/authenticate&#34;
+    r = requests.post(endpoint_url, data, header).json()
     checkResponse(r)
     return cls(client, r, scope, False)</code></pre>
 </details>
@@ -488,7 +501,7 @@ def get_2_legged_token(cls, scope: type(str), client: Client):
 <dd>
 <div class="desc"><p>Get a 3 legged token according to the scope.<br>
 Scope - The scope you aim for. <br>
-callback_URL: The callback url the user will be taken to after authorization. This<br>
+callback_URL: The callback url the user will be taken to after authorization.<br>
 url must be the same callback url you used to register your Forge App.<br>
 eg "account:read data:read". client_id and client_secret from the forge api web</p></div>
 <details class="source">
@@ -499,18 +512,24 @@ eg "account:read data:read". client_id and client_secret from the forge api web<
 def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#34;):
     &#39;&#39;&#39;Get a 3 legged token according to the scope.&lt;br&gt;
     Scope - The scope you aim for. &lt;br&gt;
-    callback_URL: The callback url the user will be taken to after authorization. This&lt;br&gt;
+    callback_URL: The callback url the user will be taken to after authorization.&lt;br&gt;
     url must be the same callback url you used to register your Forge App.&lt;br&gt;
     eg &#34;account:read data:read&#34;. client_id and client_secret from the forge api web&#39;&#39;&#39;
+
     if  &#34;http://&#34; not in callback_URL and &#34;https://&#34; not in callback_URL:
         raise AFWExceptions.AFWError(&#34;Protocol missing in callback_URL (http:// or https://)&#34;)
     
     import urllib.parse
     import webbrowser
 
-    endpointUrl = AUTH_API+&#34;/authorize&#34;
-    params = ((&#34;client_id&#34;, client.cliId), (&#34;response_type&#34;, tokenType), (&#34;redirect_uri&#34;, callback_URL), (&#34;scope&#34;, scope))
-    r = requests.post(endpointUrl, params=params)
+    endpoint_url = AUTH_API+&#34;/authorize&#34;
+
+    params = ((&#34;client_id&#34;, client.client_id), 
+              (&#34;response_type&#34;, tokenType), 
+              (&#34;redirect_uri&#34;, callback_URL), 
+              (&#34;scope&#34;, scope))
+
+    r = requests.post(endpoint_url, params=params)
 
     checkResponse(r)
     if tokenType == &#34;token&#34;:
@@ -526,8 +545,8 @@ def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#3
 
         return cls(client, r, scope, True)
     elif tokenType == &#34;code&#34;:
-        pass
-        # TODO
+        pass # TODO
+        
         
     else:
         raise AFWExceptions.AFWError(&#34;Token type must be &#39;code&#39; or &#39;token&#39;&#34;)</code></pre>
@@ -536,7 +555,7 @@ def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#3
 </dl>
 <h3>Instance variables</h3>
 <dl>
-<dt id="adeskForgeWrapper.client.Token.XUser"><code class="name">var <span class="ident">XUser</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.bim_account_id"><code class="name">var <span class="ident">bim_account_id</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -544,11 +563,11 @@ def get_3_legged_token(cls, scope, client, callback_URL, tokenType=&#34;token&#3
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def XUser(self):
-    return self.__XUser</code></pre>
+def bim_account_id(self):
+    return self._bim_account_id</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.bimAccId"><code class="name">var <span class="ident">bimAccId</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.bim_account_name"><code class="name">var <span class="ident">bim_account_name</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -556,11 +575,11 @@ def XUser(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def bimAccId(self):
-    return self.__bimAccId</code></pre>
+def bim_account_name(self):
+    return self._bim_account_name</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.bimAccName"><code class="name">var <span class="ident">bimAccName</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.client_id"><code class="name">var <span class="ident">client_id</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -568,11 +587,11 @@ def bimAccId(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def bimAccName(self):
-    return self.__bimAccName</code></pre>
+def client_id(self):
+    return self._client_id</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.cliId"><code class="name">var <span class="ident">cliId</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.client_secret"><code class="name">var <span class="ident">client_secret</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -580,11 +599,11 @@ def bimAccName(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def cliId(self):
-    return self.__cliId</code></pre>
+def client_secret(self):
+    return self._client_secret</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.cliSecret"><code class="name">var <span class="ident">cliSecret</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.content_x_user"><code class="name">var <span class="ident">content_x_user</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -592,11 +611,14 @@ def cliId(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def cliSecret(self):
-    return self.__cliSecret</code></pre>
+def content_x_user(self):
+    header = {&#39;Content-Type&#39;: &#39;application/json&#39;, 
+              &#39;Authorization&#39;: self._access_token, 
+              &#39;x-user-id&#39;:self._bim_account_id}
+    return header</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.formData"><code class="name">var <span class="ident">formData</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.form_data"><code class="name">var <span class="ident">form_data</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -604,11 +626,13 @@ def cliSecret(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def formData(self):
-    return self.__formData</code></pre>
+def form_data(self):
+    header = {&#39;Content-Type&#39;: &#39;multipart/form-data&#39;, 
+              &#39;Authorization&#39;: self._access_token}
+    return header</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.hubId"><code class="name">var <span class="ident">hubId</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.hub_id"><code class="name">var <span class="ident">hub_id</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -616,11 +640,11 @@ def formData(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def hubId(self):
-    return self.__hubId</code></pre>
+def hub_id(self):
+    return self._hub_id</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.isThreeLegged"><code class="name">var <span class="ident">isThreeLegged</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.is_three_legged"><code class="name">var <span class="ident">is_three_legged</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -628,11 +652,11 @@ def hubId(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def isThreeLegged(self):
-    return self.__isThreeLegged</code></pre>
+def is_three_legged(self):
+    return self._is_three_legged</code></pre>
 </details>
 </dd>
-<dt id="adeskForgeWrapper.client.Token.urlEncoded"><code class="name">var <span class="ident">urlEncoded</span></code></dt>
+<dt id="adeskForgeWrapper.client.Token.patch_header"><code class="name">var <span class="ident">patch_header</span></code></dt>
 <dd>
 <div class="desc"></div>
 <details class="source">
@@ -640,8 +664,38 @@ def isThreeLegged(self):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def urlEncoded(self):
-    return self.__urlEncoded</code></pre>
+def patch_header(self):
+    header = {&#39;Content-Type&#39;: &#39;application/json&#39;, 
+              &#39;Authorization&#39;: self._access_token}
+    return header</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.client.Token.url_encoded"><code class="name">var <span class="ident">url_encoded</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def url_encoded(self):
+    header = {&#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;, 
+              &#39;Authorization&#39;: self._access_token}
+    return header</code></pre>
+</details>
+</dd>
+<dt id="adeskForgeWrapper.client.Token.x_user"><code class="name">var <span class="ident">x_user</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def x_user(self):
+    header = {&#39;Authorization&#39;:self._access_token, 
+              &#39;x-user-id&#39;:self._bim_account_id}
+    return header</code></pre>
 </details>
 </dd>
 </dl>
@@ -671,17 +725,19 @@ def urlEncoded(self):
 <li>
 <h4><code><a title="adeskForgeWrapper.client.Token" href="#adeskForgeWrapper.client.Token">Token</a></code></h4>
 <ul class="two-column">
-<li><code><a title="adeskForgeWrapper.client.Token.XUser" href="#adeskForgeWrapper.client.Token.XUser">XUser</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.bimAccId" href="#adeskForgeWrapper.client.Token.bimAccId">bimAccId</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.bimAccName" href="#adeskForgeWrapper.client.Token.bimAccName">bimAccName</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.cliId" href="#adeskForgeWrapper.client.Token.cliId">cliId</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.cliSecret" href="#adeskForgeWrapper.client.Token.cliSecret">cliSecret</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.formData" href="#adeskForgeWrapper.client.Token.formData">formData</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.bim_account_id" href="#adeskForgeWrapper.client.Token.bim_account_id">bim_account_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.bim_account_name" href="#adeskForgeWrapper.client.Token.bim_account_name">bim_account_name</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.client_id" href="#adeskForgeWrapper.client.Token.client_id">client_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.client_secret" href="#adeskForgeWrapper.client.Token.client_secret">client_secret</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.content_x_user" href="#adeskForgeWrapper.client.Token.content_x_user">content_x_user</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.form_data" href="#adeskForgeWrapper.client.Token.form_data">form_data</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.get_2_legged_token" href="#adeskForgeWrapper.client.Token.get_2_legged_token">get_2_legged_token</a></code></li>
 <li><code><a title="adeskForgeWrapper.client.Token.get_3_legged_token" href="#adeskForgeWrapper.client.Token.get_3_legged_token">get_3_legged_token</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.hubId" href="#adeskForgeWrapper.client.Token.hubId">hubId</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.isThreeLegged" href="#adeskForgeWrapper.client.Token.isThreeLegged">isThreeLegged</a></code></li>
-<li><code><a title="adeskForgeWrapper.client.Token.urlEncoded" href="#adeskForgeWrapper.client.Token.urlEncoded">urlEncoded</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.hub_id" href="#adeskForgeWrapper.client.Token.hub_id">hub_id</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.is_three_legged" href="#adeskForgeWrapper.client.Token.is_three_legged">is_three_legged</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.patch_header" href="#adeskForgeWrapper.client.Token.patch_header">patch_header</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.url_encoded" href="#adeskForgeWrapper.client.Token.url_encoded">url_encoded</a></code></li>
+<li><code><a title="adeskForgeWrapper.client.Token.x_user" href="#adeskForgeWrapper.client.Token.x_user">x_user</a></code></li>
 </ul>
 </li>
 </ul>

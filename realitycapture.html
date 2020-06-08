@@ -25,7 +25,11 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#39;&#39;&#39;Module for the Reality Capture API&#39;&#39;&#39;
+<pre><code class="python"># ----------
+# Wrapper for REALITY CAPTURE API
+# https://forge.autodesk.com/en/docs/reality-capture/v1/reference/http/
+# ----------
+&#39;&#39;&#39;Module for the Reality Capture API&#39;&#39;&#39;
 from .utils import checkScopes
 from .utils import checkResponse
 from .utils import RECAP_API
@@ -35,14 +39,34 @@ from . import AFWExceptions
 import json
 
 from requests_toolbelt import MultipartEncoder
+from webbrowser import open as web_open
 import requests
 
 class Options(object):
     &#39;&#39;&#39;Class used to organize request options for this module&#39;&#39;&#39;
     @staticmethod
-    def create_scene_options(scenename, Format = &#34;rcm&#34;, scenetype = &#34;aerial&#34;, callback = None, gpstype = None, hubprojectid = None,
-                hubfolderid = None, version = &#34;2.0&#34;, metadata = None):
-        &#39;&#39;&#39;Options for Photoscene.create&#39;&#39;&#39;
+    def create_scene_options(scenename, Format, scenetype, **kwargs):
+        &#39;&#39;&#39;Options for Photoscene.create_scene&lt;br&gt;
+        scenename - Your scene name&lt;br&gt;
+        format - Supported values are rcm, rcs, obj, fbx, ortho, report. Output file format; multiple file formats can be listed in a comma-delimited list.&lt;br&gt;
+        scenetype - Supoprted values are aerial, object. Specifies the subject type of the photoscene.&lt;br&gt;&lt;br&gt;
+
+        kwargs:&lt;br&gt;
+        callback&lt;br&gt;
+        gpstype&lt;br&gt;
+        hubprojectid&lt;br&gt;
+        hubfolderid&lt;br&gt;
+        version&lt;br&gt;
+        metadata&lt;br&gt;
+        &#39;&#39;&#39;
+
+        callback = kwargs.get(&#34;callback&#34;, None)
+        gpstype = kwargs.get(&#34;gpstype&#34;, None)
+        metadata = kwargs.get(&#34;metadata&#34;, None)
+        
+        if callback is not None:
+            if &#34;http://&#34; not in callback or &#34;https://&#34; not in callback:
+                callback = &#34;email://{}&#34;.format(callback)
 
         if scenetype != &#34;aerial&#34;:
             if Format == &#34;rcs&#34; or Format == &#34;ortho&#34; or Format == &#34;report&#34;:
@@ -59,16 +83,12 @@ class Options(object):
                 &#34;format&#34;: Format,
                 &#34;scenetype&#34; : scenetype,
                 &#34;gpstype&#34; : gpstype,
-                &#34;hubprojectid&#34; : hubprojectid,
-                &#34;hubfolderid&#34; : hubfolderid,
-                &#34;version&#34; : version,
-                &#34;metadata&#34; : metadata
+                &#34;hubprojectid&#34; : kwargs.get(&#34;hubprojectid&#34;, None),
+                &#34;hubfolderid&#34; : kwargs.get(&#34;hubfolderid&#34;, None),
+                &#34;version&#34; : kwargs.get(&#34;version&#34;, None),
+                &#34;metadata&#34; : kwargs.get(&#34;metadata&#34;, None)
                 }
-        if callback is not None:
-            if &#34;http://&#34; in callback or &#34;https://&#34; in callback:
-                data[&#34;callback&#34;] = callback
-            else:
-                data[&#34;callback&#34;] = &#34;email://{}&#34;.format(callback)
+
         data = {k : v for k,v in data.items() if v is not None} 
         return data # Works as dict type. Returns an error using json.dumps, why...
 
@@ -77,29 +97,29 @@ class Photoscene(object):
     &#39;&#39;&#39;A “photoscene” entity provides a common representation of a photo-to-3D project. &lt;br&gt;
     Certain fields will only be available after processing is complete.&#39;&#39;&#39;
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get(&#34;photosceneid&#34;, None)
+        return self._raw[&#34;Photoscene&#34;].get(&#34;photosceneid&#34;, None)
     @property
     def progressmsg(self):
-        return self.__raw.get(&#34;progressmsg&#34;, None)
+        return self._raw.get(&#34;progressmsg&#34;, None)
     @property
     def progress(self):
-        return self.__raw.get(&#34;progress&#34;, None)
+        return self._raw.get(&#34;progress&#34;, None)
     @property
     def scenelink(self):
-        return self.__raw.get(&#34;scenelink&#34;, None)
+        return self._raw.get(&#34;scenelink&#34;, None)
     @property
     def filesize(self):
-        return self.__raw.get(&#34;filesize&#34;, None)
+        return self._raw.get(&#34;filesize&#34;, None)
     @property
     def resultmsg(self):
-        return self.__raw.get(&#34;resultmsg&#34;, None)
+        return self._raw.get(&#34;resultmsg&#34;, None)
 
     @classmethod
     def photoscene_by_id(cls, PhotosceneId):
@@ -116,8 +136,8 @@ class Photoscene(object):
         Scope - data:write
         psOptions - Options.PhotosceneCreationOptions&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene&#34;
-        r = requests.post(endpointUrl, headers=token.urlEncoded, data=create_scene_options).json()
+        endpoint_url = RECAP_API+&#34;/photoscene&#34;
+        r = requests.post(endpoint_url, headers=token.url_encoded, data=create_scene_options).json()
         checkResponse(r)
         print(&#34;Photoscene ID:&#34;, &#39;{}&#39;.format(r[&#39;Photoscene&#39;].get(&#34;photosceneid&#34;)))
         return cls(r)
@@ -147,8 +167,8 @@ class Photoscene(object):
             payload = MultipartEncoder(fields)
             headers = {&#39;Content-Type&#39;: payload.content_type, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(token.access_token)}
 
-            endpointUrl = RECAP_API+&#34;/file&#34;
-            r = requests.post(endpointUrl, headers=headers, data=payload).json()
+            endpoint_url = RECAP_API+&#34;/file&#34;
+            r = requests.post(endpoint_url, headers=headers, data=payload).json()
             if &#34;Error&#34; in r:
                 checkResponse(r[&#34;Error&#34;])
             else:
@@ -168,8 +188,8 @@ class Photoscene(object):
         Note: Progress of the processing can be monitored with the getProgress(token)&lt;br&gt;
         Returns True if request was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-        r = requests.post(endpointUrl, headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+        r = requests.post(endpoint_url, headers=token.url_encoded).json()
         checkResponse(r)
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
@@ -181,8 +201,8 @@ class Photoscene(object):
         &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&lt;br&gt;
         Scope - data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.id)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.id)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
@@ -196,8 +216,8 @@ class Photoscene(object):
         
         Returns True if deletion was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-        r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+        r = requests.delete(endpoint_url,headers=token.url_encoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
@@ -210,23 +230,25 @@ class Photoscene(object):
         
         Returns True if deletion was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
-        r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
+        r = requests.delete(endpoint_url,headers=token.url_encoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
             print(&#34;Photoscene successfully deleted&#34;)
             return True
 
-    def get_download_url(self, token: client.Token, Format):
+    def get_download_url(self, token: client.Token, Format, autoraise=False):
         &#39;&#39;&#39;Returns a time-limited HTTPS link to an output file of the specified format.&lt;br&gt;
         Scope - data:read&lt;br&gt;&lt;br&gt;
         Note: The link will expire 30 days after the date of processing completion.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         params = {&#34;format&#34;:Format}
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-        r = requests.get(endpointUrl,headers=token.getHeader, params=params).json()
-        print(r) # TODO Review attributes usability
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+        r = requests.get(endpoint_url,headers=token.get_header, params=params).json()
+        if autoraise:
+            web_open(r[&#34;Photoscene&#34;][&#34;scenelink&#34;], new = 0, autoraise=autoraise)
+        print(r[&#34;Photoscene&#34;][&#34;scenelink&#34;])
 
     def cancel_progress(self, token: client.Token):
         &#39;&#39;&#39;Aborts the processing of a photoscene and marks it as cancelled.&lt;br&gt;
@@ -234,8 +256,8 @@ class Photoscene(object):
         
         Returns True if cancel was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.id)
-        r = requests.post(endpointUrl, headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.id)
+        r = requests.post(endpoint_url, headers=token.url_encoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
@@ -310,9 +332,28 @@ __pdoc__[&#39;File.PhotosceneId&#39;] = False</code></pre>
 <pre><code class="python">class Options(object):
     &#39;&#39;&#39;Class used to organize request options for this module&#39;&#39;&#39;
     @staticmethod
-    def create_scene_options(scenename, Format = &#34;rcm&#34;, scenetype = &#34;aerial&#34;, callback = None, gpstype = None, hubprojectid = None,
-                hubfolderid = None, version = &#34;2.0&#34;, metadata = None):
-        &#39;&#39;&#39;Options for Photoscene.create&#39;&#39;&#39;
+    def create_scene_options(scenename, Format, scenetype, **kwargs):
+        &#39;&#39;&#39;Options for Photoscene.create_scene&lt;br&gt;
+        scenename - Your scene name&lt;br&gt;
+        format - Supported values are rcm, rcs, obj, fbx, ortho, report. Output file format; multiple file formats can be listed in a comma-delimited list.&lt;br&gt;
+        scenetype - Supoprted values are aerial, object. Specifies the subject type of the photoscene.&lt;br&gt;&lt;br&gt;
+
+        kwargs:&lt;br&gt;
+        callback&lt;br&gt;
+        gpstype&lt;br&gt;
+        hubprojectid&lt;br&gt;
+        hubfolderid&lt;br&gt;
+        version&lt;br&gt;
+        metadata&lt;br&gt;
+        &#39;&#39;&#39;
+
+        callback = kwargs.get(&#34;callback&#34;, None)
+        gpstype = kwargs.get(&#34;gpstype&#34;, None)
+        metadata = kwargs.get(&#34;metadata&#34;, None)
+        
+        if callback is not None:
+            if &#34;http://&#34; not in callback or &#34;https://&#34; not in callback:
+                callback = &#34;email://{}&#34;.format(callback)
 
         if scenetype != &#34;aerial&#34;:
             if Format == &#34;rcs&#34; or Format == &#34;ortho&#34; or Format == &#34;report&#34;:
@@ -329,34 +370,59 @@ __pdoc__[&#39;File.PhotosceneId&#39;] = False</code></pre>
                 &#34;format&#34;: Format,
                 &#34;scenetype&#34; : scenetype,
                 &#34;gpstype&#34; : gpstype,
-                &#34;hubprojectid&#34; : hubprojectid,
-                &#34;hubfolderid&#34; : hubfolderid,
-                &#34;version&#34; : version,
-                &#34;metadata&#34; : metadata
+                &#34;hubprojectid&#34; : kwargs.get(&#34;hubprojectid&#34;, None),
+                &#34;hubfolderid&#34; : kwargs.get(&#34;hubfolderid&#34;, None),
+                &#34;version&#34; : kwargs.get(&#34;version&#34;, None),
+                &#34;metadata&#34; : kwargs.get(&#34;metadata&#34;, None)
                 }
-        if callback is not None:
-            if &#34;http://&#34; in callback or &#34;https://&#34; in callback:
-                data[&#34;callback&#34;] = callback
-            else:
-                data[&#34;callback&#34;] = &#34;email://{}&#34;.format(callback)
+
         data = {k : v for k,v in data.items() if v is not None} 
         return data # Works as dict type. Returns an error using json.dumps, why...</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
 <dt id="adeskForgeWrapper.realitycapture.Options.create_scene_options"><code class="name flex">
-<span>def <span class="ident">create_scene_options</span></span>(<span>scenename, Format='rcm', scenetype='aerial', callback=None, gpstype=None, hubprojectid=None, hubfolderid=None, version='2.0', metadata=None)</span>
+<span>def <span class="ident">create_scene_options</span></span>(<span>scenename, Format, scenetype, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Options for Photoscene.create</p></div>
+<div class="desc"><p>Options for Photoscene.create_scene<br>
+scenename - Your scene name<br>
+format - Supported values are rcm, rcs, obj, fbx, ortho, report. Output file format; multiple file formats can be listed in a comma-delimited list.<br>
+scenetype - Supoprted values are aerial, object. Specifies the subject type of the photoscene.<br><br></p>
+<p>kwargs:<br>
+callback<br>
+gpstype<br>
+hubprojectid<br>
+hubfolderid<br>
+version<br>
+metadata<br></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def create_scene_options(scenename, Format = &#34;rcm&#34;, scenetype = &#34;aerial&#34;, callback = None, gpstype = None, hubprojectid = None,
-            hubfolderid = None, version = &#34;2.0&#34;, metadata = None):
-    &#39;&#39;&#39;Options for Photoscene.create&#39;&#39;&#39;
+def create_scene_options(scenename, Format, scenetype, **kwargs):
+    &#39;&#39;&#39;Options for Photoscene.create_scene&lt;br&gt;
+    scenename - Your scene name&lt;br&gt;
+    format - Supported values are rcm, rcs, obj, fbx, ortho, report. Output file format; multiple file formats can be listed in a comma-delimited list.&lt;br&gt;
+    scenetype - Supoprted values are aerial, object. Specifies the subject type of the photoscene.&lt;br&gt;&lt;br&gt;
+
+    kwargs:&lt;br&gt;
+    callback&lt;br&gt;
+    gpstype&lt;br&gt;
+    hubprojectid&lt;br&gt;
+    hubfolderid&lt;br&gt;
+    version&lt;br&gt;
+    metadata&lt;br&gt;
+    &#39;&#39;&#39;
+
+    callback = kwargs.get(&#34;callback&#34;, None)
+    gpstype = kwargs.get(&#34;gpstype&#34;, None)
+    metadata = kwargs.get(&#34;metadata&#34;, None)
+    
+    if callback is not None:
+        if &#34;http://&#34; not in callback or &#34;https://&#34; not in callback:
+            callback = &#34;email://{}&#34;.format(callback)
 
     if scenetype != &#34;aerial&#34;:
         if Format == &#34;rcs&#34; or Format == &#34;ortho&#34; or Format == &#34;report&#34;:
@@ -373,16 +439,12 @@ def create_scene_options(scenename, Format = &#34;rcm&#34;, scenetype = &#34;aer
             &#34;format&#34;: Format,
             &#34;scenetype&#34; : scenetype,
             &#34;gpstype&#34; : gpstype,
-            &#34;hubprojectid&#34; : hubprojectid,
-            &#34;hubfolderid&#34; : hubfolderid,
-            &#34;version&#34; : version,
-            &#34;metadata&#34; : metadata
+            &#34;hubprojectid&#34; : kwargs.get(&#34;hubprojectid&#34;, None),
+            &#34;hubfolderid&#34; : kwargs.get(&#34;hubfolderid&#34;, None),
+            &#34;version&#34; : kwargs.get(&#34;version&#34;, None),
+            &#34;metadata&#34; : kwargs.get(&#34;metadata&#34;, None)
             }
-    if callback is not None:
-        if &#34;http://&#34; in callback or &#34;https://&#34; in callback:
-            data[&#34;callback&#34;] = callback
-        else:
-            data[&#34;callback&#34;] = &#34;email://{}&#34;.format(callback)
+
     data = {k : v for k,v in data.items() if v is not None} 
     return data # Works as dict type. Returns an error using json.dumps, why...</code></pre>
 </details>
@@ -404,29 +466,29 @@ Certain fields will only be available after processing is complete.</p></div>
     &#39;&#39;&#39;A “photoscene” entity provides a common representation of a photo-to-3D project. &lt;br&gt;
     Certain fields will only be available after processing is complete.&#39;&#39;&#39;
     def __init__(self, rawDict):
-        self.__raw = rawDict
+        self._raw = rawDict
 
     @property
     def raw(self):
-        return self.__raw
+        return self._raw
     @property
     def id(self):
-        return self.__raw.get(&#34;photosceneid&#34;, None)
+        return self._raw[&#34;Photoscene&#34;].get(&#34;photosceneid&#34;, None)
     @property
     def progressmsg(self):
-        return self.__raw.get(&#34;progressmsg&#34;, None)
+        return self._raw.get(&#34;progressmsg&#34;, None)
     @property
     def progress(self):
-        return self.__raw.get(&#34;progress&#34;, None)
+        return self._raw.get(&#34;progress&#34;, None)
     @property
     def scenelink(self):
-        return self.__raw.get(&#34;scenelink&#34;, None)
+        return self._raw.get(&#34;scenelink&#34;, None)
     @property
     def filesize(self):
-        return self.__raw.get(&#34;filesize&#34;, None)
+        return self._raw.get(&#34;filesize&#34;, None)
     @property
     def resultmsg(self):
-        return self.__raw.get(&#34;resultmsg&#34;, None)
+        return self._raw.get(&#34;resultmsg&#34;, None)
 
     @classmethod
     def photoscene_by_id(cls, PhotosceneId):
@@ -443,8 +505,8 @@ Certain fields will only be available after processing is complete.</p></div>
         Scope - data:write
         psOptions - Options.PhotosceneCreationOptions&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene&#34;
-        r = requests.post(endpointUrl, headers=token.urlEncoded, data=create_scene_options).json()
+        endpoint_url = RECAP_API+&#34;/photoscene&#34;
+        r = requests.post(endpoint_url, headers=token.url_encoded, data=create_scene_options).json()
         checkResponse(r)
         print(&#34;Photoscene ID:&#34;, &#39;{}&#39;.format(r[&#39;Photoscene&#39;].get(&#34;photosceneid&#34;)))
         return cls(r)
@@ -474,8 +536,8 @@ Certain fields will only be available after processing is complete.</p></div>
             payload = MultipartEncoder(fields)
             headers = {&#39;Content-Type&#39;: payload.content_type, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(token.access_token)}
 
-            endpointUrl = RECAP_API+&#34;/file&#34;
-            r = requests.post(endpointUrl, headers=headers, data=payload).json()
+            endpoint_url = RECAP_API+&#34;/file&#34;
+            r = requests.post(endpoint_url, headers=headers, data=payload).json()
             if &#34;Error&#34; in r:
                 checkResponse(r[&#34;Error&#34;])
             else:
@@ -495,8 +557,8 @@ Certain fields will only be available after processing is complete.</p></div>
         Note: Progress of the processing can be monitored with the getProgress(token)&lt;br&gt;
         Returns True if request was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-        r = requests.post(endpointUrl, headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+        r = requests.post(endpoint_url, headers=token.url_encoded).json()
         checkResponse(r)
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
@@ -508,8 +570,8 @@ Certain fields will only be available after processing is complete.</p></div>
         &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&lt;br&gt;
         Scope - data:read&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.id)
-        r = requests.get(endpointUrl, headers=token.getHeader).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.id)
+        r = requests.get(endpoint_url, headers=token.get_header).json()
         checkResponse(r)
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
@@ -523,8 +585,8 @@ Certain fields will only be available after processing is complete.</p></div>
         
         Returns True if deletion was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-        r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+        r = requests.delete(endpoint_url,headers=token.url_encoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
@@ -537,23 +599,25 @@ Certain fields will only be available after processing is complete.</p></div>
         
         Returns True if deletion was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
-        r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
+        r = requests.delete(endpoint_url,headers=token.url_encoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
             print(&#34;Photoscene successfully deleted&#34;)
             return True
 
-    def get_download_url(self, token: client.Token, Format):
+    def get_download_url(self, token: client.Token, Format, autoraise=False):
         &#39;&#39;&#39;Returns a time-limited HTTPS link to an output file of the specified format.&lt;br&gt;
         Scope - data:read&lt;br&gt;&lt;br&gt;
         Note: The link will expire 30 days after the date of processing completion.&#39;&#39;&#39;
         checkScopes(token, &#34;data:read&#34;)
         params = {&#34;format&#34;:Format}
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-        r = requests.get(endpointUrl,headers=token.getHeader, params=params).json()
-        print(r) # TODO Review attributes usability
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+        r = requests.get(endpoint_url,headers=token.get_header, params=params).json()
+        if autoraise:
+            web_open(r[&#34;Photoscene&#34;][&#34;scenelink&#34;], new = 0, autoraise=autoraise)
+        print(r[&#34;Photoscene&#34;][&#34;scenelink&#34;])
 
     def cancel_progress(self, token: client.Token):
         &#39;&#39;&#39;Aborts the processing of a photoscene and marks it as cancelled.&lt;br&gt;
@@ -561,8 +625,8 @@ Certain fields will only be available after processing is complete.</p></div>
         
         Returns True if cancel was successful&#39;&#39;&#39;
         checkScopes(token, &#34;data:write&#34;)
-        endpointUrl = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.id)
-        r = requests.post(endpointUrl, headers=token.urlEncoded).json()
+        endpoint_url = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.id)
+        r = requests.post(endpoint_url, headers=token.url_encoded).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         elif r[&#34;msg&#34;] == &#34;No error&#34;:
@@ -588,8 +652,8 @@ def create_scene(cls, token: client.Token, create_scene_options):
     Scope - data:write
     psOptions - Options.PhotosceneCreationOptions&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
-    endpointUrl = RECAP_API+&#34;/photoscene&#34;
-    r = requests.post(endpointUrl, headers=token.urlEncoded, data=create_scene_options).json()
+    endpoint_url = RECAP_API+&#34;/photoscene&#34;
+    r = requests.post(endpoint_url, headers=token.url_encoded, data=create_scene_options).json()
     checkResponse(r)
     print(&#34;Photoscene ID:&#34;, &#39;{}&#39;.format(r[&#39;Photoscene&#39;].get(&#34;photosceneid&#34;)))
     return cls(r)</code></pre>
@@ -613,8 +677,8 @@ def delete_scene_by_id(token: client.Token, Id: str):
     
     Returns True if deletion was successful&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
-    endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
-    r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
+    endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = Id)
+    r = requests.delete(endpoint_url,headers=token.url_encoded).json()
     if &#34;Error&#34; in r:
         checkResponse(r[&#34;Error&#34;])
     elif r[&#34;msg&#34;] == &#34;No error&#34;:
@@ -653,7 +717,7 @@ def photoscene_by_id(cls, PhotosceneId):
 </summary>
 <pre><code class="python">@property
 def filesize(self):
-    return self.__raw.get(&#34;filesize&#34;, None)</code></pre>
+    return self._raw.get(&#34;filesize&#34;, None)</code></pre>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.realitycapture.Photoscene.id"><code class="name">var <span class="ident">id</span></code></dt>
@@ -665,7 +729,7 @@ def filesize(self):
 </summary>
 <pre><code class="python">@property
 def id(self):
-    return self.__raw.get(&#34;photosceneid&#34;, None)</code></pre>
+    return self._raw[&#34;Photoscene&#34;].get(&#34;photosceneid&#34;, None)</code></pre>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.realitycapture.Photoscene.progress"><code class="name">var <span class="ident">progress</span></code></dt>
@@ -677,7 +741,7 @@ def id(self):
 </summary>
 <pre><code class="python">@property
 def progress(self):
-    return self.__raw.get(&#34;progress&#34;, None)</code></pre>
+    return self._raw.get(&#34;progress&#34;, None)</code></pre>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.realitycapture.Photoscene.progressmsg"><code class="name">var <span class="ident">progressmsg</span></code></dt>
@@ -689,7 +753,7 @@ def progress(self):
 </summary>
 <pre><code class="python">@property
 def progressmsg(self):
-    return self.__raw.get(&#34;progressmsg&#34;, None)</code></pre>
+    return self._raw.get(&#34;progressmsg&#34;, None)</code></pre>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.realitycapture.Photoscene.resultmsg"><code class="name">var <span class="ident">resultmsg</span></code></dt>
@@ -701,7 +765,7 @@ def progressmsg(self):
 </summary>
 <pre><code class="python">@property
 def resultmsg(self):
-    return self.__raw.get(&#34;resultmsg&#34;, None)</code></pre>
+    return self._raw.get(&#34;resultmsg&#34;, None)</code></pre>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.realitycapture.Photoscene.scenelink"><code class="name">var <span class="ident">scenelink</span></code></dt>
@@ -713,7 +777,7 @@ def resultmsg(self):
 </summary>
 <pre><code class="python">@property
 def scenelink(self):
-    return self.__raw.get(&#34;scenelink&#34;, None)</code></pre>
+    return self._raw.get(&#34;scenelink&#34;, None)</code></pre>
 </details>
 </dd>
 </dl>
@@ -736,8 +800,8 @@ Scope - data:write<br></p>
     
     Returns True if cancel was successful&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
-    endpointUrl = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.id)
-    r = requests.post(endpointUrl, headers=token.urlEncoded).json()
+    endpoint_url = RECAP_API+&#34;/photoscene/{phId}/cancel&#34;.format(phId = self.id)
+    r = requests.post(endpoint_url, headers=token.url_encoded).json()
     if &#34;Error&#34; in r:
         checkResponse(r[&#34;Error&#34;])
     elif r[&#34;msg&#34;] == &#34;No error&#34;:
@@ -762,8 +826,8 @@ Scope - data:write<br><br></p>
     
     Returns True if deletion was successful&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
-    endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-    r = requests.delete(endpointUrl,headers=token.urlEncoded).json()
+    endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+    r = requests.delete(endpoint_url,headers=token.url_encoded).json()
     if &#34;Error&#34; in r:
         checkResponse(r[&#34;Error&#34;])
     elif r[&#34;msg&#34;] == &#34;No error&#34;:
@@ -771,7 +835,7 @@ Scope - data:write<br><br></p>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.realitycapture.Photoscene.get_download_url"><code class="name flex">
-<span>def <span class="ident">get_download_url</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Format)</span>
+<span>def <span class="ident">get_download_url</span></span>(<span>self, token: <a title="adeskForgeWrapper.client.Token" href="client.html#adeskForgeWrapper.client.Token">Token</a>, Format, autoraise=False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns a time-limited HTTPS link to an output file of the specified format.<br>
@@ -781,15 +845,17 @@ Note: The link will expire 30 days after the date of processing completion.</p><
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_download_url(self, token: client.Token, Format):
+<pre><code class="python">def get_download_url(self, token: client.Token, Format, autoraise=False):
     &#39;&#39;&#39;Returns a time-limited HTTPS link to an output file of the specified format.&lt;br&gt;
     Scope - data:read&lt;br&gt;&lt;br&gt;
     Note: The link will expire 30 days after the date of processing completion.&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
     params = {&#34;format&#34;:Format}
-    endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-    r = requests.get(endpointUrl,headers=token.getHeader, params=params).json()
-    print(r) # TODO Review attributes usability</code></pre>
+    endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+    r = requests.get(endpoint_url,headers=token.get_header, params=params).json()
+    if autoraise:
+        web_open(r[&#34;Photoscene&#34;][&#34;scenelink&#34;], new = 0, autoraise=autoraise)
+    print(r[&#34;Photoscene&#34;][&#34;scenelink&#34;])</code></pre>
 </details>
 </dd>
 <dt id="adeskForgeWrapper.realitycapture.Photoscene.get_progress"><code class="name flex">
@@ -806,8 +872,8 @@ Scope - data:read</p></div>
     &#39;&#39;&#39;Returns the processing progress and status of a photoscene.&lt;br&gt;
     Scope - data:read&#39;&#39;&#39;
     checkScopes(token, &#34;data:read&#34;)
-    endpointUrl = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.id)
-    r = requests.get(endpointUrl, headers=token.getHeader).json()
+    endpoint_url = RECAP_API+&#34;/photoscene/{phId}/progress&#34;.format(phId = self.id)
+    r = requests.get(endpoint_url, headers=token.get_header).json()
     checkResponse(r)
     if &#34;Error&#34; in r:
         checkResponse(r[&#34;Error&#34;])
@@ -839,8 +905,8 @@ Returns True if request was successful</p></div>
     Note: Progress of the processing can be monitored with the getProgress(token)&lt;br&gt;
     Returns True if request was successful&#39;&#39;&#39;
     checkScopes(token, &#34;data:write&#34;)
-    endpointUrl = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
-    r = requests.post(endpointUrl, headers=token.urlEncoded).json()
+    endpoint_url = RECAP_API+&#34;/photoscene/{phId}&#34;.format(phId = self.id)
+    r = requests.post(endpoint_url, headers=token.url_encoded).json()
     checkResponse(r)
     if &#34;Error&#34; in r:
         checkResponse(r[&#34;Error&#34;])
@@ -891,8 +957,8 @@ Note: Uploaded files will be deleted after 30 days.</p></div>
         payload = MultipartEncoder(fields)
         headers = {&#39;Content-Type&#39;: payload.content_type, &#39;Authorization&#39;: &#39;Bearer {}&#39;.format(token.access_token)}
 
-        endpointUrl = RECAP_API+&#34;/file&#34;
-        r = requests.post(endpointUrl, headers=headers, data=payload).json()
+        endpoint_url = RECAP_API+&#34;/file&#34;
+        r = requests.post(endpoint_url, headers=headers, data=payload).json()
         if &#34;Error&#34; in r:
             checkResponse(r[&#34;Error&#34;])
         else:
